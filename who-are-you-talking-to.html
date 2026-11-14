@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who Are You Talking To? ✦ Functions Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --o:#3b1f33;
+    --pink:#ff5fa2; --pink2:#ffd1e8; --pink3:#fff0f7;
+    --lilac:#b98cff; --lilac2:#ece0ff;
+    --navy:#2c3e66;
+    --good:#22a86b; --bad:#e2385a; --mid:#e7a21b;
+    --ink:#3b1f33; --muted:#7a5a70;
+    --cL:#ff5fa2; --cR:#2c3e66;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--ink);min-height:100vh;
+    background:
+      radial-gradient(circle,#fff 1.4px,transparent 2px) 0 0/18px 18px,
+      linear-gradient(160deg,#ffc6e3 0%,#f3d4ff 50%,#c9e4ff 100%) fixed;}
+  .wrap{max-width:920px;margin:0 auto;padding:16px 14px 40px;position:relative}
+  .px{position:relative;box-shadow:0 -4px 0 0 var(--o),0 4px 0 0 var(--o),-4px 0 0 0 var(--o),4px 0 0 0 var(--o),
+      4px 8px 0 0 rgba(59,31,51,.25),8px 4px 0 0 rgba(59,31,51,.25)}
+  h1,h2,h3{font-family:'Pixelify Sans',monospace;margin:0}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 4px 18px}
+  .logo{font-family:'Pixelify Sans',monospace;font-size:1.9rem;font-weight:700;letter-spacing:1px;cursor:pointer;
+    background:linear-gradient(90deg,#ff3d9a,#ffb3dd,#b98cff,#7fd0ff,#ff3d9a);background-size:300% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 4s linear infinite;
+    filter:drop-shadow(2px 2px 0 #fff) drop-shadow(-1px -1px 0 #fff) drop-shadow(3px 3px 0 var(--o))}
+  @keyframes shine{to{background-position:300% 0}}
+  .logo small{display:block;font-size:.8rem;-webkit-text-fill-color:var(--pink);letter-spacing:3px}
+  .hud{display:flex;gap:12px;flex-wrap:wrap}
+  .pill{background:#fff;padding:6px 12px;font-family:'Pixelify Sans',monospace;font-weight:600;font-size:1rem;display:flex;gap:6px;align-items:center}
+  .pill .who{font-size:.75rem;opacity:.7}
+  .pill.pulse-good{animation:pulseG .6s}
+  .pill.pulse-bad{animation:pulseB .6s}
+  @keyframes pulseG{40%{transform:scale(1.15);background:#d9ffe9}}
+  @keyframes pulseB{20%,60%{transform:translateX(-4px);background:#ffe0e6}40%,80%{transform:translateX(4px)}}
+
+  .stage{margin:4px;padding:14px 12px 0;overflow:hidden;
+    background:radial-gradient(circle,rgba(255,255,255,.9) 1.5px,transparent 2px) 0 0/14px 14px,var(--stagebg,linear-gradient(180deg,#ffe3f2,#f6e4ff 75%));}
+  .stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34px;
+    background:var(--floor,repeating-linear-gradient(90deg,#e6c8ff 0 16px,#f2dcff 16px 32px));border-top:4px solid var(--o);z-index:0}
+  .place{position:absolute;top:10px;left:12px;font-family:'Pixelify Sans',monospace;font-size:.85rem;background:#fff;padding:2px 8px;z-index:3}
+  .spark{position:absolute;color:#fff;font-size:18px;text-shadow:0 0 6px #ff9bd0,0 0 2px #fff;animation:tw 2s ease-in-out infinite;pointer-events:none;z-index:1}
+  @keyframes tw{0%,100%{opacity:.2;transform:scale(.6)}50%{opacity:1;transform:scale(1.1)}}
+
+  .bubble{position:relative;z-index:3;margin:30px auto 22px;max-width:600px;background:#fff;padding:14px 18px;
+    font-family:'Pixelify Sans',monospace;font-size:clamp(1.15rem,3.3vw,1.6rem);text-align:center;min-height:74px;display:flex;align-items:center;justify-content:center;line-height:1.25}
+  .bubble::after{content:"";position:absolute;left:calc(50% - 6px);bottom:-14px;width:12px;height:6px;background:var(--o)}
+  .bubble::before{content:"";position:absolute;left:calc(50% - 2px);bottom:-20px;width:6px;height:6px;background:var(--o)}
+  .bubble.pop{animation:pop .35s steps(4)}
+  @keyframes pop{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+
+  .people{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:end;position:relative;z-index:2}
+  .person{text-align:center;position:relative;padding-bottom:6px}
+  canvas.doll{width:100%;max-width:128px;display:block;margin:0 auto;image-rendering:pixelated;image-rendering:crisp-edges;transform-origin:bottom center}
+  canvas.doll.happy{animation:hop .5s steps(5)}
+  canvas.doll.sad{animation:shake .45s steps(6)}
+  @keyframes hop{40%{transform:translateY(-12px)}}
+  @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .tagname{display:inline-block;font-family:'Pixelify Sans',monospace;font-weight:600;font-size:.95rem;color:#fff;padding:2px 8px;margin-top:-2px;position:relative;z-index:3}
+  .delta{position:absolute;left:50%;top:0;transform:translateX(-50%);font-family:'Pixelify Sans',monospace;font-weight:700;font-size:1.35rem;white-space:nowrap;pointer-events:none;animation:floatUp 1.6s steps(12) forwards;z-index:4;
+    text-shadow:2px 0 #fff,-2px 0 #fff,0 2px #fff,0 -2px #fff}
+  .delta.g{color:var(--good)} .delta.r{color:var(--bad)}
+  @keyframes floatUp{0%{opacity:0;transform:translate(-50%,10px)}15%{opacity:1}100%{opacity:0;transform:translate(-50%,-56px)}}
+
+  .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 4px 0}
+  .btn{font-family:'Pixelify Sans',monospace;font-weight:600;font-size:1.1rem;border:none;padding:13px 8px;cursor:pointer;color:#fff;transition:transform .08s}
+  .btn:hover{filter:brightness(1.07)}
+  .btn:active{transform:translate(3px,3px)}
+  .btn:disabled{opacity:.45;cursor:default;transform:none;filter:none}
+  .btn small{display:block;font-size:.72rem;opacity:.85;margin-top:2px}
+  .btn-L{background:var(--cL)} .btn-both{background:var(--lilac)} .btn-R{background:var(--cR)}
+  .btn.picked{opacity:1;background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.25) 0 6px,transparent 6px 12px)}
+
+  .feedback{margin:22px 4px 0;background:#fff;padding:14px 16px 14px 22px;display:none}
+  .feedback::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--mid)}
+  .feedback.show{display:block;animation:pop .3s steps(4)}
+  .feedback.good::before{background:var(--good)} .feedback.bad::before{background:var(--bad)}
+  .verdict{font-family:'Pixelify Sans',monospace;font-size:1.25rem;font-weight:600;margin-bottom:6px}
+  .ftag{display:inline-block;background:var(--lilac2);color:#6a3fc4;font-family:'Pixelify Sans',monospace;font-size:.85rem;padding:2px 10px;margin-bottom:6px}
+  .answer{font-weight:800;margin:2px 0 4px}
+  .expl{color:var(--muted);margin:0;font-weight:600}
+  .auto{height:6px;background:#eee;margin-top:12px;overflow:hidden}
+  .auto div{height:100%;width:100%;background:var(--good);transform-origin:left;animation:drain 2.8s linear forwards}
+  @keyframes drain{to{transform:scaleX(0)}}
+  .next{margin-top:12px;background:var(--o);padding:9px 18px;font-size:1rem}
+
+  .screen{margin:4px;background:#fff;padding:24px 22px;text-align:center}
+  .screen h2{font-size:2rem;margin-bottom:8px;color:var(--pink);text-shadow:3px 3px 0 var(--pink2)}
+  .screen p{font-size:1.05rem;line-height:1.5;font-weight:600}
+  .levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin:22px 6px 6px}
+  .levels{align-items:stretch}
+  .level{display:flex;flex-direction:column;align-items:center;background:var(--pink3);padding:14px 12px 16px;cursor:pointer;text-align:center;transition:transform .1s;border:none;font:inherit;color:inherit}
+  .level:hover{transform:translateY(-3px)}
+  .level h3{font-size:1.3rem;margin-bottom:2px}
+  .level .duo{display:flex;justify-content:center;align-items:flex-end;gap:2px;margin:6px 0}
+  .level .duo canvas{width:64px}
+  .level .vs{font-family:'Pixelify Sans',monospace;color:var(--pink);font-size:1.1rem;margin-bottom:40px}
+  .level .names{font-family:'Pixelify Sans',monospace;font-size:.95rem}
+  .level .fns{font-size:.85rem;color:var(--muted);margin-top:4px;font-weight:700;min-height:2.6em}
+  .level .rw{font-size:.8rem;margin:6px 0 14px;font-weight:700}
+  .level .go{display:inline-block;margin-top:auto;background:var(--pink);color:#fff;font-family:'Pixelify Sans',monospace;padding:4px 14px}
+  .screen p{margin:8px 0}
+  .opts{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 12px}
+  .opts b{white-space:nowrap;background:var(--pink3);padding:3px 10px;font-family:'Pixelify Sans',monospace;font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:20px 0 6px}
+  .chip{font-family:'Pixelify Sans',monospace;font-size:.95rem;border:none;background:#fff;color:var(--ink);padding:6px 12px;cursor:pointer}
+  .chip.on{background:var(--pink);color:#fff}
+  .level .lv{display:inline-block;background:var(--lilac);color:#fff;font-family:'Pixelify Sans',monospace;font-size:.75rem;padding:1px 7px;margin-left:6px;vertical-align:middle}
+  .level .tags{display:flex;flex-wrap:wrap;justify-content:center;gap:4px;margin-top:8px}
+  .level .tags span{font-size:.72rem;font-weight:800;background:#fff;border:2px solid var(--pink2);padding:1px 6px;color:var(--muted)}
+  .level .tags span.hl{border-color:var(--pink);color:var(--pink)}
+  .empty{color:var(--muted);font-weight:700}
+  .lineup{display:flex;justify-content:center;gap:4px;margin:6px 0 4px}
+  .lineup canvas{width:84px}
+  .start{background:var(--pink);font-size:1.25rem;padding:12px 26px;margin:8px}
+  .start.alt{background:var(--lilac)}
+  .stats{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;margin:18px 0}
+  .stat{background:var(--pink3);padding:10px 18px;min-width:130px;font-weight:700}
+  .stat b{display:block;font-family:'Pixelify Sans',monospace;font-size:1.6rem}
+  .review{text-align:left;margin-top:20px}
+  .review h3{margin-bottom:8px;color:var(--lilac)}
+  .review li{margin-bottom:8px;line-height:1.4;font-weight:600}
+  .review .who{font-weight:800;color:var(--pink)}
+  .progress{height:12px;background:#fff;margin:0 4px 16px;overflow:hidden}
+  .progress div{height:100%;width:0;transition:width .4s steps(6);
+    background:repeating-linear-gradient(90deg,var(--pink) 0 8px,#ff8cc0 8px 16px)}
+  .hint{color:var(--muted);font-size:.8rem;text-align:center;margin-top:14px;font-weight:700}
+  .hidden{display:none !important}
+  @media (max-width:600px){
+    .btn{font-size:.92rem;padding:11px 4px}
+    .btn small{display:none}
+    .logo{font-size:1.4rem}
+    .choices{gap:12px}
+    .tagname{font-size:.78rem}
+  }
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="wrap" style="padding-top:56px">
+  <header>
+    <div class="logo" id="home" title="Back to scenes">✦ Who Are You Talking To? ✦<small>FUNCTIONS · DOLLZ EDITION</small></div>
+    <div class="hud hidden" id="hud">
+      <div class="pill px" id="pillL"></div>
+      <div class="pill px" id="pillR"></div>
+      <div class="pill px">★ <span id="round"></span></div>
+    </div>
+  </header>
+
+  <!-- SCENE SELECT -->
+  <section class="screen px" id="menu">
+    <h2>who r u talking to?? ♡</h2>
+    <p>Pick a scene. Read each sentence and decide who you would say it to:</p>
+    <p class="opts"><b>♡ the person on the left</b><b>♛ the person on the right</b><b>✦ both</b></p>
+    <p>Too formal or too casual with someone? You lose points with them!</p>
+    <div class="levels" id="levels"></div>
+  </section>
+
+  <!-- GAME -->
+  <section id="game" class="hidden">
+    <div class="progress px"><div id="bar"></div></div>
+    <div class="stage px" id="stage">
+      <div class="place px" id="place"></div>
+      <div class="bubble px" id="bubble">…</div>
+      <div class="people">
+        <div class="person" id="LBox">
+          <canvas class="doll" id="L" width="40" height="100"></canvas>
+          <div class="tagname px" id="tagL"></div>
+        </div>
+        <div class="person" id="youBox">
+          <canvas class="doll" id="you" width="40" height="100"></canvas>
+          <div class="tagname px" style="background:var(--lilac)">you ✦</div>
+        </div>
+        <div class="person" id="RBox">
+          <canvas class="doll" id="R" width="40" height="100"></canvas>
+          <div class="tagname px" id="tagR"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="choices">
+      <button class="btn btn-L px" data-c="L" id="btnL"></button>
+      <button class="btn btn-both px" data-c="both">✦ Both<small>key 2</small></button>
+      <button class="btn btn-R px" data-c="R" id="btnR"></button>
+    </div>
+
+    <div class="feedback px" id="feedback">
+      <div class="verdict" id="verdict"></div>
+      <span class="ftag" id="tag"></span>
+      <p class="answer" id="answer"></p>
+      <p class="expl" id="expl"></p>
+      <div class="auto hidden" id="auto"><div></div></div>
+      <button class="btn next px" id="nextBtn">Next ➜</button>
+    </div>
+    <p class="hint">Tip: keys 1 · 2 · 3 to answer, Enter for the next sentence. Click the title to change scenes.</p>
+  </section>
+
+  <!-- END -->
+  <section class="screen px hidden" id="endScreen">
+    <h2 id="endTitle"></h2>
+    <div class="lineup">
+      <canvas class="doll" id="eL" width="40" height="100"></canvas>
+      <canvas class="doll" id="eY" width="40" height="100"></canvas>
+      <canvas class="doll" id="eR" width="40" height="100"></canvas>
+    </div>
+    <p id="endText"></p>
+    <div class="stats" id="stats"></div>
+    <button class="btn start px" id="againBtn">PLAY AGAIN ↻</button>
+    <button class="btn start alt px" id="menuBtn">OTHER SCENES ✦</button>
+    <div class="review" id="review"></div>
+  </section>
+</div>
+
+<script>
+/* =====================================================================
+   SCENES — each scene = 2 characters + a bank of sentences.
+   a: "L" (left person), "R" (right person) or "both"
+   ===================================================================== */
+const SCENES = [
+  {
+    id:"office", title:"At the Office", place:"🏢 the office",
+    bg:"linear-gradient(180deg,#ffe3f2,#f6e4ff 75%)", floor:"repeating-linear-gradient(90deg,#e6c8ff 0 16px,#f2dcff 16px 32px)",
+    fns:"inviting · asking for permission · declining · apologizing",
+    L:{doll:"jess", name:"Jess", role:"friend", color:"#ff5fa2", icon:"💌", unit:"invitations", start:3, gain:1, loss:1,
+       good:"OMG yes! Jess invited you to a party!", bad:"Jess thinks you sound sooo formal. No party invitation for you!"},
+    R:{doll:"grant", name:"Ms. Grant", role:"boss", color:"#2c3e66", icon:"💵", unit:"salary", money:true, start:3000, gain:150, loss:200,
+       good:"Ms. Grant is impressed — you got a raise!", bad:"Way too casual for Ms. Grant. She cut your salary."},
+    items:[
+      {t:"Hey! Do you want to grab a pizza after work?", a:"L", f:"Inviting", e:"“Hey” and “grab a pizza” are casual. For your boss: “Would you like to join us for lunch?”"},
+      {t:"Dude, that game last night was insane!", a:"L", f:"Giving an opinion", e:"“Dude” and “insane” are slang — keep them for your friends."},
+      {t:"Can't make it tonight, sorry! Rain check?", a:"L", f:"Declining an invitation", e:"Short phrases and “rain check” are informal. More formal: “I'm afraid I can't make it tonight.”"},
+      {t:"Give me a sec, I'm almost ready!", a:"L", f:"Asking someone to wait", e:"“A sec” (= a second) is casual. Formal: “Could you give me a moment, please?”"},
+      {t:"What's up? Long time no see!", a:"L", f:"Greeting", e:"“What's up?” and “Long time no see” are friendly and informal."},
+      {t:"Text me if you need a ride!", a:"L", f:"Offering help", e:"“Text me” is casual. Formal: “Please let me know if you need a ride.”"},
+      {t:"No way! You got a puppy?!", a:"L", f:"Showing surprise", e:"“No way!” is an informal reaction — great with friends."},
+      {t:"Would you mind if I left early on Friday?", a:"R", f:"Asking for permission", e:"“Would you mind if…” is polite and indirect — perfect for your boss."},
+      {t:"I was wondering if I could take next Monday off.", a:"R", f:"Making a request", e:"“I was wondering if I could…” is a very polite, indirect way to ask."},
+      {t:"I'm afraid I won't be able to attend the meeting.", a:"R", f:"Declining", e:"“I'm afraid…” softens bad news in a formal way."},
+      {t:"Could you please review the report when you have a moment?", a:"R", f:"Making a request", e:"“Could you please…” + “when you have a moment” = polite and professional."},
+      {t:"I'd like to discuss my schedule, if that's convenient for you.", a:"R", f:"Suggesting a meeting", e:"“I'd like to…” and “if that's convenient” sound formal and respectful."},
+      {t:"I apologize for the delay.", a:"R", f:"Apologizing", e:"“I apologize” is more formal than “sorry”. With a friend: “Sorry it took so long!”"},
+      {t:"Would it be possible to work from home on Thursday?", a:"R", f:"Asking for permission", e:"“Would it be possible to…” is a formal, indirect request."},
+      {t:"Thank you so much for your help!", a:"both", f:"Thanking", e:"Warm and polite — it works with anyone."},
+      {t:"Good morning!", a:"both", f:"Greeting", e:"A neutral greeting — fine for everyone."},
+      {t:"Have a nice weekend!", a:"both", f:"Saying goodbye", e:"Friendly but polite. You can say it to your boss and to your friend."},
+      {t:"Sorry I'm late!", a:"both", f:"Apologizing", e:"Short but polite — OK for both. With your boss, you might add a reason."},
+      {t:"That sounds great!", a:"both", f:"Agreeing", e:"Neutral and positive — it works in any situation."},
+      {t:"Congratulations! You really deserve it.", a:"both", f:"Congratulating", e:"Kind and polite — perfect for a friend or your boss."}
+    ]
+  },
+  {
+    id:"school", title:"At School", place:"🏫 the classroom",
+    bg:"linear-gradient(180deg,#dcfff0,#e3f1ff 75%)", floor:"repeating-linear-gradient(90deg,#bfe9d6 0 16px,#d7f5e8 16px 32px)",
+    fns:"asking for help · asking for permission · apologizing · inviting",
+    L:{doll:"tyler", name:"Tyler", role:"classmate", color:"#e2483a", icon:"🍬", unit:"snacks", start:3, gain:1, loss:1,
+       good:"Tyler shares his snacks with you!", bad:"Tyler laughs: “Why are you talking like a robot?” No snacks for you!"},
+    R:{doll:"rivera", name:"Mr. Rivera", role:"teacher", color:"#2f8a5a", icon:"⭐", unit:"points", start:3, gain:1, loss:1,
+       good:"Mr. Rivera smiles — +1 participation point!", bad:"Mr. Rivera raises an eyebrow. Too casual for class! −1 point."},
+    items:[
+      {t:"Hey, can I borrow your pen real quick?", a:"L", f:"Asking to borrow something", e:"“Hey” and “real quick” are very casual. To a teacher: “Could I borrow a pen, please?”"},
+      {t:"Did you get number 5? I'm so lost.", a:"L", f:"Asking for help", e:"“I'm so lost” is informal. To a teacher: “Could you help me with number 5, please?”"},
+      {t:"Ugh, this test is going to be brutal.", a:"L", f:"Complaining", e:"“Ugh” and “brutal” are casual — fine with a classmate, not with the teacher!"},
+      {t:"Do you want to study together after school?", a:"L", f:"Inviting", e:"A friendly invitation between classmates — you don't study together with your teacher!"},
+      {t:"Dude, I totally forgot my homework!", a:"L", f:"Admitting a mistake", e:"“Dude” and “totally” are slang. To a teacher: “I'm sorry, I forgot my homework.”"},
+      {t:"Save me a seat, OK?", a:"L", f:"Making a request", e:"A direct imperative + “OK?” sounds casual — fine between classmates."},
+      {t:"Excuse me, could you explain that again, please?", a:"R", f:"Asking for clarification", e:"“Excuse me” + “could you…, please?” is polite and respectful."},
+      {t:"May I go to the restroom, please?", a:"R", f:"Asking for permission", e:"“May I…?” is the most formal way to ask for permission."},
+      {t:"I'm sorry I didn't finish my homework. Could I turn it in tomorrow?", a:"R", f:"Apologizing", e:"A full apology + a polite request — perfect for a teacher."},
+      {t:"Would it be possible to get an extension on the essay?", a:"R", f:"Making a request", e:"“Would it be possible to…” is formal and indirect."},
+      {t:"Could you please check my answers when you have a minute?", a:"R", f:"Making a request", e:"“Could you please…” + “when you have a minute” sounds polite and considerate."},
+      {t:"Thank you for your feedback on my essay.", a:"R", f:"Thanking", e:"A formal thank-you — and teachers are the ones who give feedback!"},
+      {t:"See you tomorrow!", a:"both", f:"Saying goodbye", e:"Neutral and friendly — fine for everyone."},
+      {t:"Sorry, could you repeat that?", a:"both", f:"Asking for repetition", e:"Short but polite — it works with anyone."},
+      {t:"Thanks for your help!", a:"both", f:"Thanking", e:"“Thanks” is a bit informal, but it's friendly and polite enough for a teacher too."},
+      {t:"Have a great weekend!", a:"both", f:"Saying goodbye", e:"Friendly and polite — perfect for both."}
+    ]
+  },
+  {
+    id:"family", title:"Family Lunch", place:"🏡 Grandma's house",
+    bg:"linear-gradient(180deg,#fff1dc,#ffe3ec 75%)", floor:"repeating-linear-gradient(90deg,#f3cfa8 0 16px,#f9e0c4 16px 32px)",
+    fns:"complimenting · offering · giving opinions · thanking",
+    L:{doll:"kayla", name:"Kayla", role:"cousin", color:"#d94fb0", icon:"💖", unit:"BFF points", start:3, gain:1, loss:1,
+       good:"Kayla thinks you're sooo cool!", bad:"Kayla: “Why are you talking like Grandma??”"},
+    R:{doll:"rose", name:"Grandma Rose", role:"grandma", color:"#9c6fd1", icon:"🍪", unit:"cookies", start:3, gain:1, loss:1,
+       good:"Grandma Rose gives you a cookie!", bad:"Grandma Rose is confused… “What does that mean, dear?” −1 cookie."},
+    items:[
+      {t:"OMG, your nails look so cute!", a:"L", f:"Complimenting", e:"“OMG” and “so cute” are very casual — perfect for your cousin."},
+      {t:"That party was lit!", a:"L", f:"Giving an opinion", e:"“Lit” is slang for “amazing”. Grandma might not get it! Try: “The party was wonderful.”"},
+      {t:"Do you want to binge-watch something tonight?", a:"L", f:"Inviting", e:"“Binge-watch” is informal. More polite: “Would you like to watch a movie tonight?”"},
+      {t:"No offense, but that song is a little cringe.", a:"L", f:"Giving an opinion", e:"“Cringe” is slang — keep them for your cousin."},
+      {t:"Chill, it's not a big deal.", a:"L", f:"Reassuring", e:"“Chill” is casual. With Grandma: “Don't worry, it's all right.”"},
+      {t:"Text me when you get home, OK?", a:"L", f:"Making a request", e:"Short, direct and casual — a typical request between cousins."},
+      {t:"Would you like some more tea?", a:"R", f:"Offering", e:"“Would you like…?” is a polite, classic way to offer."},
+      {t:"I'd love to hear more about your trip.", a:"R", f:"Showing interest", e:"“I'd love to…” sounds warm and polite."},
+      {t:"Your garden looks absolutely lovely.", a:"R", f:"Complimenting", e:"“Absolutely lovely” is a polite, slightly formal compliment."},
+      {t:"Thank you for having me. Everything was delicious.", a:"R", f:"Thanking", e:"“Thank you for having me” is a polite thing to say to a host."},
+      {t:"May I help you set the table?", a:"R", f:"Offering help", e:"“May I…?” is very polite. To your cousin: “Want some help?”"},
+      {t:"Please let me carry those bags for you.", a:"R", f:"Offering help", e:"“Please let me…” is a respectful, caring offer."},
+      {t:"Happy birthday!", a:"both", f:"Congratulating", e:"A classic — perfect for anyone."},
+      {t:"This cake is delicious!", a:"both", f:"Complimenting", e:"Simple and positive — Grandma AND your cousin will love it."},
+      {t:"Goodnight! Sleep well.", a:"both", f:"Saying goodnight", e:"Kind and neutral — it works with everyone."},
+      {t:"I missed you so much!", a:"both", f:"Expressing feelings", e:"Warm and simple — fine for family of any age."}
+    ]
+  },
+  {
+    id:"restaurant", title:"At a Restaurant", place:"🍝 the restaurant",
+    bg:"linear-gradient(180deg,#fff6d6,#ffe0e6 75%)", floor:"repeating-conic-gradient(#fff 0 25%,#ffc9dd 0 50%) 0 0/16px 16px",
+    fns:"ordering · complaining politely · suggesting · offering",
+    L:{doll:"jess", name:"Jess", role:"friend", color:"#ff5fa2", icon:"💌", unit:"invitations", start:3, gain:1, loss:1,
+       good:"Jess says you're the best dinner buddy!", bad:"Jess: “Why are you so formal tonight?”"},
+    R:{doll:"leo", name:"Leo", role:"waiter", color:"#1d1d2b", icon:"⭐", unit:"service stars", start:3, gain:1, loss:1,
+       good:"Leo smiles and gives you great service!", bad:"Leo looks surprised… that was a bit too casual."},
+    items:[
+      {t:"Excuse me, could we get the check, please?", a:"R", f:"Asking for the check", e:"“Excuse me” + “could we…, please?” — polite and clear for a waiter."},
+      {t:"I'd like the chicken salad, please.", a:"R", f:"Ordering", e:"“I'd like…, please” is the classic polite way to order food."},
+      {t:"Excuse me, I think there's a mistake on the bill.", a:"R", f:"Complaining politely", e:"“I think there's a mistake” is softer than “You made a mistake!”"},
+      {t:"Could I have a glass of water, please?", a:"R", f:"Making a request", e:"“Could I have…, please?” is polite and natural in a restaurant."},
+      {t:"Excuse me, this soup is a little cold.", a:"R", f:"Complaining politely", e:"“A little” softens the complaint — polite but clear."},
+      {t:"Could we have a table for two, please?", a:"R", f:"Making a request", e:"A polite request when you arrive at a restaurant."},
+      {t:"Do you want to split some fries?", a:"L", f:"Suggesting", e:"“Split” (= share) is a friendly suggestion. To the waiter you'd just order: “Could we get some fries, please?”"},
+      {t:"OMG, this burger is so good!", a:"L", f:"Giving an opinion", e:"“OMG” and “so good” are casual — say it to your friend!"},
+      {t:"Dinner's on me tonight!", a:"L", f:"Offering", e:"“It's on me” = “I'll pay”. A casual, friendly offer."},
+      {t:"Ugh, I'm so stuffed!", a:"L", f:"Describing how you feel", e:"“Ugh” and “stuffed” (= very full) are informal."},
+      {t:"Give me a bite of your pizza?", a:"L", f:"Asking for something", e:"A direct request — very casual, only for friends!"},
+      {t:"Let's take a selfie!", a:"L", f:"Suggesting", e:"“Let's…” is a friendly suggestion — something you'd do with a friend, not the waiter!"},
+      {t:"Thank you!", a:"both", f:"Thanking", e:"Always polite — say it to everyone!"},
+      {t:"Sorry, I didn't catch that.", a:"both", f:"Asking for repetition", e:"“I didn't catch that” is polite and natural — it works with anyone."},
+      {t:"That sounds delicious!", a:"both", f:"Giving an opinion", e:"Use it when the waiter describes a dish or when your friend tells you what she's ordering."},
+      {t:"Have a good night!", a:"both", f:"Saying goodbye", e:"Friendly and polite — perfect for both."}
+    ]
+  }
+];
+
+/* ============ MORE SCENES (from the coursebooks) ============ */
+const CH={
+  jess:{doll:"jess",name:"Jess",color:"#ff5fa2"}, kayla:{doll:"kayla",name:"Kayla",color:"#d94fb0"},
+  tyler:{doll:"tyler",name:"Tyler",color:"#e2483a"}, grant:{doll:"grant",name:"Ms. Grant",color:"#2c3e66"},
+  rivera:{doll:"rivera",name:"Mr. Rivera",color:"#2f8a5a"}, rose:{doll:"rose",name:"Grandma Rose",color:"#9c6fd1"},
+  nina:{doll:"nina",name:"Nina",color:"#8c2346"}, kim:{doll:"kim",name:"Dr. Kim",color:"#3f82b2"},
+  brown:{doll:"brown",name:"Mr. Brown",color:"#8a6a3a"}, leo:{doll:"leo",name:"Leo",color:"#1d1d2b"}
+};
+const P=(c,role,icon,unit,good,bad,x)=>Object.assign({},CH[c],{role,icon,unit,start:3,gain:1,loss:1,good,bad},x||{});
+const F={
+  jess:r=>P("jess","friend","💌","invitations","Jess loves it!","Jess: “Why are you so formal??”"),
+  kayla:r=>P("kayla","cousin","💖","BFF points","Kayla thinks you're sooo cool!","Kayla: “Why are you talking like Grandma??”"),
+  tyler:r=>P("tyler","classmate","🍬","snacks","Tyler shares his snacks with you!","Tyler laughs: “Why are you talking like a robot?”"),
+  money:(r,good,bad)=>P("grant",r||"boss","💵","salary",good||"Ms. Grant is impressed — you got a raise!",bad||"Way too casual for Ms. Grant. She cut your salary.",{money:true,start:3000,gain:150,loss:200})
+};
+const I=arr=>arr.map(([a,t,f,e])=>({a,t,f,e}));
+const BG={
+  pink:["linear-gradient(180deg,#ffe3f2,#f6e4ff 75%)","repeating-linear-gradient(90deg,#e6c8ff 0 16px,#f2dcff 16px 32px)"],
+  mint:["linear-gradient(180deg,#dcfff0,#e3f1ff 75%)","repeating-linear-gradient(90deg,#bfe9d6 0 16px,#d7f5e8 16px 32px)"],
+  peach:["linear-gradient(180deg,#fff1dc,#ffe3ec 75%)","repeating-linear-gradient(90deg,#f3cfa8 0 16px,#f9e0c4 16px 32px)"],
+  sky:["linear-gradient(180deg,#e0f0ff,#f0e6ff 75%)","repeating-linear-gradient(90deg,#c6dcf5 0 16px,#dce9f9 16px 32px)"],
+  lemon:["linear-gradient(180deg,#fffbd6,#ffe6f0 75%)","repeating-conic-gradient(#fff 0 25%,#ffe7a8 0 50%) 0 0/16px 16px"],
+  lilac:["linear-gradient(180deg,#f3e6ff,#ffe3f2 75%)","repeating-conic-gradient(#fff 0 25%,#e3cfff 0 50%) 0 0/16px 16px"]
+};
+function scene(o){ const b=BG[o.bgk||"pink"]; return Object.assign({bg:b[0],floor:b[1]},o,{items:I(o.items)}); }
+
+SCENES.push(
+scene({id:"hotel", title:"Checking In", place:"🛎️ hotel reception", level:"A1", bgk:"sky",
+  fns:"checking in · booking a table · asking for information",
+  tags:[{b:"AEF Starter",u:"PE 1 · checking into a hotel, booking a table"}],
+  L:F.jess(), R:P("nina","receptionist","⭐","service stars","Nina smiles — great service!","Nina looks surprised. A bit too casual for a hotel!"),
+  items:[
+    ["R","Hello. I have a reservation.","Checking in","A clear, polite way to start at hotel reception."],
+    ["R","My name is Ana Silva. That's S-I-L-V-A.","Spelling your name","You spell your name for the receptionist — your friend already knows it!"],
+    ["R","Can I have a table for two at eight, please?","Booking a table","“Can I have…, please?” is a polite request."],
+    ["R","What time is breakfast, please?","Asking for information","“Please” makes the question polite."],
+    ["R","Can I have the Wi-Fi password, please?","Asking for information","A polite question for the hotel staff."],
+    ["L","Hey! Nice room, huh?","Giving an opinion","“Hey” and “huh?” are casual — perfect with a friend."],
+    ["L","Wow, I'm so tired. Let's sleep!","Saying how you feel","“Let's…” is a friendly suggestion between friends."],
+    ["L","Cool! The pool is awesome!","Giving an opinion","“Cool” and “awesome” are informal words."],
+    ["L","Come on, let's go to the beach!","Suggesting","“Come on” + “let's” is a casual, friendly suggestion."],
+    ["both","Thank you!","Thanking","Always polite — say it to everyone!"],
+    ["both","Good morning!","Greeting","A neutral greeting — fine for everyone."],
+    ["both","Sorry, can you repeat that, please?","Asking for repetition","Polite and useful with anyone."]
+  ]}),
+scene({id:"lunch", title:"Buying Lunch", place:"🥪 the café", level:"A1", bgk:"lemon",
+  fns:"buying food · asking about prices · paying",
+  tags:[{b:"AEF Starter",u:"PE 2 · understanding prices, buying lunch"},{b:"Think 1",u:"U2 · buying things in a store"}],
+  L:F.tyler(), R:P("leo","waiter","⭐","service stars","Leo smiles and gives you great service!","Leo looks surprised… that was a bit too casual."),
+  items:[
+    ["R","Can I have a tuna sandwich, please?","Ordering","“Can I have…, please?” is the polite way to order."],
+    ["R","How much is it, please?","Asking about prices","A polite question for the person at the counter."],
+    ["R","Can I pay by card?","Paying","A typical question when you pay."],
+    ["R","A small coffee to go, please.","Ordering","Short, but “please” keeps it polite."],
+    ["R","Could I get some ketchup, please?","Making a request","“Could I get…, please?” is polite."],
+    ["L","Dude, this sandwich is huge!","Giving an opinion","“Dude” is slang — only with friends!"],
+    ["L","Do you want to share a pizza?","Suggesting","A friendly suggestion — you share food with friends, not with the waiter!"],
+    ["L","Lend me five dollars? I'll pay you back!","Borrowing money","A direct, casual request — fine between friends."],
+    ["L","Yum! Try this!","Offering","“Yum!” is very informal."],
+    ["both","Here you go.","Giving something","Neutral — use it when you give money to the waiter or something to a friend."],
+    ["both","Thank you very much!","Thanking","Always polite."],
+    ["both","Have a nice day!","Saying goodbye","Friendly and polite — fine for both."]
+  ]}),
+scene({id:"directions", title:"Asking for Directions", place:"🗺️ downtown", level:"A1–A2", bgk:"mint",
+  fns:"asking for directions · giving directions · asking for help",
+  tags:[{b:"AEF Starter",u:"PE 6 · asking for and giving directions"},{b:"AEF 2",u:"PE 5 · asking how to get there"}],
+  L:F.tyler(), R:P("brown","stranger","🧭","help points","Mr. Brown happily shows you the way!","Mr. Brown frowns. That sounded a bit rude!"),
+  items:[
+    ["R","Excuse me, how do I get to the train station?","Asking for directions","“Excuse me” is the polite way to start talking to a stranger."],
+    ["R","Excuse me, is there a bank near here?","Asking for directions","Polite and clear for someone you don't know."],
+    ["R","Sorry to bother you, but could you help me? I'm lost.","Asking for help","“Sorry to bother you” is extra polite with strangers."],
+    ["R","Excuse me, which bus goes downtown?","Asking for information","“Excuse me” + a clear question = polite."],
+    ["R","Could you show me on the map, please?","Making a request","“Could you…, please?” is polite."],
+    ["L","Dude, where are we?? We're totally lost!","Complaining","“Dude” and “totally” are slang."],
+    ["L","Let's just use GPS, OK?","Suggesting","Casual suggestion between friends."],
+    ["L","Come on, it's this way. Follow me!","Giving directions","“Come on” and short imperatives sound casual."],
+    ["L","Turn left, genius! Not right!","Giving directions","Teasing (“genius!”) is only OK with friends!"],
+    ["both","Thanks a lot!","Thanking","Friendly and polite — fine for both."],
+    ["both","Sorry, could you say that again?","Asking for repetition","Polite with anyone."],
+    ["both","Go straight and turn right at the bank.","Giving directions","Neutral directions — you can give them to anyone."]
+  ]}),
+scene({id:"phone", title:"On the Phone", place:"📞 on the phone", level:"A2", bgk:"sky",
+  fns:"phone calls · leaving a message · asking for repetition",
+  tags:[{b:"AEF Starter",u:"PE 4 · talking on the phone"},{b:"AEF 2",u:"PE 1 · calling reception"},{b:"AEF 2",u:"PE 6 · on the phone"},{b:"Think 1",u:"U7 · a phone call; asking for repetition"}],
+  L:F.jess(), R:P("nina","receptionist","⭐","service stars","Nina is happy to help!","Nina pauses… that was a bit too casual."),
+  items:[
+    ["R","Hello, could I speak to the manager, please?","Asking to speak to someone","“Could I speak to…, please?” is the polite phone formula."],
+    ["R","Hi, this is room 302. The air conditioning isn't working.","Reporting a problem","Say who you are and explain the problem clearly."],
+    ["R","Could you ask her to call me back, please?","Leaving a message","A polite request on a formal call."],
+    ["R","Sorry, could you spell that for me, please?","Asking for clarification","Very polite — useful on formal calls."],
+    ["R","I'm calling about my reservation.","Explaining why you're calling","“I'm calling about…” is a clear, formal start."],
+    ["L","Hey! What's up? Can you talk?","Starting a call","“What's up?” is very informal."],
+    ["L","Ugh, my battery's dying. Call you later!","Ending a call","Casual, short sentences — only with friends."],
+    ["L","Wait, what? Say that again!","Asking for repetition","Direct and informal. Polite: “Sorry, could you repeat that?”"],
+    ["L","OK, I have to go. Talk to you later!","Ending a call","“Talk to you later” is friendly and casual."],
+    ["both","Sorry, I can't hear you very well.","Explaining a problem","Neutral — fine on any call."],
+    ["both","Can you hear me now?","Checking","Neutral — useful with anyone."],
+    ["both","Thank you. Bye!","Ending a call","Polite and simple."]
+  ]}),
+scene({id:"complain", title:"Complaining at the Hotel", place:"🛎️ hotel front desk", bgk:"lilac",
+  fns:"complaining politely · explaining a problem · making requests",
+  L:F.jess(), R:P("nina","receptionist","⭐","service stars","Nina is happy to help you!","Nina looks annoyed. That was a bit rude!"),
+  items:[
+    ["R","Excuse me, I'm afraid there's a problem with my room.","Complaining politely","“I'm afraid…” softens a complaint."],
+    ["R","Could I change rooms, please? It's very noisy.","Making a request","“Could I…, please?” is polite."],
+    ["R","The shower isn't working. Could you send someone, please?","Explaining a problem","Explain the problem, then make a polite request."],
+    ["R","I'm sorry, but this isn't the room I booked.","Complaining politely","“I'm sorry, but…” is a polite way to start a complaint."],
+    ["R","To be honest, I'm not very happy with the service.","Complaining","“Not very happy” is a polite way to say “I'm angry”."],
+    ["L","Ugh, this room is sooo tiny!","Complaining","“Ugh” and “sooo” are informal."],
+    ["L","Seriously? No hot water? What a rip-off!","Complaining","“Rip-off” is slang — don't say it to the receptionist!"],
+    ["L","Come with me to complain, OK? Pleeease?","Asking a favor","A casual, playful request — friends only."],
+    ["L","Don't worry, they'll totally give us a better room.","Reassuring","“Totally” is informal."],
+    ["both","Thank you for your help.","Thanking","Polite — fine with everyone."],
+    ["both","That's OK. No problem.","Responding","Neutral and friendly."]
+  ]}),
+scene({id:"pharmacy", title:"At the Pharmacy", place:"💊 the pharmacy", level:"A2", bgk:"mint",
+  fns:"describing symptoms · asking for medicine · following instructions",
+  tags:[{b:"AEF 2",u:"PE 4 · going to a pharmacy"},{b:"Think 1",u:"U11 · at the doctor's"},{b:"Think 2",u:"U10 · talking about your health"}],
+  L:F.kayla(), R:P("kim","pharmacist","⭐","care points","Dr. Kim smiles and helps you right away!","Dr. Kim raises an eyebrow. Too casual!"),
+  items:[
+    ["R","I have a terrible headache. Do you have anything for it?","Asking for medicine","A clear, polite way to ask a pharmacist for help."],
+    ["R","How many should I take a day?","Asking for instructions","A question you ask the pharmacist."],
+    ["R","Can I take these with food?","Asking for instructions","A polite question about medicine."],
+    ["R","I'm allergic to penicillin.","Giving information","Important information for a pharmacist or doctor."],
+    ["R","What do you recommend for a cough?","Asking for advice","Asking a professional for a recommendation."],
+    ["L","Ugh, I feel so gross today.","Saying how you feel","“Gross” is informal."],
+    ["L","My head is killing me!","Describing symptoms","“Killing me” is an informal exaggeration."],
+    ["L","Can you grab me some tissues?","Asking a favor","“Grab” is casual."],
+    ["L","I'm sick of being sick!","Complaining","A casual, emotional complaint — for your cousin."],
+    ["both","I've had a sore throat since Monday.","Describing symptoms","Neutral information — you can say it to anyone."],
+    ["both","Thanks so much!","Thanking","Friendly and polite."],
+    ["both","I feel much better now.","Saying how you feel","Neutral — fine for both."]
+  ]}),
+scene({id:"permission", title:"Asking for Permission", place:"🚆 the train", bgk:"peach",
+  fns:"asking for permission · making requests",
+  L:F.jess(), R:P("brown","stranger","⭐","kindness points","Mr. Brown smiles: “Of course!”","Mr. Brown looks offended. Too casual!"),
+  items:[
+    ["R","Would you mind if I opened the window?","Asking for permission","“Would you mind if I + past” is very polite."],
+    ["R","Would it be all right if I put my bag here?","Asking for permission","“Would it be all right if…” is formal and polite."],
+    ["R","May I borrow your pen for a moment?","Asking for permission","“May I…?” is formal."],
+    ["R","Excuse me, I was wondering if I could sit by the window.","Making a request","“I was wondering if…” is an indirect, very polite request."],
+    ["R","Could you possibly move your bag a little?","Making a request","“Possibly” and “a little” make the request softer."],
+    ["L","Can I grab some of your chips?","Asking for permission","“Grab” is casual — fine with a friend."],
+    ["L","Move over! I want to sit by the window.","Making a request","A direct imperative (“Move over!”) is very informal."],
+    ["L","Lend me your charger real quick?","Making a request","Direct and casual — friends only."],
+    ["L","Pass me the water, OK?","Making a request","A direct imperative + “OK?” is casual."],
+    ["both","Is it OK if I sit here?","Asking for permission","“Is it OK if…” is neutral — fine for both."],
+    ["both","Sure, go ahead!","Giving permission","Friendly and neutral."]
+  ]}),
+scene({id:"meeting", title:"In a Meeting", place:"💼 the meeting room", level:"B1", bgk:"pink",
+  fns:"giving opinions · agreeing · disagreeing politely",
+  tags:[{b:"AEF 3",u:"PE 2 · giving opinions"},{b:"Think 2",u:"U7 · agreeing"}],
+  L:F.jess(), R:F.money("boss"),
+  items:[
+    ["R","In my opinion, we should focus on social media.","Giving an opinion","“In my opinion” is a formal way to give your view."],
+    ["R","I see your point, but I'm not sure I agree.","Disagreeing politely","Show respect first, then disagree gently."],
+    ["R","Personally, I think the second option is better.","Giving an opinion","“Personally, I think…” sounds professional."],
+    ["R","That's a good point. However, it might be too expensive.","Disagreeing politely","“However” and “might” soften the disagreement."],
+    ["R","From my point of view, it's a little risky.","Giving an opinion","A formal phrase for meetings."],
+    ["L","No way, that idea is terrible!","Disagreeing strongly","Too direct for a boss!"],
+    ["L","Totally! I'm with you on that.","Agreeing","“Totally” and “I'm with you” are casual."],
+    ["L","Honestly? That movie was boring.","Giving an opinion","Short and casual — friends only."],
+    ["L","Hmm, I don't buy it.","Disagreeing","“I don't buy it” (= I don't believe it) is informal."],
+    ["both","I completely agree with you.","Agreeing","Neutral — fine for anyone."],
+    ["both","What do you think?","Asking for an opinion","A neutral question — works with everyone."],
+    ["both","I'm not so sure about that.","Disagreeing gently","Soft and polite enough for both."]
+  ]}),
+scene({id:"news", title:"Big News!", place:"🎉 big news", level:"B1", bgk:"lemon",
+  fns:"reacting to news · expressing surprise and enthusiasm",
+  tags:[{b:"AEF 3",u:"PE 1 · reacting to what people say"},{b:"Think 2",u:"U6 · expressing surprise and enthusiasm"},{b:"Think 3",u:"U8 · giving and reacting to news"}],
+  L:F.jess(), R:P("rose","grandma","🍪","cookies","Grandma Rose is delighted and gives you a cookie!","Grandma Rose is confused… “What does that mean, dear?”"),
+  items:[
+    ["R","That's wonderful news! Congratulations.","Reacting to good news","“Wonderful” + “Congratulations” = warm and polite."],
+    ["R","I'm very sorry to hear that.","Reacting to bad news","A polite, formal way to show sympathy."],
+    ["R","Oh, really? That's very interesting.","Showing interest","Polite and a little formal."],
+    ["R","What a lovely surprise!","Expressing surprise","“Lovely” sounds polite and warm."],
+    ["R","I'm glad to hear you're feeling better.","Reacting to good news","“I'm glad to hear…” is polite."],
+    ["L","Shut up! No way!","Expressing surprise","Here “Shut up!” means “I can't believe it!” — only with close friends!"],
+    ["L","OMG, that's epic!","Expressing enthusiasm","“OMG” and “epic” are slang."],
+    ["L","Seriously?! You're kidding me!","Expressing surprise","Informal and emotional."],
+    ["L","Aww, that sucks. Sorry!","Reacting to bad news","“That sucks” is informal."],
+    ["both","Wow, that's amazing!","Expressing enthusiasm","Neutral and positive."],
+    ["both","Oh no! What happened?","Reacting to bad news","Natural with anyone."],
+    ["both","Guess what? I got the job!","Giving news","Friendly and neutral."]
+  ]}),
+scene({id:"plans", title:"Making Plans", place:"📚 the class project", level:"B1", bgk:"mint",
+  fns:"making suggestions · responding to suggestions · arrangements",
+  tags:[{b:"AEF 3",u:"PE 4 · making suggestions"},{b:"Think 1",u:"U5 · making and responding to suggestions"},{b:"Think 1",u:"U10 · making arrangements"},{b:"Think 2",u:"U5 · helpful suggestions"}],
+  L:F.tyler(), R:P("rivera","teacher","⭐","points","Mr. Rivera likes your idea — +1 point!","Mr. Rivera raises an eyebrow. Too casual for class!"),
+  items:[
+    ["R","Perhaps we could present our project on Friday?","Making a suggestion","“Perhaps we could…” is soft and polite."],
+    ["R","Would it be a good idea to add some photos?","Making a suggestion","An indirect, polite suggestion."],
+    ["R","May I suggest a different topic?","Making a suggestion","“May I suggest…” is formal."],
+    ["R","I think it might be better to start earlier.","Making a suggestion","“It might be better” is a careful, polite suggestion."],
+    ["L","Let's just copy the template. Easy!","Making a suggestion","Casual — and not something to say to your teacher!"],
+    ["L","Why don't we grab some food first?","Making a suggestion","“Grab some food” is informal."],
+    ["L","How about we skip the boring part?","Making a suggestion","Casual — and “boring” would upset the teacher!"],
+    ["L","Do you want to meet at my place on Saturday?","Making arrangements","“My place” (= my house) is informal."],
+    ["both","What if we interviewed some local experts?","Making a suggestion","“What if we…?” is neutral — fine for both."],
+    ["both","That's a great idea!","Responding to a suggestion","Positive and neutral."],
+    ["both","Sounds good to me.","Agreeing","Friendly but polite enough for both."]
+  ]}),
+scene({id:"info", title:"At the Front Desk", place:"🛎️ hotel front desk", bgk:"sky",
+  fns:"indirect questions · checking information",
+  L:F.jess(), R:P("nina","receptionist","⭐","service stars","Nina smiles and gives you a free city map!","Nina looks surprised. A bit too direct!"),
+  items:[
+    ["R","Could you tell me what time the pool closes?","Indirect question","Indirect questions sound more polite with people you don't know."],
+    ["R","Do you know where the elevators are?","Indirect question","“Do you know where… are?” — notice the word order!"],
+    ["R","I was wondering if there's a student discount.","Indirect question","“I was wondering if…” is very polite."],
+    ["R","Would you mind telling me how much the city tour is?","Indirect question","“Would you mind telling me…” is extra polite."],
+    ["R","Do you happen to know if the restaurant is open?","Indirect question","“Do you happen to know…” is soft and polite."],
+    ["L","What time does the pool close?","Direct question","Direct questions are fine with friends. With staff, an indirect question sounds more polite."],
+    ["L","Where's the bathroom? I really need to go!","Direct question","A direct question — fine with a friend."],
+    ["L","How much was your ticket?","Direct question","A natural question for a friend."],
+    ["L","Is the restaurant open? I'm starving!","Direct question","“I'm starving” is a casual exaggeration."],
+    ["both","Breakfast is at seven, right?","Checking information","Adding “right?” to check information is neutral."],
+    ["both","Sorry, did you say the second floor?","Checking information","Polite with anyone."]
+  ]}),
+scene({id:"review", title:"Performance Review", place:"📈 Ms. Grant's office", bgk:"lilac",
+  fns:"talking about yourself · asking questions · thanking formally",
+  L:F.jess(), R:F.money("boss","Ms. Grant takes notes — great answer! You got a raise!","Ms. Grant raises an eyebrow. Not the best impression…"),
+  items:[
+    ["R","I'm very interested in leading the new project.","Talking about yourself","Clear, positive and professional."],
+    ["R","I'd say my greatest strength is that I'm very organized.","Talking about yourself","“I'd say…” is a polite way to talk about yourself."],
+    ["R","Could you tell me a little more about the new team?","Asking for information","A polite indirect question."],
+    ["R","I've been working here for three years now.","Talking about experience","Formal and precise."],
+    ["R","Thank you for taking the time to meet with me.","Thanking formally","A classic, formal thank-you."],
+    ["L","Ugh, I'm so nervous about my review!","Talking about feelings","Something you tell a friend — not your boss!"],
+    ["L","My job's cool, but the pay is pretty low.","Giving an opinion","“Cool” and “pretty low” are informal."],
+    ["L","I totally nailed it! She loved me!","Talking about success","“Nailed it” is slang for “did it very well”."],
+    ["L","Wish me luck!","Asking for support","Friendly — to a friend before the meeting."],
+    ["both","Good morning.","Greeting","Polite and neutral."],
+    ["both","Sorry, could you repeat the question?","Asking for repetition","Polite with anyone."]
+  ]}),
+scene({id:"advice", title:"Giving Advice", place:"💡 Grandma's living room", level:"B1", bgk:"peach",
+  fns:"giving advice · recommendations · warnings",
+  tags:[{b:"Think 1",u:"U7 · giving advice"},{b:"Think 2",u:"U4 · giving advice"},{b:"Think 3",u:"U3 · advice, recommendations, warnings"}],
+  L:F.kayla(), R:P("rose","grandma","🍪","cookies","Grandma Rose gives you a cookie!","Grandma Rose is confused… “What does that mean, dear?”"),
+  items:[
+    ["R","If I were you, I'd change your password.","Giving advice","“If I were you, I'd…” is polite advice."],
+    ["R","It might be a good idea to update the app.","Giving advice","“It might be a good idea to…” is soft and polite."],
+    ["R","You could ask the store to help you set it up.","Giving advice","“You could…” is a gentle suggestion."],
+    ["R","Perhaps you should try restarting it.","Giving advice","“Perhaps” makes the advice softer."],
+    ["L","Dude, just block him!","Giving advice","“Dude” + a direct imperative = very casual."],
+    ["L","You totally have to watch that show!","Recommending","“Totally have to” is an enthusiastic, informal recommendation."],
+    ["L","Don't post that. Trust me.","Warning","Short and direct — fine with your cousin."],
+    ["L","Ugh, just delete the app. It's so annoying.","Giving advice","Informal and a little rude for Grandma!"],
+    ["both","You should drink more water.","Giving advice","“You should…” is neutral advice."],
+    ["both","Why don't you take a break?","Giving advice","“Why don't you…?” is friendly and neutral."],
+    ["both","You'd better take an umbrella. It's going to rain.","Warning","“You'd better…” is a common warning — fine for both."]
+  ]}),
+scene({id:"sorry", title:"Saying Sorry", place:"🙏 the classroom", level:"B1", bgk:"pink",
+  fns:"apologizing · accepting apologies",
+  tags:[{b:"Think 1",u:"U3 · apologizing"},{b:"Think 3",u:"U4 · apologizing and accepting apologies"}],
+  L:F.jess(), R:P("rivera","teacher","⭐","points","Mr. Rivera accepts your apology. +1 point!","Mr. Rivera frowns. That didn't sound very sorry…"),
+  items:[
+    ["R","I'm terribly sorry. It won't happen again.","Apologizing","“Terribly sorry” is formal and sincere."],
+    ["R","I apologize for being late.","Apologizing","“I apologize” is more formal than “sorry”."],
+    ["R","Please accept my apologies for the mistake.","Apologizing","A very formal apology."],
+    ["R","I'm so sorry. I didn't mean to interrupt you.","Apologizing","Polite and respectful."],
+    ["L","My bad! I totally forgot.","Apologizing","“My bad” is slang for “my mistake”."],
+    ["L","Oops! Sorry, sorry!","Apologizing","Quick and casual."],
+    ["L","Don't worry about it. No biggie!","Accepting an apology","“No biggie” = “no big deal”. Informal."],
+    ["L","Ugh, I'm such an idiot. Sorry!","Apologizing","Very informal — friends only."],
+    ["both","That's OK. It happens.","Accepting an apology","Kind and neutral."],
+    ["both","I'm really sorry.","Apologizing","Simple and sincere — fine for both."],
+    ["both","That's all right.","Accepting an apology","Polite and neutral."]
+  ]}),
+scene({id:"sympathy", title:"When Things Go Wrong", place:"💙 school", level:"B1", bgk:"sky",
+  fns:"sympathizing · asking about feelings · reassuring",
+  tags:[{b:"Think 1",u:"U11 · sympathizing with people"},{b:"Think 2",u:"U5 · asking about feelings"},{b:"Think 3",u:"U1 · talking about worrying"},{b:"Think 3",u:"U10 · sympathizing"}],
+  L:F.tyler(), R:P("rivera","teacher","⭐","points","Mr. Rivera appreciates your kindness. +1 point!","That sounded a bit too casual for Mr. Rivera."),
+  items:[
+    ["R","I was sorry to hear you weren't feeling well.","Sympathizing","Polite and caring — good for a teacher."],
+    ["R","I hope everything is all right.","Sympathizing","A polite, formal way to show you care."],
+    ["R","Please let me know if you need anything.","Offering help","“Please let me know…” is formal and kind."],
+    ["R","That must be very difficult for you.","Sympathizing","“That must be…” shows understanding politely."],
+    ["L","Dude, that's rough. You OK?","Sympathizing","“Dude” and “rough” are casual."],
+    ["L","Aw man, that sucks!","Sympathizing","“That sucks” is informal."],
+    ["L","Relax, it's going to be fine.","Reassuring","“Relax” is casual and direct."],
+    ["L","What's wrong? You look a little down.","Asking about feelings","A direct, personal question — better for a friend."],
+    ["both","Is there anything I can do to help?","Offering help","Kind and neutral."],
+    ["both","Don't worry. Everything will be OK.","Reassuring","Neutral and kind."],
+    ["both","How are you feeling?","Asking about feelings","Neutral — works with anyone."]
+  ]}),
+scene({id:"compliments", title:"Compliments", place:"⭐ the school play", level:"B1", bgk:"lilac",
+  fns:"giving compliments · offering encouragement",
+  tags:[{b:"Think 1",u:"U9 · giving compliments"},{b:"Think 2",u:"U1 · offering encouragement"}],
+  L:F.kayla(), R:P("rivera","teacher","⭐","points","Mr. Rivera smiles — thank you!","Mr. Rivera doesn't understand the slang…"),
+  items:[
+    ["R","Your speech was truly inspiring.","Giving compliments","“Truly inspiring” is formal and sincere."],
+    ["R","I really appreciate all your help this year.","Thanking","“I really appreciate…” is polite."],
+    ["R","That was an excellent class. Thank you.","Giving compliments","“Excellent” sounds formal."],
+    ["R","You did a wonderful job organizing the play.","Giving compliments","Polite and warm."],
+    ["L","Girl, you slayed!","Giving compliments","“Slay” is slang for “do something amazingly”."],
+    ["L","Your outfit is fire!","Giving compliments","“Fire” = amazing. Slang!"],
+    ["L","You got this! Go, go, go!","Offering encouragement","Casual and enthusiastic."],
+    ["L","Dude, you were awesome up there!","Giving compliments","“Dude” and “awesome” are informal."],
+    ["both","Well done!","Giving compliments","Neutral — fine for anyone."],
+    ["both","Don't give up. You can do it!","Offering encouragement","Kind and neutral."],
+    ["both","Congratulations!","Congratulating","Always appropriate."]
+  ]}),
+scene({id:"help", title:"Offering Help", place:"🧳 the train station", level:"B1", bgk:"mint",
+  fns:"asking for help · offering help",
+  tags:[{b:"Think 2",u:"U3 · asking for and offering help"}],
+  L:F.tyler(), R:P("brown","stranger","⭐","kindness points","Mr. Brown says: “How kind of you!”","Mr. Brown looks offended. Too casual!"),
+  items:[
+    ["R","Excuse me, would you like some help with your suitcase?","Offering help","“Would you like some help…?” is polite."],
+    ["R","Let me help you with that, sir.","Offering help","“Sir” shows respect."],
+    ["R","Could you possibly help me with this ticket machine?","Asking for help","“Could you possibly…” is very polite."],
+    ["R","Sorry to bother you, but do you know which platform it is?","Asking for help","“Sorry to bother you” is polite with strangers."],
+    ["R","Would you like to sit down? Please, take my seat.","Offering","Polite and kind."],
+    ["L","Give me that bag. I'll carry it.","Offering help","A direct imperative — very casual."],
+    ["L","Hey, help me with this, OK?","Asking for help","“Hey” + a direct imperative = casual."],
+    ["L","Need a hand?","Offering help","A short, casual offer."],
+    ["L","Grab the other side! Ready? Lift!","Asking for help","Short imperatives — casual."],
+    ["both","Thanks, that's really kind of you!","Thanking","Friendly and polite."],
+    ["both","No problem!","Responding to thanks","Neutral and friendly."]
+  ]}),
+scene({id:"invites", title:"Invitations", place:"💌 the party", level:"A2–B1", bgk:"lemon",
+  fns:"inviting · accepting and refusing invitations · offering",
+  tags:[{b:"AEF Starter",u:"PE 5 · inviting and offering"},{b:"Think 1",u:"U10 · inviting people"},{b:"Think 2",u:"U9 · accepting and refusing offers and invitations"},{b:"Think 3",u:"U7 · accepting or refusing invitations"}],
+  L:F.kayla(), R:F.money("boss"),
+  items:[
+    ["R","Would you like to join us for dinner on Saturday?","Inviting","“Would you like to…?” is a polite invitation."],
+    ["R","Thank you for the invitation. I'd love to come.","Accepting an invitation","Polite and warm."],
+    ["R","I'm afraid I can't make it, but thank you for asking.","Refusing politely","“I'm afraid…” + a thank-you = polite refusal."],
+    ["R","That's very kind of you, but I already have plans.","Refusing politely","Thank first, then refuse."],
+    ["R","I'd be delighted to come.","Accepting an invitation","“Delighted” is formal."],
+    ["L","Party at my place Friday. You in?","Inviting","“You in?” is very casual."],
+    ["L","Sure, count me in!","Accepting an invitation","“Count me in” is informal."],
+    ["L","No, I can't. Maybe next time?","Refusing","Short and direct — fine with your cousin. Formal: “I'm afraid I can't make it.”"],
+    ["L","Ugh, I'd love to, but I'm swamped.","Refusing","“Swamped” (= very busy) is informal."],
+    ["both","What time does it start?","Asking for information","Neutral question."],
+    ["both","Thanks for inviting me!","Thanking","Friendly and polite."],
+    ["both","Would you like something to drink?","Offering","Polite — fine for everyone."]
+  ]})
+);
+
+/* tags for the first four scenes */
+Object.assign(SCENES[0],{level:"A2",tags:[{b:"AEF Starter",u:"PE 5 · inviting"},{b:"Think 1",u:"U4 · asking for permission"},{b:"Think 3",u:"U4 · apologizing"}]});
+Object.assign(SCENES[1],{level:"A2",tags:[{b:"Think 1",u:"U4 · asking for permission"},{b:"Think 1",u:"U7 · asking for repetition and clarification"},{b:"Think 2",u:"U2 · asking permission"}]});
+Object.assign(SCENES[2],{level:"A2",tags:[{b:"Think 1",u:"U9 · giving compliments"},{b:"Think 2",u:"U3 · offering help"}]});
+Object.assign(SCENES[3],{level:"A2",tags:[{b:"AEF 2",u:"PE 2 · at the restaurant"},{b:"Think 1",u:"U3 · ordering a meal"}]});
+
+/* ============ PIXEL DOLLS ============ */
+const OUT='#3b1f33';
+function body(s,sh){
+  return [
+    [15,8,10,1,s],[14,9,12,11,s],[15,20,10,2,s],[16,22,8,1,s],
+    [18,23,4,4,s],
+    [11,27,3,25,s],[26,27,3,25,s],
+    [14,26,12,10,s],[15,36,10,8,s],[15,44,10,8,s],
+    [15,52,4,12,s],[21,52,4,12,s],[15,64,3,28,s],[22,64,3,28,s],
+    [13,30,1,20,sh,1],[28,30,1,20,sh,1],[24,11,1,9,sh,1],
+    [18,52,1,12,sh,1],[24,52,1,12,sh,1],[17,64,1,26,sh,1],[24,64,1,26,sh,1],[19,24,2,2,sh,1],[24,36,1,8,sh,1]
+  ];
+}
+const DOLLS={
+  jess:{skin:'#f8d2b2',shade:'#e6ad88',eye:'#3aa0ff',lip:'#ff4f8b',brow:'#c9973a',
+    parts(){const H='#f7d774',HL='#fff3b8',HD='#d9a93f',P='#ff6fb5',PL='#ffb3d6',J='#6b93d6',JD='#4a6fb0',JL='#9bbcef';
+      return [[12,10,16,32,H],[13,40,14,3,HD],...body(this.skin,this.shade),[19,40,1,1,this.shade,1],
+        [14,26,12,9,P],[15,27,2,6,PL,1],[18,29,1,1,'#fff',1],[21,29,1,1,'#fff',1],[18,30,4,1,'#fff',1],[19,31,2,1,'#fff',1],
+        [15,45,10,7,J],[15,52,4,12,J],[21,52,4,12,J],[15,64,3,14,J],[22,64,3,14,J],[14,78,5,13,J],[21,78,5,13,J],
+        [15,45,10,1,'#ffe14d',1],[16,45,1,1,'#fff',1],[21,45,1,1,'#fff',1],
+        [18,52,1,12,JD,1],[24,52,1,12,JD,1],[17,64,1,14,JD,1],[24,64,1,14,JD,1],[18,78,1,13,JD,1],[25,78,1,13,JD,1],
+        [16,54,1,22,JL,1],[22,54,1,22,JL,1],
+        [14,91,5,3,'#fff'],[21,91,5,3,'#fff'],[14,94,5,2,P],[21,94,5,2,P],
+        [15,6,10,2,H],[14,8,12,3,H],[13,9,3,16,H],[24,9,3,16,H],[16,7,3,1,HL,1],[14,11,1,11,HL,1],[25,11,1,9,HL,1],[20,8,3,1,HL,1],
+        [15,8,2,1,'#6fe3ff',1],[16,9,1,1,'#6fe3ff',1],[23,8,2,1,'#c38cff',1],[23,9,1,1,'#c38cff',1]];}},
+  you:{skin:'#c98f68',shade:'#a8704d',eye:'#3a9a5a',lip:'#d0607a',brow:'#3a2014',
+    parts(){const H='#4b2a1a',HL='#7a4a2e',L='#b98cff',LL='#d8c0ff',D='#4f7bd1',DD='#3a5ea8',B='#fafaff',BD='#d6d6ea';
+      return [[12,10,16,26,H],[13,34,14,3,'#3a2014'],...body(this.skin,this.shade),[19,40,1,1,this.shade,1],
+        [14,26,12,10,L],[10,27,4,5,L],[26,27,4,5,L],[15,27,2,7,LL,1],[19,29,2,2,'#fff6a0',1],[18,30,1,1,'#fff6a0',1],[21,30,1,1,'#fff6a0',1],
+        [14,44,12,7,D],[13,50,14,6,D],[24,44,1,12,DD,1],[14,44,12,1,'#ff5fa2',1],
+        [15,70,3,21,B],[22,70,3,21,B],[14,90,5,4,B],[21,90,5,4,B],[17,70,1,20,BD,1],[24,70,1,20,BD,1],[14,93,5,2,'#ff5fa2',1],[21,93,5,2,'#ff5fa2',1],
+        [15,6,10,2,H],[14,8,12,3,H],[13,9,3,14,H],[24,9,3,14,H],[16,7,4,1,HL,1],[14,11,1,10,HL,1],[25,11,1,8,HL,1],[14,8,12,1,'#ff5fa2',1]];}},
+  grant:{skin:'#f2c4a2',shade:'#d9a27c',eye:'#5a3a22',lip:'#c42a45',brow:'#2a1c1c',glasses:'#1a1020',
+    parts(){const H='#2e2026',HL='#5a4450',BL='#2c3e66',BLD='#1e2c4a',BLL='#41598c',SK='#22314f';
+      return [...body(this.skin,this.shade),
+        [10,27,4,22,BL],[26,27,4,22,BL],[13,26,14,21,BL],[11,28,1,19,BLL,1],[27,28,1,19,BLL,1],
+        [18,26,4,6,'#fff',1],[19,32,2,3,'#fff',1],[17,27,1,8,BLD,1],[22,27,1,8,BLD,1],[16,35,2,1,BLD,1],[22,35,2,1,BLD,1],
+        [19,38,1,1,'#e8c35a',1],[19,42,1,1,'#e8c35a',1],[15,30,2,1,'#e8c35a',1],
+        [15,47,10,18,SK],[23,47,1,18,BLD,1],[15,47,10,1,BLD,1],
+        [15,89,4,3,'#1d1d2b'],[21,89,4,3,'#1d1d2b'],[15,92,1,3,'#1d1d2b',1],[24,92,1,3,'#1d1d2b',1],
+        [16,2,8,5,H],[15,6,10,2,H],[14,8,12,3,H],[13,9,2,9,H],[25,9,2,9,H],[17,3,3,1,HL,1],[16,7,4,1,HL,1],[14,10,1,6,HL,1],
+        [13,18,1,1,'#fff',1],[26,18,1,1,'#fff',1]];}},
+  tyler:{skin:'#f3cfb3',shade:'#dcaa88',eye:'#3a6ea8',lip:'#c07a6a',brow:'#6a4a2a',lashes:false,blush:false,
+    parts(){const H='#7a5230',C='#e2483a',CD='#a82828',T='#3b6fd6',TL='#6f97ea',J='#5a78b0',JD='#41598c',S='#ffffff';
+      return [...body(this.skin,this.shade),
+        [12,26,16,18,T],[9,27,5,9,T],[26,27,5,9,T],[13,28,2,14,TL,1],[12,31,16,2,'#fff',1],[9,31,5,2,'#fff',1],[26,31,5,2,'#fff',1],
+        [14,44,12,8,J],[14,52,5,38,J],[21,52,5,38,J],[18,52,1,38,JD,1],[25,52,1,38,JD,1],[15,60,1,8,JD,1],[22,60,1,8,JD,1],
+        [24,46,1,7,'#c8c8d8',1],
+        [13,90,6,4,S],[21,90,6,4,S],[13,91,6,1,C,1],[21,91,6,1,C,1],[13,93,6,1,'#c8c8d8',1],[21,93,6,1,'#c8c8d8',1],
+        [13,9,2,7,H],[25,9,2,7,H],[15,10,10,1,H],
+        [15,4,10,4,C],[14,7,12,3,C],[14,9,12,1,CD,1],[16,5,3,1,'#ff7a6a',1],[22,2,3,3,C]];}},
+  rivera:{skin:'#c68b62',shade:'#a56f4b',eye:'#4a2f1e',lip:'#9a5a4a',brow:'#2a1a12',lashes:false,blush:false,mustache:'#2a1a12',
+    parts(){const H='#2a1a12',HG='#6a6a72',SH='#bcd6f5',V='#d9a63a',VD='#b8862a',K='#b89a6a',KD='#9a7f52';
+      return [...body(this.skin,this.shade),
+        [10,27,4,22,SH],[26,27,4,22,SH],[13,26,14,20,SH],[14,26,12,20,V],[18,26,4,5,SH,1],[19,31,2,2,SH,1],
+        [19,27,2,9,'#c8384a',1],[19,36,2,1,'#9a2030',1],[24,28,1,17,VD,1],[17,38,1,1,VD,1],[17,42,1,1,VD,1],
+        [15,46,10,6,K],[15,52,4,38,K],[21,52,4,38,K],[18,52,1,38,KD,1],[24,52,1,38,KD,1],
+        [14,90,5,3,'#6a3e24'],[21,90,5,3,'#6a3e24'],
+        [26,42,5,8,'#5b84c9'],[27,43,3,6,'#fff',1],
+        [15,6,10,2,H],[14,8,12,2,H],[13,9,2,6,H],[25,9,2,6,H],[13,12,1,3,HG,1],[26,12,1,3,HG,1]];}},
+  kayla:{skin:'#8d5a3c',shade:'#6e4229',eye:'#3a2414',lip:'#c0566e',brow:'#1f120b',
+    parts(){const H='#1f120b',HL='#4a2e1e',T='#a6e22e',TL='#d2f58a',P='#ff8fc8',PD='#e06aa8';
+      return [...body(this.skin,this.shade),
+        [14,28,12,7,T],[15,29,2,5,TL,1],[18,24,4,1,'#1a1020',1],[19,25,2,1,'#ff5fa2',1],[19,40,1,1,'#b0b0c0',1],
+        [15,46,10,6,P],[14,52,5,38,P],[21,52,5,38,P],[18,52,1,38,PD,1],[25,52,1,38,PD,1],
+        [14,62,2,5,PD,1],[24,62,2,5,PD,1],[15,46,10,1,'#fff',1],
+        [13,89,6,5,'#ffffff'],[21,89,6,5,'#ffffff'],[13,93,6,2,'#b98cff',1],[21,93,6,2,'#b98cff',1],
+        [11,2,6,6,H],[23,2,6,6,H],[12,3,2,1,HL,1],[24,3,2,1,HL,1],
+        [15,6,10,2,H],[14,8,12,3,H],[13,9,3,12,H],[24,9,3,12,H],[16,7,3,1,HL,1],[14,11,1,8,HL,1],
+        [17,8,2,1,'#ffe14d',1],[22,8,2,1,'#6fe3ff',1]];}},
+  rose:{skin:'#f5d6c0',shade:'#ddb39a',eye:'#5a7a9a',lip:'#d06a80',brow:'#b8b8c4',glasses:'#c9a24a',
+    parts(){const H='#e8e8f0',HS='#c4c4d4',C='#f29ac2',CD='#d877a6',SK='#9c7fd1',SKD='#7f63b8';
+      return [...body(this.skin,this.shade),
+        [10,27,4,22,C],[26,27,4,22,C],[13,26,14,22,C],[18,26,4,7,'#fff',1],[17,27,1,15,CD,1],[22,27,1,15,CD,1],
+        [17,26,1,1,'#fff',1],[18,27,1,1,'#fff',1],[19,28,2,1,'#fff',1],[21,27,1,1,'#fff',1],[22,26,1,1,'#fff',1],
+        [16,36,1,1,'#fff',1],[16,40,1,1,'#fff',1],
+        [14,48,12,4,SK],[13,52,14,32,SK],[24,52,2,32,SKD,1],[15,56,1,1,'#ffd1e8',1],[20,62,1,1,'#ffd1e8',1],[16,70,1,1,'#ffd1e8',1],[22,76,1,1,'#ffd1e8',1],[18,80,1,1,'#ffd1e8',1],
+        [14,89,5,3,'#7a4a3a'],[21,89,5,3,'#7a4a3a'],
+        [16,2,8,5,H],[15,6,10,2,H],[14,8,12,3,H],[13,9,3,9,H],[24,9,3,9,H],
+        [17,3,1,1,HS,1],[20,4,1,1,HS,1],[22,3,1,1,HS,1],[16,8,1,1,HS,1],[19,9,1,1,HS,1],[22,8,1,1,HS,1],[14,12,1,1,HS,1],[25,13,1,1,HS,1]];}},
+  leo:{skin:'#e8b894',shade:'#c99470',eye:'#2e5a3a',lip:'#b0705a',brow:'#1a1210',lashes:false,blush:false,
+    parts(){const H='#1a1210',HL='#4a3a34',W='#ffffff',WD='#dcdcea',V='#1d1d2b',A='#f4f4f8',AD='#d6d6e4';
+      return [...body(this.skin,this.shade),
+        [10,27,4,22,W],[26,27,4,22,W],[13,26,14,20,W],[11,29,1,18,WD,1],[28,29,1,18,WD,1],
+        [14,29,12,17,V],[18,29,4,4,W,1],[19,33,2,2,W,1],[19,38,1,1,'#c9a24a',1],[19,42,1,1,'#c9a24a',1],
+        [17,26,6,2,'#c8384a',1],[19,26,2,2,'#9a2030',1],
+        [15,46,10,6,V],[15,52,4,38,V],[21,52,4,38,V],
+        [14,46,12,30,A],[14,46,12,1,AD,1],[24,47,1,29,AD,1],[18,55,4,4,AD,1],
+        [14,90,5,3,'#111118'],[21,90,5,3,'#111118'],
+        [26,43,4,6,'#fff6a0'],[27,44,2,1,'#b0a050',1],[27,46,2,1,'#b0a050',1],
+        [15,6,10,2,H],[14,8,12,2,H],[13,9,2,4,H],[25,9,2,4,H],[16,7,6,1,HL,1]];}},
+  nina:{skin:'#f0c09a',shade:'#d39c76',eye:'#3a7a6a',lip:'#d0506a',brow:'#8a3a1a',
+    parts(){const H='#b5532a',HL='#d9774a',B='#8c2346',BD='#6a1a34',BL='#a8385c',P='#2a2a36';
+      return [[25,10,4,16,H],[26,24,3,4,H],
+        ...body(this.skin,this.shade),
+        [10,27,4,22,B],[26,27,4,22,B],[13,26,14,21,B],[11,28,1,19,BL,1],[27,28,1,19,BL,1],
+        [18,26,4,6,'#fff',1],[19,32,2,2,'#fff',1],[17,27,1,8,BD,1],[22,27,1,8,BD,1],
+        [14,31,3,2,'#e8c35a',1],[19,39,1,1,'#e8c35a',1],[19,43,1,1,'#e8c35a',1],[18,26,4,1,'#4fc3c3',1],
+        [15,47,10,5,P],[15,52,4,38,P],[21,52,4,38,P],[18,52,1,38,'#1a1a24',1],[24,52,1,38,'#1a1a24',1],
+        [14,90,5,3,'#1d1d2b'],[21,90,5,3,'#1d1d2b'],
+        [15,6,10,2,H],[14,8,12,3,H],[13,9,2,8,H],[25,9,2,6,H],[16,7,5,1,HL,1],[14,11,1,5,HL,1],[25,9,2,2,'#4fc3c3',1]];}},
+  kim:{skin:'#f1d0b0',shade:'#d6ad8a',eye:'#2a1a12',lip:'#c86a7a',brow:'#1a1210',
+    parts(){const H='#15101a',HL='#3a3046',W='#ffffff',WD='#dcdcea',S='#5aa0d0',SD='#3f82b2',G='#6a6a7a';
+      return [...body(this.skin,this.shade),
+        [15,46,10,6,S],[15,52,4,38,S],[21,52,4,38,S],[18,52,1,38,SD,1],[24,52,1,38,SD,1],
+        [10,27,4,22,W],[26,27,4,22,W],[13,26,14,40,W],[11,29,1,18,WD,1],[28,29,1,18,WD,1],
+        [18,26,4,6,S,1],[17,27,1,10,WD,1],[22,27,1,10,WD,1],[24,30,1,35,WD,1],[19,46,1,20,WD,1],
+        [16,27,1,8,G,1],[23,27,1,8,G,1],[17,35,1,1,G,1],[22,35,1,1,G,1],[18,36,4,1,G,1],[19,37,2,2,'#c0c0d0',1],
+        [21,40,3,3,WD,1],[22,39,1,2,'#3a6ed6',1],[15,31,3,1,'#5aa0d0',1],
+        [14,90,5,3,'#f4f4f8'],[21,90,5,3,'#f4f4f8'],
+        [14,6,12,4,H],[13,8,14,4,H],[13,10,3,12,H],[24,10,3,12,H],[16,7,6,1,HL,1],[14,12,1,8,HL,1]];}},
+  brown:{skin:'#e9c1a0',shade:'#cc9f7e',eye:'#3a4a5a',lip:'#a8786a',brow:'#d8d8e0',lashes:false,blush:false,mustache:'#cfcfd8',
+    parts(){const T='#c9a46a',TD='#a8854a',TL='#e0c08a',HAT='#6a4a32',P='#5a4a3a',GR='#cfcfd8';
+      return [...body(this.skin,this.shade),
+        [15,52,4,38,P],[21,52,4,38,P],[18,52,1,38,'#43372b',1],[24,52,1,38,'#43372b',1],
+        [10,27,4,22,T],[26,27,4,22,T],[13,26,14,40,T],[11,29,1,18,TL,1],[27,29,1,18,TD,1],
+        [16,25,8,2,'#b03040',1],[17,26,1,1,'#f0d0d8',1],[21,26,1,1,'#f0d0d8',1],
+        [17,28,1,10,TD,1],[22,28,1,10,TD,1],[13,44,14,1,TD,1],[16,40,1,1,'#5a3a22',1],[23,40,1,1,'#5a3a22',1],[16,50,1,1,'#5a3a22',1],[23,50,1,1,'#5a3a22',1],[19,45,1,21,TD,1],
+        [14,90,5,3,'#3a2416'],[21,90,5,3,'#3a2416'],
+        [29,49,1,43,'#5a3a22'],[27,48,3,1,'#5a3a22'],
+        [13,9,2,6,GR],[25,9,2,6,GR],
+        [15,2,10,5,HAT],[12,7,16,2,HAT],[15,6,10,1,'#2a1a12',1],[16,3,3,1,'#8a6a4a',1]];}}
+};
+
+function drawDoll(cv,key,mood){
+  const d=DOLLS[key], c=cv.getContext('2d'), parts=d.parts();
+  c.clearRect(0,0,40,100);
+  c.fillStyle=OUT;
+  for(const p of parts) if(!p[5]) c.fillRect(p[0]-1,p[1]-1,p[2]+2,p[3]+2);
+  for(const p of parts){c.fillStyle=p[4];c.fillRect(p[0],p[1],p[2],p[3]);}
+  const P=(x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(x,y,w,h)};
+  P(16,14,3,2,'#fff');P(17,14,2,2,d.eye);P(18,15,1,1,'#1a1020');
+  P(21,14,3,2,'#fff');P(21,14,2,2,d.eye);P(21,15,1,1,'#1a1020');
+  P(15,13,4,1,OUT);P(21,13,4,1,OUT);
+  if(d.lashes!==false){P(15,12,1,1,OUT);P(24,12,1,1,OUT);}
+  if(mood==='sad'){P(16,11,2,1,d.brow);P(18,12,1,1,d.brow);P(21,12,1,1,d.brow);P(22,11,2,1,d.brow);}
+  else{P(16,11,3,1,d.brow);P(21,11,3,1,d.brow);}
+  P(19,17,2,1,d.shade);
+  if(d.blush!==false){P(16,17,2,1,'#f7a1b5');P(22,17,2,1,'#f7a1b5');}
+  if(mood==='happy'){P(17,18,1,1,d.lip);P(22,18,1,1,d.lip);P(18,19,4,1,'#fff');P(18,20,4,1,d.lip);}
+  else if(mood==='sad'){P(18,19,4,1,d.lip);P(17,20,1,1,d.lip);P(22,20,1,1,d.lip);}
+  else P(18,19,4,1,d.lip);
+  if(d.mustache){P(17,18,6,1,d.mustache);}
+  if(d.glasses){const g=d.glasses;
+    P(15,13,5,1,g);P(15,16,5,1,g);P(15,13,1,4,g);P(19,13,1,4,g);
+    P(20,13,5,1,g);P(20,16,5,1,g);P(20,13,1,4,g);P(24,13,1,4,g);}
+}
+
+/* ============ SPARKLES ============ */
+(function(){
+  const st=document.getElementById('stage');
+  [[4,30],[93,22],[10,62],[88,58],[48,4],[30,40],[70,38],[96,82],[2,85]].forEach((p,k)=>{
+    const s=document.createElement('span');s.className='spark';s.textContent=k%2?'✦':'✧';
+    s.style.left=p[0]+'%';s.style.top=p[1]+'%';s.style.animationDelay=(k*0.37)+'s';st.appendChild(s);});
+})();
+
+/* ============ GAME ============ */
+const $=id=>document.getElementById(id);
+let timer=null, S, q=[], i=0, score={}, correct=0, mistakes=[], locked=false;
+
+const fmt=(ch,n)=>ch.money?((n<0?"−$":"$")+Math.abs(n).toLocaleString('en-US')):String(n);
+const gainTxt=ch=>ch.money?`+$${ch.gain} 💰`:`+${ch.gain} ${ch.icon}`;
+const lossTxt=ch=>ch.money?`−$${ch.loss} 💸`:`−${ch.loss} ${ch.icon}`;
+const whoTxt=a=>a==='both'?'both ✦':`${S[a].name} (${S[a].role})`;
+function shuffle(a){for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;}
+
+const BOOKS=["All","AEF Starter","AEF 2","AEF 3","AEF 4","Think 1","Think 2","Think 3"];
+let book="All";
+function buildChips(){
+  const c=$('chips'); c.innerHTML='';
+  BOOKS.forEach(bk=>{const b=document.createElement('button');b.className='chip px'+(bk===book?' on':'');b.textContent=bk;
+    b.addEventListener('click',()=>{book=bk;buildChips();buildMenu();});c.appendChild(b);});
+}
+function buildMenu(){
+  const box=$('levels'); box.innerHTML='';
+  const list=SCENES.map((sc,k)=>[sc,k]).filter(([sc])=>book==="All"||(sc.tags||[]).some(t=>t.b===book));
+  if(!list.length){box.innerHTML='<p class="empty">No scenes for this book yet.</p>';return;}
+  list.forEach(([sc,k])=>{
+    const b=document.createElement('button'); b.className='level px';
+    const tags=(sc.tags||[]).map(t=>`<span class="${t.b===book?'hl':''}">${t.b} · ${t.u}</span>`).join('');
+    b.innerHTML=`<h3>${sc.title}</h3>
+      <div class="duo"><canvas class="doll" width="40" height="100"></canvas><span class="vs">vs</span><canvas class="doll" width="40" height="100"></canvas></div>
+      <div class="names"><span style="color:${sc.L.color}">${sc.L.name} (${sc.L.role})</span> · <span style="color:${sc.R.color}">${sc.R.name} (${sc.R.role})</span></div>
+      <div class="fns">${sc.fns}</div>
+      <div class="rw">${sc.L.icon} ${sc.L.unit} · ${sc.R.icon} ${sc.R.unit} · ${sc.items.length} sentences</div>
+      <span class="go">PLAY ▶</span>`;
+    const cv=b.querySelectorAll('canvas'); drawDoll(cv[0],sc.L.doll,'happy'); drawDoll(cv[1],sc.R.doll,null);
+    b.addEventListener('click',()=>start(k));
+    box.appendChild(b);
+  });
+}
+
+function showMenu(){
+  clearTimeout(timer); timer=null;
+  $('menu').classList.remove('hidden'); $('game').classList.add('hidden'); $('endScreen').classList.add('hidden'); $('hud').classList.add('hidden');
+  window.scrollTo(0,0);
+}
+
+function start(k){
+  if(typeof k==='number') S=SCENES[k];
+  clearTimeout(timer); timer=null;
+  q=shuffle(S.items.slice()); i=0; correct=0; mistakes=[];
+  document.querySelectorAll('.delta').forEach(d=>d.remove());
+  score={L:S.L.start,R:S.R.start};
+  document.documentElement.style.setProperty('--cL',S.L.color);
+  document.documentElement.style.setProperty('--cR',S.R.color);
+  $('stage').style.setProperty('--stagebg',S.bg); $('stage').style.setProperty('--floor',S.floor);
+  $('place').textContent=S.place;
+  $('tagL').textContent=`${S.L.name} ♡ ${S.L.role}`; $('tagL').style.background=S.L.color;
+  $('tagR').textContent=`${S.R.name} ♛ ${S.R.role}`; $('tagR').style.background=S.R.color;
+  $('btnL').innerHTML=`♡ To ${S.L.name}<small>key 1</small>`;
+  $('btnR').innerHTML=`♛ To ${S.R.name}<small>key 3</small>`;
+  $('menu').classList.add('hidden'); $('endScreen').classList.add('hidden'); $('game').classList.remove('hidden'); $('hud').classList.remove('hidden');
+  window.scrollTo(0,0);
+  updateHud(); show();
+}
+
+function updateHud(){
+  $('pillL').innerHTML=`${S.L.icon} ${fmt(S.L,score.L)} <span class="who">${S.L.name}</span>`;
+  $('pillR').innerHTML=`${S.R.icon} ${fmt(S.R,score.R)} <span class="who">${S.R.name}</span>`;
+  $('round').textContent=Math.min(i+1,q.length)+"/"+q.length;
+  $('bar').style.width=(i/q.length*100)+"%";
+}
+function mood(id,m){
+  const el=$(id), key=id==='you'?'you':S[id].doll; drawDoll(el,key,m);
+  el.classList.remove('happy','sad'); void el.offsetWidth; if(m) el.classList.add(m);
+}
+function pulse(side,good){const el=$('pill'+side);el.classList.remove('pulse-good','pulse-bad');void el.offsetWidth;el.classList.add(good?'pulse-good':'pulse-bad');}
+function floatText(side,text,good){const s=document.createElement('div');s.className='delta '+(good?'g':'r');s.textContent=text;$(side+'Box').appendChild(s);setTimeout(()=>s.remove(),1700);}
+function win(side){ score[side]+=S[side].gain; mood(side,'happy'); floatText(side,gainTxt(S[side]),true); pulse(side,true); }
+function lose(side){ score[side]=S[side].money?score[side]-S[side].loss:Math.max(0,score[side]-S[side].loss); mood(side,'sad'); floatText(side,lossTxt(S[side]),false); pulse(side,false); }
+
+function show(){
+  locked=false;
+  const it=q[i], b=$('bubble');
+  b.textContent="“"+it.t+"”"; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+  ['L','R','you'].forEach(id=>mood(id,null));
+  document.querySelectorAll('.choices .btn').forEach(x=>{x.disabled=false;x.classList.remove('picked')});
+  $('feedback').className='feedback px';
+  updateHud();
+}
+
+function choose(c){
+  if(locked) return; locked=true;
+  const it=q[i], other={L:'R',R:'L'}; let verdict, cls;
+  document.querySelectorAll('.choices .btn').forEach(x=>{x.disabled=true;if(x.dataset.c===c)x.classList.add('picked')});
+  if(it.a==='both'){
+    if(c==='both'){ win('L'); win('R'); mood('you','happy'); correct++; verdict="✦ Perfect! Everybody's happy!"; cls='good'; }
+    else { win(c); verdict=`☆ Partly right — ${S[c].name} liked it, but this one works for ${S[other[c]].name} too!`; cls='mid'; }
+  } else if(c===it.a){
+    win(c); mood('you','happy'); correct++; verdict="♡ "+S[c].good; cls='good';
+  } else {
+    const hurt=other[it.a]; lose(hurt); mood('you','sad'); verdict="✖ "+S[hurt].bad; cls='bad';
+  }
+  if(c!==it.a) mistakes.push({it,c});
+  $('verdict').textContent=verdict;
+  $('tag').textContent="function: "+it.f;
+  $('answer').textContent="Best answer: "+whoTxt(it.a);
+  $('expl').textContent=it.e;
+  $('nextBtn').textContent=(i===q.length-1)?"See results ★":"Next ➜";
+  $('feedback').className='feedback px show '+cls;
+  const auto=cls==='good';
+  $('nextBtn').classList.toggle('hidden',auto);
+  const a=$('auto'); a.classList.toggle('hidden',!auto);
+  if(auto){ a.innerHTML='<div></div>'; clearTimeout(timer); timer=setTimeout(next,2800); }
+  updateHud();
+}
+
+function next(){ if(!locked) return; clearTimeout(timer); timer=null; i++; if(i>=q.length) return finish(); show(); }
+
+function finish(){
+  $('bar').style.width="100%";
+  $('game').classList.add('hidden'); $('endScreen').classList.remove('hidden');
+  const n=q.length, r=correct/n; let title,text,m;
+  if(r>=.9){title="★ Code-Switching Queen ★";text="You know exactly how to talk to everyone!";m='happy';}
+  else if(r>=.7){title="♡ Smooth Talker ♡";text="Very good! Just a few awkward moments.";m='happy';}
+  else if(r>=.5){title="✦ Getting There ✦";text="Not bad! Check the sentences below and try again.";m=null;}
+  else {title="✖ Awkward Moments ✖";text=`${S.L.name} and ${S.R.name} are a little confused… Let's practice again!`;m='sad';}
+  $('endTitle').textContent=title; $('endText').textContent=text;
+  drawDoll($('eL'),S.L.doll,m); drawDoll($('eY'),'you',m); drawDoll($('eR'),S.R.doll,m);
+  $('stats').innerHTML=`<div class="stat px">Correct<b>${correct}/${n}</b></div>
+    <div class="stat px">${S.L.name}'s ${S.L.unit}<b>${S.L.icon} ${fmt(S.L,score.L)}</b></div>
+    <div class="stat px">${S.R.name}'s ${S.R.unit}<b>${S.R.icon} ${fmt(S.R,score.R)}</b></div>`;
+  $('review').innerHTML=mistakes.length
+    ?"<h3>let's review ✎</h3><ul>"+mistakes.map(x=>`<li>“${x.it.t}”<br><span class="who">→ ${whoTxt(x.it.a)}</span> <span style="color:var(--muted)">(you chose ${whoTxt(x.c)}) · ${x.it.f}</span></li>`).join("")+"</ul>"
+    :"<h3>★ No mistakes at all! ★</h3>";
+  window.scrollTo(0,0);
+}
+
+document.querySelectorAll('.choices .btn').forEach(b=>b.addEventListener('click',()=>choose(b.dataset.c)));
+$('nextBtn').addEventListener('click',next);
+$('againBtn').addEventListener('click',()=>start());
+$('menuBtn').addEventListener('click',showMenu);
+$('home').addEventListener('click',showMenu);
+document.addEventListener('keydown',e=>{
+  if($('game').classList.contains('hidden')) return;
+  if(e.key==='1') choose('L'); else if(e.key==='2') choose('both'); else if(e.key==='3') choose('R');
+  else if(e.key==='Enter'){e.preventDefault();next();}
+});
+buildMenu();
+</script>
+</body>
+</html>
