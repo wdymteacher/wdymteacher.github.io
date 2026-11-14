@@ -78,6 +78,10 @@
   .empty{color:var(--muted);font-size:.9rem;font-style:italic}
   @keyframes pop{from{opacity:0;transform:translateY(6px)}}
   .solve{margin-top:16px;text-align:center}
+  .qbtn.hint{border-color:var(--candle);background:rgba(247,215,116,.12);outline:3px dashed var(--candle);outline-offset:3px;animation:hintpulse 1.2s ease-in-out infinite}
+  @keyframes hintpulse{50%{outline-color:transparent}}
+  .msg.hintmsg{font-weight:500;line-height:1.5;margin-top:12px}
+  @media (prefers-reduced-motion:reduce){.qbtn.hint{animation:none}}
   .opts{display:flex;flex-direction:column;gap:10px;margin-top:12px}
   .opt{text-align:left;font:inherit;cursor:pointer;background:var(--bg2);border:2px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--text)}
   .opt:hover{border-color:var(--candle)}
@@ -167,6 +171,7 @@ const STORIES=[
   teaser:"A woman came home, saw that the floor was wet, and ran out of the house.",
   solution:"While she was out, her big aquarium broke. There was water all over the floor and her fish were dying. She ran to her neighbor's house to borrow a bucket of water to save them.",
   wrong:["There was a flood in the city and she was scared.","Someone broke into her house and was still inside."],
+  whyNot:["It didn't rain that day.","Nobody was in the house."], keys:[1,4,9],
   qs:[["was","the","woman","scared","N"],["was","there","an","animal","in","the","house","Y"],["was","someone","in","the","house","N"],["did","it","rain","that","day","N"],
       ["did","something","break","Y"],["was","the","animal","dangerous","N"],["did","she","want","to","help","someone","Y"],["did","she","call","the","police","N"],
       ["was","the","woman","wearing","shoes","I"],["did","she","go","to","a","neighbor's","house","Y"]]},
@@ -174,6 +179,7 @@ const STORIES=[
   teaser:"The pianist played beautifully. When she finished, nobody clapped — and she was happy.",
   solution:"She was playing at a funeral. Clapping would be disrespectful. After the ceremony, the family hugged her and thanked her for the beautiful music.",
   wrong:["The audience was asleep and she didn't care.","She was playing alone in an empty theater at night."],
+  whyNot:["People were listening, and they liked the music.","She wasn't in a theater, and people were listening."], keys:[1,4,9],
   qs:[["was","she","in","a","theater","N"],["did","someone","die","Y"],["were","there","people","listening","Y"],["did","the","people","like","the","music","Y"],
       ["was","it","a","sad","day","Y"],["was","the","piano","expensive","I"],["were","the","people","deaf","N"],["did","she","play","a","happy","song","N"],
       ["was","she","part","of","the","family","N"],["did","the","family","thank","her","Y"]]},
@@ -181,6 +187,7 @@ const STORIES=[
   teaser:"There were footprints in the snow going into the house. No footprints came out. The house was empty.",
   solution:"The man walked out of the house backwards, stepping in his own footprints. He wanted to scare his roommate and make him think someone was hiding inside.",
   wrong:["The man was a ghost and disappeared.","He left through the chimney with a ladder."],
+  whyNot:["He wasn't a ghost.","He used the door."], keys:[5,4,7],
   qs:[["was","the","man","a","ghost","N"],["did","he","leave","the","house","Y"],["did","he","use","the","door","Y"],["did","he","fly","N"],
       ["was","it","a","joke","Y"],["did","he","walk","backwards","Y"],["was","it","very","cold","I"],["did","he","want","to","scare","someone","Y"],
       ["was","there","another","person","in","the","story","Y"],["did","someone","die","N"]]}
@@ -196,7 +203,7 @@ $('stories').innerHTML=STORIES.map((s,k)=>`<button class="story" data-k="${k}"><
 document.querySelectorAll('.story').forEach(b=>b.onclick=()=>open(+b.dataset.k));
 
 function open(k){
-  S=STORIES[k]; done=[]; cur=null;
+  S=STORIES[k]; done=[]; cur=null; tries=0; hintI=null;
   S.items=S.qs.map((q,i)=>({i,words:q.slice(0,-1),a:q[q.length-1]}));
   $('menu').classList.add('hidden'); $('game').classList.remove('hidden'); $('count').classList.remove('hidden');
   $('sTitle').textContent='Story '+(k+1)+' · '+S.title; $('teaser').textContent=S.teaser;
@@ -212,6 +219,7 @@ function renderDeck(){
   $('deck').innerHTML = left.length ? left.map(x=>`<button class="qbtn" data-i="${x.i}">${shuffle(x.words).map(w=>`<span class="w">${w}</span>`).join('')}<span class="qm">?</span></button>`).join('')
     : '<p class="empty">You asked all the questions. Can you solve the mystery?</p>';
   document.querySelectorAll('.qbtn').forEach(b=>b.onclick=()=>pick(+b.dataset.i));
+  if(typeof hintI==='number'){ const h=document.querySelector(`.qbtn[data-i="${hintI}"]`); if(h) h.classList.add('hint'); else hintI=null; }
 }
 function renderNotes(){
   $('notebook').innerHTML = done.length ? done.map(x=> x.custom
@@ -279,16 +287,52 @@ $('ownAsk').onclick=ownAsk;
 $('ownQ').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); ownAsk(); } });
 $('clear').onclick=()=>{ pool=pool.concat(built); built=[]; drawBuilder(); };
 $('cancel').onclick=()=>{ cur=null; $('builder').classList.add('hidden'); };
+let tries=0, hintI=null;
+const qText=x=>cap(x.words.join(' '))+'?';
+function hint(){
+  const keys=S.keys.map(k=>S.items[k]);
+  const unasked=keys.find(x=>!done.includes(x));
+  document.querySelectorAll('.qbtn.hint').forEach(b=>b.classList.remove('hint')); hintI=null;
+  if(unasked){
+    hintI=unasked.i; const b=document.querySelector(`.qbtn[data-i="${unasked.i}"]`); if(b) b.classList.add('hint');
+    return `There's an important question you haven't asked yet. Try the <b>highlighted</b> one 👀`;
+  }
+  const k=keys.find(x=>x.a==='Y')||keys[0];
+  return `Look at your notebook again: <b>${qText(k)}</b> → ${WORD[k.a]}`;
+}
+function reveal(){
+  hintI=null; setDoll('neutral'); speak(null); $('solveBtn').classList.add('hidden');
+  document.querySelectorAll('.qbtn.hint').forEach(b=>b.classList.remove('hint'));
+  const keys=S.keys.map(k=>S.items[k]);
+  $('solveBox').innerHTML=`<div class="reveal"><h3 class="fat">Here's what happened…</h3><p>${S.solution}</p>
+    <p class="lbl" style="margin-top:12px">Questions that solve the mystery:</p>
+    <div class="notebook">${keys.map(x=>`<div class="note ${CLS[x.a]}"><span>${qText(x)}</span><b>${WORD[x.a]}</b></div>`).join('')}</div>
+    <p class="muted">Next time, ask these first! 🕯️</p>
+    <div class="row"><button class="btn main" id="back">Another story</button></div></div>`;
+  $('back').onclick=goMenu;
+}
 $('solveBtn').onclick=()=>{
   if(done.length<3){ $('solveBox').innerHTML='<p class="empty" style="margin-top:10px">Ask at least 3 questions first!</p>'; return; }
+  tries=0;
   const opts=shuffle([S.solution,...S.wrong]);
-  $('solveBox').innerHTML='<p class="lbl" style="margin-top:14px">What happened?</p><div class="opts">'+opts.map(o=>`<button class="opt" data-ok="${o===S.solution}">${o}</button>`).join('')+'</div>';
+  $('solveBox').innerHTML='<p class="lbl" style="margin-top:14px">What happened?</p><div class="opts">'+opts.map(o=>`<button class="opt" data-ok="${o===S.solution}" data-w="${S.wrong.indexOf(o)}">${o}</button>`).join('')+'</div><div class="msg" id="solveMsg"></div>';
   document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
     if(b.dataset.ok==='true'){
       setDoll('happy','hop'); speak(null); $('solveBtn').classList.add('hidden');
-      $('solveBox').innerHTML=`<div class="reveal"><h3 class="fat">You solved it!</h3><p>${S.solution}</p><p class="muted">You asked ${done.length} question${done.length>1?'s':''}.</p><div class="row"><button class="btn main" id="back">Another story</button></div></div>`;
+      hintI=null; document.querySelectorAll('.qbtn.hint').forEach(x=>x.classList.remove('hint'));
+      $('solveBox').innerHTML=`<div class="reveal"><h3 class="fat">You solved it!</h3><p>${S.solution}</p><p class="muted">You asked ${done.length} question${done.length>1?'s':''}${tries?` and needed ${tries===1?'one hint':'some help'}`:''}.</p><div class="row"><button class="btn main" id="back">Another story</button></div></div>`;
       $('back').onclick=goMenu;
-    } else { b.classList.add('bad'); b.disabled=true; setDoll('sad','shake'); speak('N'); }
+      return;
+    }
+    tries++; b.classList.add('bad'); b.disabled=true; setDoll('sad','shake'); speak('N');
+    const why=S.whyNot[+b.dataset.w]||'';
+    if(tries===1){
+      document.querySelectorAll('.opt').forEach(x=>x.disabled=true);
+      $('solveMsg').className='msg hintmsg';
+      $('solveMsg').innerHTML=`Not this one. ${why}<br>💡 ${hint()}<div class="row" style="margin-top:8px"><button class="btn" id="keep">Ask more questions</button><button class="btn main" id="retry">Try again</button></div>`;
+      $('keep').onclick=()=>{ $('solveBox').innerHTML=''; $('deck').scrollIntoView({behavior:'smooth',block:'start'}); };
+      $('retry').onclick=()=>{ document.querySelectorAll('.opt').forEach(x=>{ if(!x.classList.contains('bad')) x.disabled=false; }); $('solveMsg').innerHTML=''; };
+    } else { reveal(); }
   });
 };
 function goMenu(){ $('game').classList.add('hidden'); $('count').classList.add('hidden'); $('menu').classList.remove('hidden'); window.scrollTo(0,0); }
