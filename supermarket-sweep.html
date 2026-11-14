@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supermarket Sweep ✦ wdym, teacher?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Pixelify+Sans:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f8e6f5;--pink:#ebb3e6;--pink2:#f5d6f2;--blue:#9ccfdc;--blue2:#d7eef4;--yellow:#fbf06a;--yellow2:#fff8c4;
+    --navy:#1f2a5c;--muted:#4f5683;--white:#fffdf9;--good:#2e9e6a;--bad:#e2385a;--mint:#c9f0dc}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;color:var(--navy);background:var(--bg);min-height:100vh;line-height:1.5;
+    background-image:radial-gradient(rgba(255,255,255,.55) 1px,transparent 1.5px);background-size:16px 16px}
+  .fat{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900;letter-spacing:-.01em}
+  .px{font-family:'Pixelify Sans',monospace}
+  .hl{background:linear-gradient(transparent 14%,var(--yellow) 14%,var(--yellow) 86%,transparent 86%);padding:0 .15em}
+  .hidden{display:none!important}
+  .tape{overflow:hidden;background:var(--mint);border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);white-space:nowrap;
+    font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 0;transform:rotate(-1.2deg);margin:6px -20px 0}
+  .tape span{display:inline-block;animation:slide 30s linear infinite}
+  @keyframes slide{to{transform:translateX(-50%)}}
+  .wrap{max-width:900px;margin:0 auto;padding:46px 16px 60px}
+  .card{background:var(--white);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px}
+  h1{font-size:clamp(2.2rem,8vw,3.6rem);margin:6px 0 4px;color:var(--yellow);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:4px 4px 0 var(--navy);line-height:1.05}
+  .intro{display:flex;gap:18px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+  .intro p{max-width:520px;margin:6px 0}
+  .eyebrow{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:3px 12px}
+  .introdoll{height:170px;image-rendering:pixelated}
+  .phases{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:22px}
+  .phase{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px;background:var(--white);border:3px solid var(--navy);border-radius:20px;box-shadow:5px 5px 0 var(--navy);padding:16px 18px;transition:transform .1s}
+  .phase:hover,.phase:focus-visible{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--navy)}
+  .phase:nth-child(6n+1){background:var(--blue2)} .phase:nth-child(6n+2){background:var(--yellow2)} .phase:nth-child(6n+3){background:var(--pink2)}
+  .phase:nth-child(6n+4){background:var(--mint)} .phase:nth-child(6n+5){background:var(--blue2)} .phase:nth-child(6n+6){background:var(--yellow2)}
+  .ptop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .pnum{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .lvl{font-size:.75rem;font-weight:700;background:var(--white);border:1.5px solid var(--navy);border-radius:999px;padding:1px 9px}
+  .phase h3{margin:0;font-size:1.35rem}
+  .phase .what{font-size:.92rem;color:var(--muted)}
+  .stars{font-size:1.05rem;letter-spacing:2px}
+  .stars .off{opacity:.25;filter:grayscale(1)}
+  .pitems{display:flex;gap:4px;margin-top:2px}
+  .spr{image-rendering:pixelated;vertical-align:middle}
+  /* rule screen */
+  .rulecard h2{font-size:clamp(1.6rem,5vw,2.2rem);margin:6px 0 10px}
+  .rules{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:14px 0 18px}
+  .rule{background:#f6f2ff;border:2px dashed #b9b2d6;border-radius:16px;padding:12px 14px}
+  .rule b.k{font-family:'Fraunces',serif;font-weight:900;font-size:1.25rem;display:block;margin-bottom:2px}
+  .rule .ex{display:block;margin-top:6px;font-style:italic}
+  .tip{background:var(--yellow2);border:2px solid var(--navy);border-radius:14px;padding:8px 12px;font-size:.93rem}
+  .btn{font-family:'Fraunces',serif;font-weight:800;font-variation-settings:"SOFT" 100;font-size:1.08rem;border:2px solid var(--navy);border-radius:999px;
+    padding:9px 22px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;background:var(--yellow);color:var(--navy);transition:transform .08s}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--navy)}
+  .btn.alt{background:var(--white)} .btn.blue{background:var(--blue)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  /* game */
+  .hud{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .pill{background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:4px 12px;font-weight:700;box-shadow:2px 2px 0 var(--navy);font-size:.92rem}
+  .pill.link{cursor:pointer}
+  .timer{height:10px;border:2px solid var(--navy);border-radius:999px;background:var(--white);overflow:hidden;margin:-4px 0 14px}
+  .timer div{height:100%;background:var(--good);transform-origin:left;transition:background .3s}
+  .stage{display:grid;grid-template-columns:1fr 140px;gap:16px;align-items:end}
+  .scene{min-height:96px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;background:repeating-linear-gradient(0deg,#fff 0 46px,#f1e6f0 46px 50px);
+    border:3px solid var(--navy);border-radius:16px;padding:12px;margin-bottom:14px}
+  .scene .grp{display:flex;flex-wrap:wrap;gap:2px;max-width:220px;justify-content:center;align-items:center}
+  .scene .vs{font-weight:700;font-size:.85rem;background:var(--white);border:1.5px solid var(--navy);border-radius:999px;padding:2px 10px}
+  .scene .note{font-weight:700;font-size:.85rem;background:var(--yellow2);border:1.5px dashed var(--navy);border-radius:8px;padding:4px 10px;transform:rotate(-2deg)}
+  .bigword{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2rem,7vw,3rem)}
+  .sentence{font-size:clamp(1.3rem,4vw,1.85rem);line-height:1.35;min-height:2.6em}
+  .blank{display:inline-block;min-width:3.2em;border-bottom:4px solid var(--navy);text-align:center;margin:0 .1em;font-family:'Fraunces',serif;font-weight:900}
+  .blank.good{color:var(--good);border-color:var(--good)} .blank.bad{color:var(--bad);border-color:var(--bad)}
+  .doll{text-align:center;position:relative}
+  .doll img{height:210px;image-rendering:pixelated;transform-origin:bottom center}
+  .doll img.hop{animation:hop .5s steps(5)} .doll img.shake{animation:shake .45s steps(6)}
+  @keyframes hop{40%{transform:translateY(-14px)}} @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .bubble{position:absolute;top:-6px;right:100%;margin-right:-24px;white-space:nowrap;background:var(--white);border:2px solid var(--navy);border-radius:14px;padding:3px 10px;font-weight:700;font-size:.9rem;box-shadow:2px 2px 0 var(--navy);opacity:0;transition:opacity .2s}
+  .bubble:empty{visibility:hidden}
+  .bubble.on{opacity:1}
+  .choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:16px}
+  .choice{font-family:'Fraunces',serif;font-weight:900;font-variation-settings:"SOFT" 100;font-size:1.35rem;padding:12px 8px;border:3px solid var(--navy);
+    border-radius:18px;box-shadow:4px 4px 0 var(--navy);cursor:pointer;color:var(--navy);background:var(--white)}
+  .choice:nth-child(4n+1){background:var(--yellow)} .choice:nth-child(4n+2){background:var(--blue)} .choice:nth-child(4n+3){background:var(--pink)} .choice:nth-child(4n+4){background:var(--mint)}
+  .choice:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--navy)}
+  .choice:active:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 var(--navy)}
+  .choice small{display:block;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;opacity:.75}
+  .choice:disabled{opacity:.4;cursor:default}
+  .choice.right{opacity:1;outline:4px solid var(--good);outline-offset:3px}
+  .choice.picked{opacity:1;outline:4px dashed var(--bad);outline-offset:3px}
+  .feedback{display:none;margin-top:16px;border:3px solid var(--navy);border-radius:18px;padding:12px 16px;background:var(--white);border-left-width:12px}
+  .feedback.show{display:block;animation:pop .25s ease-out}
+  .feedback.good{border-left-color:var(--good)} .feedback.bad{border-left-color:var(--bad)}
+  @keyframes pop{from{transform:scale(.96);opacity:0}}
+  .verdict{font-family:'Fraunces',serif;font-weight:900;font-size:1.25rem}
+  .why{margin:4px 0 0}
+  .autobar{height:6px;background:#eee;border-radius:9px;margin-top:10px;overflow:hidden}
+  .autobar div{height:100%;background:var(--good);transform-origin:left}
+  .cart{margin-top:18px;display:flex;align-items:center;gap:10px;background:var(--white);border:2px dashed var(--navy);border-radius:16px;padding:8px 12px;min-height:58px}
+  .cart .lbl{font-weight:700;font-size:.85rem;white-space:nowrap}
+  .cart .in{display:flex;flex-wrap:wrap;gap:4px}
+  .cart .in img{animation:drop .35s ease-out}
+  @keyframes drop{from{transform:translateY(-18px);opacity:0}}
+  /* end */
+  .end{text-align:center}
+  .end .bigstars{font-size:2.6rem;letter-spacing:6px;margin:6px 0}
+  .end .bigstars .off{opacity:.2;filter:grayscale(1)}
+  .end .row{justify-content:center;margin-top:14px}
+  .review{text-align:left;margin:16px auto 0;max-width:560px}
+  .review li{margin:6px 0}
+  @media (max-width:620px){
+    .stage{grid-template-columns:1fr 76px;gap:8px}
+    .doll img{height:140px}
+    .bubble{top:-30px;right:0;margin-right:0}
+    .choice{font-size:1.15rem}
+    .introdoll{display:none}
+  }
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="tape"><span>some ✦ any ✦ much ✦ many ✦ a lot of ✦ a few ✦ a little ✦ too much ✦ too many ✦ not enough ✦ some ✦ any ✦ much ✦ many ✦ a lot of ✦ a few ✦ a little ✦ too much ✦ too many ✦ not enough ✦ </span></div>
+
+<div class="wrap">
+
+  <!-- MENU -->
+  <section id="menu">
+    <div class="intro">
+      <div>
+        <span class="eyebrow">Grammar · Quantifiers</span>
+        <h1 class="fat">Supermarket Sweep</h1>
+        <p>How <b>much</b> milk? How <b>many</b> eggs? Fill your cart with the right words. Start at stage 1 or jump to any stage you want.</p>
+      </div>
+      <img class="introdoll" id="introDoll" alt="Teacher Maria pixel doll">
+    </div>
+    <div class="phases" id="phases"></div>
+  </section>
+
+  <!-- RULE -->
+  <section id="rule" class="hidden">
+    <div class="card rulecard">
+      <span class="eyebrow" id="ruleNum">Stage 1</span>
+      <h2 class="fat" id="ruleTitle"></h2>
+      <div class="rules" id="ruleBoxes"></div>
+      <p class="tip" id="ruleTip"></p>
+      <div class="row" style="margin-top:16px">
+        <button class="btn" id="startBtn">Start shopping →</button>
+        <button class="btn alt" id="ruleBack">All stages</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section id="game" class="hidden">
+    <div class="hud">
+      <span class="pill" id="hudTitle"></span>
+      <div class="row">
+        <span class="pill" id="hudQ"></span>
+        <span class="pill" id="hudScore"></span>
+        <span class="pill link" id="hudRule" title="See the rules again">Rules</span>
+      </div>
+    </div>
+    <div class="timer hidden" id="timer"><div id="timerBar"></div></div>
+    <div class="card">
+      <div class="stage">
+        <div>
+          <div class="scene" id="scene"></div>
+          <div class="sentence" id="sentence"></div>
+        </div>
+        <div class="doll"><span class="bubble" id="bubble"></span><img id="doll" alt="Teacher Maria"></div>
+      </div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback">
+        <div class="verdict" id="verdict"></div>
+        <p class="why" id="why"></p>
+        <div class="autobar hidden" id="autobar"><div id="autobarIn"></div></div>
+        <div class="row hidden" id="nextRow" style="margin-top:10px"><button class="btn" id="nextBtn">Next →</button></div>
+      </div>
+    </div>
+    <div class="cart"><span class="lbl">🛒 Your cart</span><div class="in" id="cart"></div></div>
+  </section>
+
+  <!-- END -->
+  <section id="end" class="hidden">
+    <div class="card end">
+      <span class="eyebrow" id="endNum"></span>
+      <h2 class="fat" id="endTitle" style="font-size:2rem;margin:8px 0 0"></h2>
+      <div class="bigstars" id="endStars"></div>
+      <p id="endMsg"></p>
+      <div class="review" id="review"></div>
+      <div class="row">
+        <button class="btn" id="nextStage">Next stage →</button>
+        <button class="btn blue" id="again">Play again</button>
+        <button class="btn alt" id="toMenu">All stages</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const IMG={happy:'data:image/png;base64,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',sad:'data:image/png;base64,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',neutral:'data:image/png;base64,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'};
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* emoji -> tiny pixel sprite */
+const SPR={};
+function sprite(e,size=36){
+  if(!SPR[e]){
+    try{
+      const c=document.createElement('canvas');c.width=c.height=18;const x=c.getContext('2d');
+      x.textAlign='center';x.textBaseline='middle';
+      x.font='15px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+      x.fillText(e,9,10);SPR[e]=c.toDataURL();
+    }catch(err){SPR[e]=null}
+  }
+  return SPR[e]?`<img class="spr" src="${SPR[e]}" width="${size}" height="${size}" alt="">`:`<span style="font-size:${size*.8}px">${e}</span>`;
+}
+
+/* ---------- CONTENT ---------- */
+const STAGES=[
+{ key:'count', title:'Count it?', lvl:'A1', what:'Countable or uncountable?', icons:['🍎','🍚','🥚'],
+  opts:['COUNT','NON-COUNT'], optHint:{'COUNT':'1, 2, 3…','NON-COUNT':'no number'},
+  rules:[
+    ['Countable','You can say one, two, three… They have a plural.','one apple → two apples'],
+    ['Uncountable','You can\'t put a number before them. No plural!','rice, milk, money, advice'],
+  ],
+  tip:'Trick: some words look countable in Portuguese but are uncountable in English: advice, information, furniture, news, bread.',
+  qs:[
+    {w:'apple',e:'🍎',a:'COUNT',why:'You can say <b>one apple, two apples</b>.'},
+    {w:'rice',e:'🍚',a:'NON-COUNT',why:'You can\'t say "two rices". Say <b>some rice</b> or <b>a bag of rice</b>.'},
+    {w:'egg',e:'🥚',a:'COUNT',why:'<b>One egg, a dozen eggs.</b>'},
+    {w:'milk',e:'🥛',a:'NON-COUNT',why:'Liquids are uncountable. Say <b>some milk</b> or <b>a bottle of milk</b>.'},
+    {w:'bread',e:'🍞',a:'NON-COUNT',why:'Not "two breads"! Say <b>two loaves of bread</b> or <b>two slices of bread</b>.'},
+    {w:'cookie',e:'🍪',a:'COUNT',why:'<b>One cookie, three cookies.</b>'},
+    {w:'money',e:'💵',a:'NON-COUNT',why:'You count dollars or coins, but <b>money</b> is uncountable: <i>How much money?</i>'},
+    {w:'coin',e:'🪙',a:'COUNT',why:'<b>One coin, five coins.</b>'},
+    {w:'cheese',e:'🧀',a:'NON-COUNT',why:'Say <b>some cheese</b> or <b>a piece of cheese</b>.'},
+    {w:'banana',e:'🍌',a:'COUNT',why:'<b>One banana, two bananas.</b>'},
+    {w:'water',e:'💧',a:'NON-COUNT',why:'Liquids are uncountable: <b>some water, a glass of water</b>.'},
+    {w:'advice',e:'💬',a:'NON-COUNT',why:'Not "advices"! Say <b>some advice</b> or <b>a piece of advice</b>.'},
+    {w:'information',e:'ℹ️',a:'NON-COUNT',why:'Not "informations"! Say <b>some information</b>.'},
+    {w:'furniture',e:'🛋️',a:'NON-COUNT',why:'Not "furnitures"! Say <b>a piece of furniture</b>. But <b>chair</b> and <b>table</b> are countable.'},
+    {w:'chair',e:'🪑',a:'COUNT',why:'<b>One chair, four chairs.</b>'},
+    {w:'news',e:'📰',a:'NON-COUNT',why:'It ends in -s, but it\'s uncountable: <i>The news <b>is</b> good.</i>'},
+    {w:'tomato',e:'🍅',a:'COUNT',why:'<b>One tomato, two tomatoes.</b>'},
+    {w:'sugar',e:'🥄',a:'NON-COUNT',why:'Say <b>some sugar</b> or <b>a spoonful of sugar</b>.'},
+  ]},
+{ key:'some', title:'Shopping list', lvl:'A1–A2', what:'a / an / some / any', icons:['📝','🥚','🥛'],
+  opts:['a','an','some','any'],
+  rules:[
+    ['a / an','One countable thing. <b>an</b> before a vowel sound.','a banana · an apple'],
+    ['some','Positive sentences, plural or uncountable.','We need some eggs.'],
+    ['any','Negatives and questions.','Do we have any milk?'],
+  ],
+  tip:'Offers and requests use some, even in questions: Would you like some coffee? Can I have some water?',
+  qs:[
+    {s:'We need ___ eggs.',e:'🥚',a:'some',why:'Positive sentence + plural: <b>some</b>.'},
+    {s:'Do we have ___ milk?',e:'🥛',a:'any',why:'Question: <b>any</b>.'},
+    {s:'There isn\'t ___ bread at home.',e:'🍞',a:'any',why:'Negative sentence: <b>any</b>.'},
+    {s:'I want ___ apple.',e:'🍎',a:'an',why:'One thing, starts with a vowel sound: <b>an</b> apple.'},
+    {s:'Can I have ___ banana, please?',e:'🍌',a:'a',why:'One countable thing, consonant sound: <b>a</b> banana.'},
+    {s:'There\'s ___ cheese in the fridge.',e:'🧀',a:'some',why:'Positive sentence + uncountable: <b>some</b>.'},
+    {s:'Are there ___ tomatoes?',e:'🍅',a:'any',why:'Question: <b>any</b>.'},
+    {s:'We don\'t need ___ sugar.',e:'🥄',a:'any',why:'Negative sentence: <b>any</b>.'},
+    {s:'I\'ll buy ___ orange juice.',e:'🧃',a:'some',why:'Positive sentence + uncountable: <b>some</b>.'},
+    {s:'She\'s eating ___ egg.',e:'🥚',a:'an',why:'One egg, vowel sound: <b>an</b> egg.'},
+    {s:'Would you like ___ coffee?',e:'☕',a:'some',why:'It\'s a question, but it\'s an <b>offer</b>. Offers use <b>some</b>.'},
+    {s:'Can I have ___ water, please?',e:'💧',a:'some',why:'It\'s a <b>request</b>. Requests use <b>some</b>.'},
+    {s:'I need ___ onion for the soup.',e:'🧅',a:'an',why:'One onion, vowel sound: <b>an</b> onion.'},
+    {s:'They don\'t sell ___ cookies here.',e:'🍪',a:'any',why:'Negative sentence: <b>any</b>.'},
+  ]},
+{ key:'much', title:'How much? How many?', lvl:'A2', what:'much / many / a lot of', icons:['🥚','💵','🍪'],
+  opts:['much','many','a lot of'],
+  rules:[
+    ['many','Countable (plural). Questions and negatives.','How many eggs?'],
+    ['much','Uncountable. Questions and negatives.','How much milk?'],
+    ['a lot of','Both! Most natural in positive sentences.','She drinks a lot of coffee.'],
+  ],
+  tip:'In positive sentences, "much" sounds strange. Say "I have a lot of money", not "I have much money".',
+  qs:[
+    {s:'How ___ eggs do we need?',e:'🥚',a:'many',opts:['much','many'],why:'<b>eggs</b> are countable: How <b>many</b>?'},
+    {s:'How ___ milk do we have?',e:'🥛',a:'much',opts:['much','many'],why:'<b>milk</b> is uncountable: How <b>much</b>?'},
+    {s:'There isn\'t ___ rice left.',e:'🍚',a:'much',opts:['much','many'],why:'Negative + uncountable: <b>much</b>.'},
+    {s:'There aren\'t ___ bananas.',e:'🍌',a:'many',opts:['much','many'],why:'Negative + countable: <b>many</b>.'},
+    {s:'We have ___ apples at home.',e:'🍎',a:'a lot of',why:'Positive sentence: <b>a lot of</b> sounds natural.'},
+    {s:'She drinks ___ coffee.',e:'☕',a:'a lot of',why:'Positive sentence: <b>a lot of</b>. "She drinks much coffee" sounds strange.'},
+    {s:'I don\'t have ___ money.',e:'💵',a:'much',opts:['much','many'],why:'Negative + uncountable (money): <b>much</b>.'},
+    {s:'How ___ water do you drink a day?',e:'💧',a:'much',opts:['much','many'],why:'<b>water</b> is uncountable: How <b>much</b>?'},
+    {s:'There are ___ people at the store today.',e:'🧑',a:'a lot of',why:'Positive sentence: <b>a lot of</b> people.'},
+    {s:'We don\'t buy ___ candy.',e:'🍭',a:'much',opts:['much','many'],why:'<b>candy</b> is usually uncountable in American English: not <b>much</b> candy.'},
+    {s:'How ___ chairs do we need for the party?',e:'🪑',a:'many',opts:['much','many'],why:'<b>chairs</b> are countable: How <b>many</b>?'},
+    {s:'He eats ___ cheese.',e:'🧀',a:'a lot of',why:'Positive sentence: <b>a lot of</b>.'},
+    {s:'How ___ cookies did you eat?!',e:'🍪',a:'many',opts:['much','many'],why:'<b>cookies</b> are countable: How <b>many</b>?'},
+  ]},
+{ key:'few', title:'Just a bit', lvl:'A2', what:'a few / a little', icons:['🧂','🍅','🥛'],
+  opts:['a few','a little'],
+  rules:[
+    ['a few','A small number of countable things.','a few tomatoes'],
+    ['a little','A small amount of something uncountable.','a little milk'],
+  ],
+  tip:'Ask yourself: can I count it? Yes → a few. No → a little.',
+  qs:[
+    {s:'Can I have ___ milk in my coffee?',e:'🥛',a:'a little',why:'<b>milk</b> is uncountable: <b>a little</b>.'},
+    {s:'We need ___ tomatoes for the salad.',e:'🍅',a:'a few',why:'<b>tomatoes</b> are countable: <b>a few</b>.'},
+    {s:'Add ___ salt.',e:'🧂',a:'a little',why:'<b>salt</b> is uncountable: <b>a little</b>.'},
+    {s:'I bought ___ bananas.',e:'🍌',a:'a few',why:'<b>bananas</b> are countable: <b>a few</b>.'},
+    {s:'There\'s ___ cheese left.',e:'🧀',a:'a little',why:'<b>cheese</b> is uncountable: <b>a little</b>.'},
+    {s:'I have ___ coins in my pocket.',e:'🪙',a:'a few',why:'<b>coins</b> are countable: <b>a few</b>.'},
+    {s:'Just ___ sugar, please.',e:'🥄',a:'a little',why:'<b>sugar</b> is uncountable: <b>a little</b>.'},
+    {s:'___ friends are coming for dinner.',e:'🧑',a:'a few',cap:true,why:'<b>friends</b> are countable: <b>A few</b> friends.'},
+    {s:'Put ___ ice in my soda.',e:'🧊',a:'a little',why:'<b>ice</b> is uncountable: <b>a little</b> ice.'},
+    {s:'We have ___ eggs left.',e:'🥚',a:'a few',why:'<b>eggs</b> are countable: <b>a few</b>.'},
+    {s:'I\'d like ___ water, please.',e:'💧',a:'a little',why:'<b>water</b> is uncountable: <b>a little</b>.'},
+    {s:'Let\'s buy ___ cookies.',e:'🍪',a:'a few',why:'<b>cookies</b> are countable: <b>a few</b>.'},
+    {s:'Can you give me ___ advice?',e:'💬',a:'a little',why:'<b>advice</b> is uncountable: <b>a little</b> advice.'},
+  ]},
+{ key:'too', title:'Party problems', lvl:'A2–B1', what:'too much / too many / not enough', icons:['🍕','🪑','🧑'],
+  opts:['too much','too many','not enough'],
+  rules:[
+    ['too many','More than you need. Countable.','too many bags'],
+    ['too much','More than you need. Uncountable.','too much salt'],
+    ['not enough','Less than you need. Both!','not enough chairs · not enough milk'],
+  ],
+  tip:'Look at the picture! Is it more than you need, or less? Then check: countable or uncountable?',
+  qs:[
+    {s:'There\'s ___ food for two people.',scene:[['🍕',10],'for',['🧑',2]],e:'🍕',a:'too much',why:'More than they need + <b>food</b> is uncountable: <b>too much</b>.'},
+    {s:'There are ___ chairs for the guests.',scene:[['🪑',1],'for',['🧑',5]],e:'🪑',a:'not enough',why:'5 people, 1 chair: <b>not enough</b> chairs.'},
+    {s:'There are ___ people in line. Let\'s go to another store.',scene:[['🧑',12]],e:'🧑',a:'too many',why:'More than you want + <b>people</b> is countable: <b>too many</b>.'},
+    {s:'You put ___ sugar in your coffee!',scene:[['☕',1],'+',['🥄',8]],e:'🥄',a:'too much',why:'More than you need + <b>sugar</b> is uncountable: <b>too much</b>.'},
+    {s:'We have ___ eggs for the cake.',scene:[{note:'Recipe: 6 eggs'},['🥚',2]],e:'🥚',a:'not enough',why:'You need 6 and have 2: <b>not enough</b> eggs.'},
+    {s:'I can\'t carry this. I bought ___ bags!',scene:[['🛍️',9]],e:'🛍️',a:'too many',why:'More than you can carry + <b>bags</b> is countable: <b>too many</b>.'},
+    {s:'I have ___ money for this TV.',scene:[{note:'TV: $900'},['💵',1]],e:'📺',a:'not enough',why:'The TV costs $900. You have $1: <b>not enough</b> money.'},
+    {s:'There\'s ___ salt on these fries.',scene:[['🍟',1],'+',['🧂',7]],e:'🧂',a:'too much',why:'More than you need + <b>salt</b> is uncountable: <b>too much</b>.'},
+    {s:'That\'s ___ cookies for one kid!',scene:[['🍪',14],'for',['🧒',1]],e:'🍪',a:'too many',why:'More than one kid needs + <b>cookies</b> are countable: <b>too many</b>.'},
+    {s:'There\'s ___ milk for everyone.',scene:[['🥛',1],'for',['🧑',6]],e:'🥛',a:'not enough',why:'One glass for six people: <b>not enough</b> milk.'},
+    {s:'There\'s ___ noise. I can\'t hear you!',scene:[['🔊',4],['🥁',3]],e:'🔊',a:'too much',why:'More than you want + <b>noise</b> is uncountable here: <b>too much</b>.'},
+    {s:'We have ___ bananas for the smoothie.',scene:[{note:'Smoothie: 3 bananas'},['🍌',1]],e:'🍌',a:'not enough',why:'You need 3 and have 1: <b>not enough</b>.'},
+    {s:'There are ___ plates on the table. Only three people are coming.',scene:[['🍽️',11],'for',['🧑',3]],e:'🍽️',a:'too many',why:'More than they need + <b>plates</b> are countable: <b>too many</b>.'},
+  ]},
+{ key:'mix', title:'Mixed challenge', lvl:'A2–B1', what:'Everything + a timer ⏱️', icons:['⏱️','🛒','⭐'], timed:true,
+  rules:[
+    ['Everything mixed','Questions from all stages, in random order.','some · much · a few · too many…'],
+    ['15 seconds','Answer before the time runs out!','Out of time = wrong answer.'],
+  ],
+  tip:'Read the whole sentence first. Is it positive, negative or a question? Countable or uncountable?'},
+];
+// build mixed pool
+STAGES[5].qs=[];
+STAGES.slice(0,5).forEach(st=>st.qs.forEach(q=>STAGES[5].qs.push(Object.assign({},q,{_opts:q.opts||st.opts,_kind:st.key,_hint:st.optHint}))));
+const PER=10, TIME=15000;
+
+/* ---------- storage (light convenience) ---------- */
+let BEST={};
+try{BEST=JSON.parse(localStorage.getItem('wdym-supermarket')||'{}')||{}}catch(e){BEST={}}
+const saveBest=()=>{try{localStorage.setItem('wdym-supermarket',JSON.stringify(BEST))}catch(e){}};
+const starsFor=sc=>sc>=9?3:sc>=7?2:sc>=5?1:0;
+const starHTML=n=>[0,1,2].map(i=>`<span class="${i<n?'':'off'}">⭐</span>`).join('');
+
+/* ---------- screens ---------- */
+function show(id){['menu','rule','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));window.scrollTo({top:0,behavior:'smooth'});}
+
+function renderMenu(){
+  $('phases').innerHTML=STAGES.map((st,i)=>`
+    <button class="phase" data-i="${i}">
+      <div class="ptop"><span class="pnum">Stage ${i+1}</span><span class="lvl">${st.lvl}</span></div>
+      <h3 class="fat">${st.title}</h3>
+      <span class="what">${st.what}</span>
+      <div class="ptop"><div class="pitems">${st.icons.map(e=>sprite(e,26)).join('')}</div><span class="stars">${starHTML(BEST[st.key]||0)}</span></div>
+    </button>`).join('');
+  $('phases').querySelectorAll('.phase').forEach(b=>b.onclick=()=>openRule(+b.dataset.i));
+  show('menu');
+}
+
+let SI=0;
+function openRule(i){
+  SI=i;const st=STAGES[i];
+  $('ruleNum').textContent=`Stage ${i+1} · ${st.lvl}`;
+  $('ruleTitle').innerHTML=st.title;
+  $('ruleBoxes').innerHTML=st.rules.map(r=>`<div class="rule"><b class="k">${r[0]}</b>${r[1]}<span class="ex">${r[2]}</span></div>`).join('');
+  $('ruleTip').innerHTML='💡 '+st.tip;
+  $('startBtn').textContent=game&&game.si===i&&!game.over?'Back to the game →':'Start shopping →';
+  show('rule');
+}
+
+/* ---------- game ---------- */
+let game=null, autoT=null, tickT=null;
+function startStage(i){
+  const st=STAGES[i];
+  game={si:i,st,qs:shuffle(st.qs).slice(0,PER),n:0,score:0,wrong:[],over:false,locked:false};
+  $('cart').innerHTML='';
+  $('timer').classList.toggle('hidden',!st.timed);$('hudRule').classList.toggle('hidden',!!st.timed);
+  show('game');ask();
+}
+function setDoll(m){const d=$('doll');d.src=IMG[m];d.classList.remove('hop','shake');void d.offsetWidth;if(m==='happy')d.classList.add('hop');if(m==='sad')d.classList.add('shake');}
+function say(t){const b=$('bubble');b.textContent=t;b.classList.toggle('on',!!t);}
+function drawScene(q,kind){
+  const sc=$('scene');
+  if(kind==='count'){sc.innerHTML=`${sprite(q.e,64)}<span class="bigword">${esc(q.w)}</span>`;return;}
+  if(q.scene){
+    sc.innerHTML=q.scene.map(p=>{
+      if(typeof p==='string')return `<span class="vs">${p}</span>`;
+      if(p.note)return `<span class="note">${esc(p.note)}</span>`;
+      return `<span class="grp">${Array(p[1]).fill(sprite(p[0],p[1]>8?26:34)).join('')}</span>`;
+    }).join('');return;
+  }
+  sc.innerHTML=sprite(q.e,64);
+}
+function ask(){
+  clearTimeout(autoT);clearInterval(tickT);
+  const g=game,q=g.qs[g.n],kind=q._kind||g.st.key,opts=q._opts||q.opts||g.st.opts,hint=q._hint||g.st.optHint;
+  g.locked=false;g.q=q;
+  $('hudTitle').innerHTML=`Stage ${g.si+1} · ${g.st.title}`;
+  $('hudQ').textContent=`${g.n+1} / ${g.qs.length}`;
+  $('hudScore').textContent=`✓ ${g.score}`;
+  drawScene(q,kind);
+  $('sentence').innerHTML=kind==='count'?'Can you count it?':esc(q.s).replace('___','<span class="blank" id="blank">&nbsp;</span>');
+  $('choices').innerHTML=opts.map(o=>`<button class="choice" data-o="${esc(o)}">${esc(o)}${hint&&hint[o]?`<small>${hint[o]}</small>`:''}</button>`).join('');
+  $('choices').querySelectorAll('.choice').forEach(b=>b.onclick=()=>answer(b.dataset.o));
+  $('feedback').className='feedback';
+  setDoll('neutral');say('');
+  if(g.st.timed){
+    const t0=Date.now(),bar=$('timerBar');bar.style.background='var(--good)';
+    tickT=setInterval(()=>{const left=1-(Date.now()-t0)/TIME;bar.style.transform=`scaleX(${Math.max(0,left)})`;
+      if(left<.35)bar.style.background='var(--bad)';if(left<=0){clearInterval(tickT);answer(null);}},100);
+  }
+}
+const YAY=['Nice!','Great choice!','Perfect!','You got it!','Yes!'];
+const OOPS=['Oops!','Almost!','Not this one…'];
+function answer(o){
+  const g=game;if(g.locked)return;g.locked=true;clearInterval(tickT);
+  const q=g.q,ok=o===q.a,kind=q._kind||g.st.key;
+  $('choices').querySelectorAll('.choice').forEach(b=>{b.disabled=true;if(b.dataset.o===q.a)b.classList.add('right');else if(b.dataset.o===o)b.classList.add('picked');});
+  const bl=$('blank');
+  if(bl){const w=q.cap?q.a.charAt(0).toUpperCase()+q.a.slice(1):q.a;bl.textContent=ok?w:(o?(q.cap?o.charAt(0).toUpperCase()+o.slice(1):o):'?');bl.className='blank '+(ok?'good':'bad');}
+  if(ok){g.score++;setDoll('happy');say(YAY[Math.floor(Math.random()*YAY.length)]);$('cart').insertAdjacentHTML('beforeend',sprite(q.e,32));}
+  else{setDoll('sad');say(o===null?'Time\'s up!':OOPS[Math.floor(Math.random()*OOPS.length)]);g.wrong.push(q);}
+  $('hudScore').textContent=`✓ ${g.score}`;
+  $('verdict').innerHTML=ok?'Correct! ✓':(o===null?`Time's up! The answer is <b>${esc(q.a)}</b>.`:`Not quite. The answer is <b>${esc(q.a)}</b>.`);
+  let why=q.why;
+  if(!ok&&kind!=='count'&&q.s)why=`<i>${esc(q.s).replace('___','<b>'+esc(q.cap?q.a.charAt(0).toUpperCase()+q.a.slice(1):q.a)+'</b>')}</i><br>`+why;
+  $('why').innerHTML=why;
+  $('feedback').className='feedback show '+(ok?'good':'bad');
+  $('autobar').classList.toggle('hidden',!ok);$('nextRow').classList.toggle('hidden',ok);
+  if(ok){
+    const a=$('autobarIn');a.style.transition='none';a.style.transform='scaleX(0)';void a.offsetWidth;
+    a.style.transition='transform 2.2s linear';a.style.transform='scaleX(1)';
+    autoT=setTimeout(()=>{autoT=null;next();},2300);
+  }else{$('nextBtn').focus({preventScroll:true});}
+}
+function next(){clearTimeout(autoT);autoT=null;const g=game;g.n++;if(g.n>=g.qs.length)finish();else ask();}
+function finish(){
+  const g=game;g.over=true;clearInterval(tickT);
+  const n=starsFor(g.score),st=g.st;
+  if(n>(BEST[st.key]||0)){BEST[st.key]=n;saveBest();}
+  $('endNum').textContent=`Stage ${g.si+1} · ${st.title}`;
+  $('endTitle').textContent=`${g.score} / ${g.qs.length}`;
+  $('endStars').innerHTML=starHTML(n);
+  $('endMsg').textContent=n===3?'Amazing shopping! Your cart is perfect. 🛒':n===2?'Great job! Just a few things to review.':n===1?'Good start! Read the rules again and try one more time.':'Let\'s practice this one again. Check the rules first!';
+  $('review').innerHTML=g.wrong.length?'<p><b>Review:</b></p><ul>'+g.wrong.map(q=>`<li>${q.s?esc(q.s).replace('___','<b>'+esc(q.cap?q.a.charAt(0).toUpperCase()+q.a.slice(1):q.a)+'</b>'):`<b>${esc(q.w)}</b> → ${q.a==='COUNT'?'countable':'uncountable'}`}</li>`).join('')+'</ul>':'';
+  $('nextStage').classList.toggle('hidden',g.si>=STAGES.length-1);
+  show('end');
+}
+
+$('startBtn').onclick=()=>{if(game&&game.si===SI&&!game.over){show('game');if(game.pendingNext){game.pendingNext=false;next();}}else startStage(SI);};
+$('ruleBack').onclick=renderMenu;
+$('hudRule').onclick=()=>{if(autoT){clearTimeout(autoT);autoT=null;game.pendingNext=game.locked&&!$('autobar').classList.contains('hidden');}openRule(game.si);};
+$('nextBtn').onclick=next;
+$('again').onclick=()=>startStage(game.si);
+$('nextStage').onclick=()=>openRule(game.si+1);
+$('toMenu').onclick=renderMenu;
+document.addEventListener('keydown',e=>{
+  if($('game').classList.contains('hidden'))return;
+  if(e.key==='Enter'&&!$('nextRow').classList.contains('hidden')){next();return;}
+  const n=parseInt(e.key,10);if(n>=1){const b=$('choices').querySelectorAll('.choice')[n-1];if(b&&!b.disabled)b.click();}
+});
+$('introDoll').src=IMG.happy;
+renderMenu();
+</script>
+</body>
+</html>
