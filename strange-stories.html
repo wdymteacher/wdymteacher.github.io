@@ -66,6 +66,8 @@
   .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
   .builder.shake{animation:shake .45s}
   .msg{min-height:1.5em;margin-top:8px;font-weight:700}
+  .msg .cta{display:block;width:fit-content;margin-top:10px;padding:8px 14px;border:2px solid var(--candle);border-radius:999px;color:var(--candle);text-decoration:none;font-weight:700;font-size:.92rem}
+  .msg .cta:hover{background:var(--candle);color:#1a1024}
   .msg.wrong{color:var(--candle)}
   .notebook{display:flex;flex-direction:column;gap:6px}
   .note{display:flex;justify-content:space-between;gap:10px;align-items:center;background:rgba(255,255,255,.04);border-left:4px solid var(--line);border-radius:8px;padding:7px 10px;font-size:.95rem;animation:pop .3s}
@@ -240,6 +242,7 @@ function ask(){
   cur=null; $('builder').classList.add('hidden'); renderDeck(); renderNotes();
 }
 $('ask').onclick=ask;
+const TEACHER_MSG='Great question! Write it down and ask your teacher in class.<a class="cta" href="https://wa.me/5511962522689?text=Oi%2C%20teacher%20Maria%21%20Vi%20seu%20site%20e%20quero%20saber%20sobre%20as%20aulas%20de%20ingl%C3%AAs%20%F0%9F%98%8A" target="_blank" rel="noopener">👀 Want a real teacher to answer your questions? Take classes with teacher Maria →</a>';
 let samplePromise=null; const getSample=()=>samplePromise||(samplePromise=(window.claude&&claude.use)?claude.use('sample'):Promise.resolve(null));
 async function ownAsk(){
   const q=$('ownQ').value.trim(), m=$('ownMsg');
@@ -249,7 +252,7 @@ async function ownAsk(){
   let sample=null; try{ sample=await getSample(); }catch(e){}
   if(!sample){
     done.push({custom:true,text:q,a:'T'}); renderNotes(); $('ownQ').value='';
-    m.textContent='Great question! Write it down and ask your teacher in class.'; m.className='msg'; $('ownAsk').disabled=false; return;
+    m.innerHTML=TEACHER_MSG; m.className='msg'; $('ownAsk').disabled=false; return;
   }
   const prompt=`You are the narrator of a lateral-thinking mystery game for English learners (A2-B1).
 Mystery shown to the student: "${S.teaser}"
@@ -268,7 +271,7 @@ Reply only with JSON: {"kind":"yesno|other","order_ok":true|false,"answer":"Yes|
       speak(a); setDoll(a==='Y'?'happy':'neutral',a==='Y'?'hop':null); $('ownQ').value=''; m.textContent=''; }
   }catch(e){
     done.push({custom:true,text:q,a:'T'}); renderNotes(); $('ownQ').value='';
-    m.textContent='Great question! Write it down and ask your teacher in class.'; m.className='msg';
+    m.innerHTML=TEACHER_MSG; m.className='msg';
   }
   $('ownAsk').disabled=false;
 }
