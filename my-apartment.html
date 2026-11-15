@@ -129,6 +129,7 @@
   .lbl4{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
   .tool4{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:3px 8px;background:var(--white);border:2px solid var(--navy);border-radius:12px;box-shadow:2px 2px 0 var(--navy);font-size:.75rem;font-weight:700}
   .tool4 .pxicon{width:44px;height:44px}
+  .tool4 span,.pitems .item span{min-height:1.2em;display:block}
   .tool4.on{background:var(--yellow)}
   .handsin{display:flex;gap:4px;min-height:40px;min-width:60px;border:2px dashed var(--navy);border-radius:10px;padding:2px 6px;background:var(--white)}
   .handsin .pxicon{width:36px;height:36px}
@@ -785,7 +786,7 @@ const HINT=st=>st.t==='open'?`Click ${OPEN_NAME[st.u]} to open it.`:st.t==='pick
 function doStart(){
   S.qs=shuffle(TASKS).slice(0,8);S.ask=doAsk;
   $('playArea').innerHTML=`<div class="scenebox" id="sbox">${kitchenSVG()}<div class="cpanel hidden" id="cpanel"></div><img class="toolcur hidden" id="toolcur" alt=""></div>
-    <div class="dobar"><div class="tools4"><span class="lbl4">Tools:</span>${['broom','mop','sponge'].map(t=>`<button class="tool4" data-tool="${t}">${spriteSVG(t)}<span>${t}</span></button>`).join('')}</div>
+    <div class="dobar"><div class="tools4"><span class="lbl4">Tools:</span>${['broom','mop','sponge'].map(t=>`<button class="tool4" data-tool="${t}" aria-label="tool">${spriteSVG(t)}<span></span></button>`).join('')}</div>
     <div class="hands"><span class="lbl4">In your hands:</span><span id="hands" class="handsin"></span></div></div>`;
   const svg=$('ksvg');
   // hit zones for the three drawers + lower cabinet (over the scene)
@@ -853,20 +854,21 @@ function openThing(u){
 let panelT=null;
 function showPanel(u){
   clearTimeout(panelT);const c=CONT[u],p=$('cpanel');p.classList.remove('hidden');
-  p.innerHTML=`<div class="phead"><b>${c.name}</b><button class="pclose" aria-label="Close">✕</button></div><div class="pitems">${shuffle(c.items).map(it=>`<button class="item" data-it="${it}">${spriteSVG(it)}<span>${it}</span></button>`).join('')}</div>`;
+  p.innerHTML=`<div class="phead"><b>${c.name}</b><button class="pclose" aria-label="Close">✕</button></div><div class="pitems">${shuffle(c.items).map(it=>`<button class="item" data-it="${it}" aria-label="item">${spriteSVG(it)}<span></span></button>`).join('')}</div>`;
   p.querySelector('.pclose').onclick=closePanel;
   p.querySelectorAll('.item').forEach(b=>b.onclick=()=>doPick(b.dataset.it,b));
 }
 function closePanel(){const p=$('cpanel');if(p){p.classList.add('hidden');p.innerHTML='';}}
 function doPick(it,b){
   if(S.locked)return;const st=curStep();
+  const lb=b.querySelector('span');if(lb)lb.textContent=it;
   if(st.t==='pick'&&it===st.it){speak(it);b.classList.add('right');S.hands.push(it);
     $('hands').innerHTML=S.hands.map(h=>spriteSVG(h)).join('');panelT=setTimeout(closePanel,450);stepDone();return;}
   b.classList.remove('wrong');void b.offsetWidth;b.classList.add('wrong');speak(it);doWrong('the '+it);
 }
 function doTool(tool){
   if(S.locked)return;const st=curStep();
-  $('playArea').querySelectorAll('.tool4').forEach(b=>b.classList.toggle('on',b.dataset.tool===tool));
+  $('playArea').querySelectorAll('.tool4').forEach(b=>{b.classList.toggle('on',b.dataset.tool===tool);if(b.dataset.tool===tool)b.querySelector('span').textContent=tool;});
   speak(tool);
   if(st.t==='tool'&&tool===st.tool){S.tool=tool;$('toolcur').src=iconURL(tool);stepDone();return;}
   S.tool=null;doWrong('the '+tool);
