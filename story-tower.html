@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story Tower ✦ wdym, teacher?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,600..900,100;1,9..144,500..700,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f8e6f5;--pink:#ebb3e6;--pink2:#f5d6f2;--blue:#9ccfdc;--blue2:#d7eef4;--yellow:#fbf06a;--yellow2:#fff8c4;
+    --navy:#1f2a5c;--muted:#4f5683;--white:#fffdf9;--good:#2e9e6a;--bad:#e2385a;--mint:#c9f0dc;
+    --wood:#e9c48f;--wood2:#d7a96a;--wood3:#b7834a}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;color:var(--navy);background:var(--bg);min-height:100vh;line-height:1.5;
+    background-image:radial-gradient(rgba(255,255,255,.55) 1px,transparent 1.5px);background-size:16px 16px}
+  .fat{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900;letter-spacing:-.01em}
+  .hidden{display:none!important}
+  .tape{overflow:hidden;background:var(--yellow2);border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);white-space:nowrap;
+    font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 0;transform:rotate(-1.2deg);margin:6px -20px 0}
+  .tape span{display:inline-block;animation:slide 30s linear infinite}
+  @keyframes slide{to{transform:translateX(-50%)}}
+  .wrap{max-width:1040px;margin:0 auto;padding:46px 16px 60px}
+  .eyebrow{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:3px 12px}
+  h1{font-size:clamp(2.3rem,8vw,3.6rem);margin:6px 0 4px;color:var(--yellow);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:4px 4px 0 var(--navy);line-height:1.05}
+  .lead{max-width:640px;margin:4px 0 16px}
+  .card{background:var(--white);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:18px}
+  .btn{font-family:'Fraunces',serif;font-weight:800;font-variation-settings:"SOFT" 100;font-size:1.02rem;border:2px solid var(--navy);border-radius:999px;
+    padding:8px 18px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;background:var(--yellow);color:var(--navy)}
+  .btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--navy)}
+  .btn.alt{background:var(--white)} .btn.blue{background:var(--blue)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .hud{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .pill{background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:4px 12px;font-weight:700;box-shadow:2px 2px 0 var(--navy);font-size:.92rem}
+  .lives{letter-spacing:2px}
+  .lives .off{opacity:.2;filter:grayscale(1)}
+  .game{display:grid;grid-template-columns:380px 1fr;gap:18px;align-items:start}
+  .towercard{padding:10px}
+  .stage{position:relative;width:360px;height:470px;margin:0 auto;overflow:hidden;border-radius:14px;background:linear-gradient(#fdf6fb,#f7e7f3 85%)}
+  .ground{position:absolute;left:0;right:0;bottom:0;height:16px;background:#d9c2d6;border-top:3px solid var(--navy)}
+  .tower{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:50% 100%}
+  .tower.wobble{animation:wobble .9s ease-in-out}
+  @keyframes wobble{15%{transform:rotate(-3deg)}35%{transform:rotate(2.5deg)}55%{transform:rotate(-1.5deg)}75%{transform:rotate(.8deg)}}
+  .blk{position:absolute;width:68px;height:28px;border:2.5px solid var(--navy);border-radius:5px;cursor:pointer;
+    background:linear-gradient(180deg,var(--wood) 0 55%,var(--wood2) 55% 100%);box-shadow:inset 0 2px 0 rgba(255,255,255,.5),2px 2px 0 rgba(31,42,92,.25);
+    transition:left .7s cubic-bezier(.3,1.2,.5,1),top .7s cubic-bezier(.4,0,.6,1),transform .7s ease-in,opacity .4s,box-shadow .15s;padding:0}
+  .blk.alt{background:linear-gradient(90deg,var(--wood2),var(--wood) 30%,var(--wood) 70%,var(--wood2))}
+  .blk::before,.blk::after{content:"";position:absolute;top:6px;bottom:6px;width:2px;background:rgba(183,131,74,.55);border-radius:2px}
+  .blk::before{left:18px} .blk::after{right:15px}
+  .blk:hover,.blk:focus-visible{box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 0 0 3px var(--yellow);outline:none}
+  .blk.sel{background:var(--yellow)}
+  .blk.fallen{z-index:3}
+  .blk.out{opacity:0;pointer-events:none}
+  .reader{position:absolute;left:10px;right:10px;top:10px;background:var(--white);border:3px solid var(--navy);border-radius:16px;box-shadow:4px 4px 0 var(--navy);padding:12px 14px;z-index:10;animation:pop .2s ease-out}
+  @keyframes pop{from{transform:scale(.96);opacity:0}}
+  .reader p{margin:0 0 10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.08rem;line-height:1.4}
+  .reader .row{justify-content:space-between}
+  .speak{all:unset;cursor:pointer;width:34px;height:34px;display:inline-grid;place-items:center;border:2px solid var(--navy);border-radius:50%;background:var(--yellow);box-shadow:2px 2px 0 var(--navy)}
+  .storycard h2{margin:0 0 2px;font-size:1.6rem}
+  .storycard .meta{font-size:.85rem;color:var(--muted);margin:0 0 12px}
+  .story{font-family:'Fraunces',serif;font-weight:500;font-size:1.05rem;line-height:1.6;min-height:120px}
+  .story p{margin:0 0 .8em}
+  .story .new{background:linear-gradient(transparent 60%,var(--yellow) 60%);animation:pop .4s}
+  .story .empty{color:var(--muted);font-family:'DM Sans',sans-serif;font-style:normal}
+  .msg{margin:10px 0 0;padding:10px 14px;border:3px solid var(--navy);border-radius:14px;border-left-width:10px;background:var(--white);font-weight:500;display:none}
+  .msg.show{display:block;animation:pop .25s}
+  .msg.good{border-left-color:var(--good)} .msg.bad{border-left-color:var(--bad)} .msg.info{border-left-color:var(--blue)}
+  .tip{font-size:.9rem;color:var(--muted);margin:8px 2px 0}
+  .end{text-align:center}
+  .bigstars{font-size:2.4rem;letter-spacing:6px} .bigstars .off{opacity:.2;filter:grayscale(1)}
+  @media (max-width:820px){.game{grid-template-columns:1fr}.stage{width:340px}}
+  @media (prefers-reduced-motion:reduce){.tower.wobble{animation:none}.blk{transition:none}}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="tape"><span>first ✦ then ✦ after that ✦ by Thursday ✦ on Friday ✦ suddenly ✦ finally ✦ first ✦ then ✦ after that ✦ by Thursday ✦ on Friday ✦ suddenly ✦ finally ✦ </span></div>
+<div class="wrap">
+  <span class="eyebrow">Reading · B1–B2</span>
+  <h1 class="fat">Story Tower</h1>
+  <p class="lead">Every block is a sentence from a story. Tap a block to read it, then pull out the blocks <b>in the right order</b>. Pull the wrong one and the tower shakes… and some blocks fall!</p>
+
+  <div class="hud">
+    <span class="pill" id="hudTitle"></span>
+    <div class="row"><span class="pill" id="hudN"></span><span class="pill lives" id="lives" title="Mistakes left before the tower falls"></span><button class="btn alt" id="hintBtn" style="padding:4px 14px">💡 Hint</button></div>
+  </div>
+  <div class="game">
+    <div class="card towercard">
+      <div class="stage" id="stage"><div class="ground"></div><div class="tower" id="tower"></div><div class="reader hidden" id="reader"></div></div>
+      <p class="tip">Tip: look for time words (<i>on Tuesday, by Thursday, then, before…</i>) and for who and what each sentence is about.</p>
+    </div>
+    <div class="card storycard">
+      <h2 class="fat" id="sTitle"></h2>
+      <p class="meta" id="sMeta"></p>
+      <div class="story" id="story"></div>
+      <div class="msg" id="msg"></div>
+    </div>
+  </div>
+  <div class="card end hidden" id="end" style="margin-top:18px">
+    <h2 class="fat" id="endTitle" style="font-size:2rem;margin:4px 0"></h2>
+    <div class="bigstars" id="endStars"></div>
+    <p id="endMsg"></p>
+    <div class="row" style="justify-content:center"><button class="btn" id="again">Play again</button></div>
+  </div>
+</div>
+
+<script>
+const STORIES=[{
+  title:'The Midnight Clock in Room 4B', level:'B1–B2',
+  paras:[0,1,5,7,10,11,15,17],
+  s:[
+  "The ticking started on a Tuesday.",
+  "It was a slow, heavy clack... clack... clack that echoed through the thin walls of Maya’s third-floor apartment at exactly 3:15 AM.",
+  "Maya sat up in bed, staring at the silence of her own room.",
+  "She did not own a grandfather clock.",
+  "None of her neighbors in the historic building did—or so the landlord, Mr. Henderson, had claimed when she moved in.",
+  "By Thursday, the ticking had changed.",
+  "It was accompanied by the faint, rhythmic scratching of someone turning the pages of a heavy book.",
+  "Driven by sleepless curiosity, Maya stepped into the cold hallway at 3:14 AM on Friday.",
+  "She followed the sound down the corridor to Room 4B—an apartment that had been vacant since the mysterious disappearance of Dr. Alistair Vance six months ago.",
+  "The door was locked, as it had always been.",
+  "Except tonight, a thin sliver of warm amber light leaked from beneath the threshold.",
+  "Maya pressed her ear to the wood.",
+  "The ticking stopped.",
+  "A soft voice whispered from inside, reciting a sequence of numbers in a language she did not know.",
+  "Then came the distinct sound of a brass key turning from the inside.",
+  "Maya froze.",
+  "Before she could run, the door clicked open an inch.",
+  "No one was standing in the doorway.",
+  "On the floor just inside the threshold sat an old, silver pocket watch, ticking loudly on a bed of fresh soil, with a single handwritten note resting beside it: You took too long to find the page, Maya."
+  ]}];
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let VOICE=null;function pickVoice(){try{const vs=speechSynthesis.getVoices();VOICE=vs.find(v=>v.lang==='en-US')||vs.find(v=>/^en/.test(v.lang))||null}catch(e){}}
+try{pickVoice();speechSynthesis.onvoiceschanged=pickVoice}catch(e){}
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(VOICE)u.voice=VOICE;u.rate=.92;speechSynthesis.speak(u)}catch(e){}}
+
+const BW=68,BH=28,GAP=3,W=360,BASE=470-16;
+let G=null;
+function start(){
+  const st=STORIES[0];
+  G={st,next:0,mistakes:0,maxLives:3,blocks:[],floor:0,collapsed:false,sel:null,hints:0};
+  $('hudTitle').textContent=st.title;$('sTitle').textContent=st.title;$('sMeta').textContent=`${st.s.length} sentences · level ${st.level}`;
+  $('end').classList.add('hidden');$('msg').className='msg';
+  const order=shuffle(st.s.map((_,i)=>i));
+  const tower=$('tower');tower.innerHTML='';
+  const stage=$('stage');const w=stage.clientWidth;
+  order.forEach((idx,pos)=>{
+    const layer=Math.floor(pos/3),slot=pos%3;
+    const b=document.createElement('button');b.className='blk'+(layer%2?' alt':'');b.dataset.i=idx;
+    b.setAttribute('aria-label','Sentence block');
+    const cx=w/2-(BW*1.5+GAP)+slot*(BW+GAP);
+    b.style.left=cx+'px';b.style.top=(BASE-(layer+1)*(BH+GAP))+'px';
+    b.onclick=()=>openReader(b);
+    tower.appendChild(b);G.blocks.push(b);
+  });
+  renderStory();hud();
+}
+function hud(){$('hudN').textContent=`${G.next} / ${G.st.s.length}`;
+  $('lives').innerHTML=[...Array(G.maxLives)].map((_,i)=>`<span class="${i<G.maxLives-G.mistakes?'':'off'}">🧱</span>`).join('');}
+function renderStory(newIdx){
+  const st=G.st,s=$('story');
+  if(G.next===0){s.innerHTML='<p class="empty">Your story will appear here. Which sentence comes first?</p>';return;}
+  let html='',p='';
+  for(let i=0;i<G.next;i++){
+    if(st.paras.includes(i)&&i>0){html+=`<p>${p}</p>`;p='';}
+    p+=(p?' ':'')+(i===newIdx?`<span class="new">${st.s[i]}</span>`:st.s[i]);
+  }
+  html+=`<p>${p}</p>`;s.innerHTML=html;
+}
+function openReader(b){
+  if(G.busy)return;
+  G.blocks.forEach(x=>x.classList.remove('sel'));b.classList.add('sel');G.sel=b;
+  const i=+b.dataset.i,r=$('reader');r.classList.remove('hidden');
+  r.innerHTML=`<p>${G.st.s[i]}</p><div class="row"><button class="speak" id="rSpeak" aria-label="Listen">🔊</button><div class="row"><button class="btn alt" id="rBack">Put it back</button><button class="btn" id="rPull">Pull it out!</button></div></div>`;
+  $('rSpeak').onclick=()=>speak(G.st.s[i]);$('rBack').onclick=closeReader;$('rPull').onclick=()=>pull(b);
+}
+function closeReader(){$('reader').classList.add('hidden');if(G.sel)G.sel.classList.remove('sel');G.sel=null;}
+function msg(kind,html){const m=$('msg');m.className='msg show '+kind;m.innerHTML=html;}
+function pull(b){
+  const i=+b.dataset.i;closeReader();
+  if(i===G.next){
+    G.busy=true;
+    const stage=$('stage');b.style.zIndex=20;
+    b.style.left=(parseFloat(b.style.left)+(parseFloat(b.style.left)<stage.clientWidth/2?-120:120))+'px';
+    setTimeout(()=>{b.classList.add('out');G.busy=false;},500);
+    G.next++;renderStory(i);hud();msg('good','✓ Yes! That comes next.');speak(G.st.s[i]);
+    if(G.next===G.st.s.length)setTimeout(finish,900);
+  }else{
+    G.mistakes++;hud();
+    const t=$('tower');t.classList.remove('wobble');void t.offsetWidth;t.classList.add('wobble');
+    b.animate([{transform:'translateX(0)'},{transform:'translateX(-8px)'},{transform:'translateX(8px)'},{transform:'translateX(0)'}],{duration:400});
+    if(G.mistakes>=G.maxLives&&!G.collapsed){G.collapsed=true;setTimeout(()=>dropBlocks(99),500);
+      msg('bad','💥 Oh no, the tower fell! But you can still finish the story: the blocks are on the floor. Keep going!');}
+    else{setTimeout(()=>dropBlocks(2+Math.floor(Math.random()*2)),450);
+      msg('bad',`Not that one! The tower is shaking… ${G.maxLives-G.mistakes} mistake${G.maxLives-G.mistakes===1?'':'s'} left before it falls.`);}
+  }
+}
+function dropBlocks(n){
+  const stage=$('stage'),w=stage.clientWidth;
+  const standing=G.blocks.filter(b=>!b.classList.contains('out')&&!b.classList.contains('fallen'));
+  standing.sort((a,b)=>parseFloat(a.style.top)-parseFloat(b.style.top));
+  const list=standing.slice(0,n);
+  list.forEach((b,k)=>{
+    let x,y;
+    if(n<50){ // side piles
+      const f=G.floor++;const left=f%2===0;const h=Math.floor(f/2);
+      x=left?3:w-BW-3;y=BASE-BH-1-h*(BH+1);
+    }else{ // collapse: scatter across the floor
+      const f=G.heap=(G.heap||0)+1;const per=4,row=Math.floor((f-1)/per),col=(f-1)%per;
+      const span=w-BW-20;x=10+col*(span/(per-1))+(row%2?14:0);x=Math.min(x,w-BW-4);y=BASE-BH-2-row*(BH-2);
+    }
+    b.classList.add('fallen');b.style.zIndex=5+(G.floor||0)+(G.heap||0);
+    setTimeout(()=>{b.style.left=x+'px';b.style.top=Math.max(y,60)+'px';b.style.transform=`rotate(${(Math.random()*14-7).toFixed(1)}deg)`;},k*110);
+  });
+}
+function finish(){
+  const n=G.mistakes===0?3:G.mistakes<=2?2:1;
+  $('endTitle').textContent='You built the story! 📖';
+  $('endStars').innerHTML=[0,1,2].map(i=>`<span class="${i<n?'':'off'}">⭐</span>`).join('');
+  $('endMsg').textContent=G.mistakes===0?'Perfect! Not a single wrong block.':`You finished with ${G.mistakes} mistake${G.mistakes>1?'s':''}. Read the whole story again on the right!`;
+  $('end').classList.remove('hidden');$('end').scrollIntoView({behavior:'smooth',block:'center'});
+  msg('info','Read the whole story again. Can you retell it with your own words?');
+}
+$('hintBtn').onclick=()=>{
+  if(!G||G.next>=G.st.s.length)return;G.hints++;
+  const words=G.st.s[G.next].split(' ').slice(0,3).join(' ');
+  msg('info',`💡 The next sentence starts with: <b>“${words}…”</b>`);
+};
+$('again').onclick=()=>{window.scrollTo({top:0,behavior:'smooth'});start();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeReader();});
+start();
+</script>
+</body>
+</html>
