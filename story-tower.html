@@ -144,7 +144,7 @@ let AUD=null,AUD_END=null,AUD_ON=null;
 function audioFor(st){if(!st.audio)return null;if(!AUD){AUD=new Audio(st.audio);AUD.preload='auto';AUD.addEventListener('timeupdate',()=>{if(AUD_ON)AUD_ON(AUD.currentTime);if(AUD_END!=null&&AUD.currentTime>=AUD_END){AUD.pause();AUD_END=null;if(AUD_ON){AUD_ON(-1);AUD_ON=null;}}});AUD.addEventListener('error',()=>{AUD.broken=true;});}return AUD;}
 function playSentence(i){const st=G.st,a=audioFor(st);
   if(!a||a.broken||!st.times){speak(st.s[i]);return;}
-  try{speechSynthesis.cancel()}catch(e){}AUD_ON=null;a.currentTime=st.times[i][0];AUD_END=st.times[i][1];a.play().catch(()=>speak(st.s[i]));}
+  try{speechSynthesis.cancel()}catch(e){}AUD_ON=null;const go=()=>{a.pause();a.currentTime=st.times[i][0];AUD_END=st.times[i][1];a.play().catch(()=>speak(st.s[i]));};if(a.readyState>=1)go();else{a.addEventListener('loadedmetadata',go,{once:true});a.load();}}
 function playWhole(){const st=G.st,a=audioFor(st);if(!a||a.broken)return;
   if(!a.paused&&AUD_END===a.duration){a.pause();AUD_END=null;$('listenBtn').textContent='▶ Listen to the story';hl(-1);return;}
   a.currentTime=0;AUD_END=a.duration||9999;$('listenBtn').textContent='⏸ Stop';
