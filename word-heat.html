@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Heat ✦ wdym, teacher?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#f8e6f5;--pink:#ebb3e6;--pink2:#f5d6f2;--blue:#9ccfdc;--blue2:#d7eef4;--yellow:#fbf06a;--yellow2:#fff8c4;
+    --navy:#1f2a5c;--muted:#4f5683;--white:#fffdf9;--mint:#c9f0dc;
+    --cold:#3d7be0;--cool:#2aa3b5;--warm:#e0a10f;--hot:#e8692a;--burn:#d62f2f;--opp:#7a4fd0;--win:#1f9a5c}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;color:var(--navy);background:var(--bg);min-height:100vh;line-height:1.5;
+    background-image:radial-gradient(rgba(255,255,255,.55) 1px,transparent 1.5px);background-size:16px 16px}
+  .fat{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900;letter-spacing:-.01em}
+  .hidden{display:none!important}
+  .tape{overflow:hidden;background:var(--blue2);border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);white-space:nowrap;
+    font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 0;transform:rotate(-1.2deg);margin:6px -20px 0}
+  .tape span{display:inline-block;animation:slide 30s linear infinite}
+  @keyframes slide{to{transform:translateX(-50%)}}
+  .wrap{max-width:760px;margin:0 auto;padding:46px 16px 60px;display:flex;flex-direction:column;gap:18px}
+  .eyebrow{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:3px 12px}
+  h1{font-size:clamp(2.4rem,9vw,3.8rem);margin:6px 0 2px;color:var(--yellow);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:4px 4px 0 var(--navy);line-height:1.05}
+  .intro p{margin:4px 0 0;max-width:560px}
+  .card{background:var(--white);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:18px 20px}
+  h2{font-family:'Fraunces',serif;font-weight:900;font-size:1.25rem;margin:0 0 8px}
+  /* clue */
+  .clue{background:var(--yellow2)}
+  .clue dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:8px 16px;align-items:center}
+  .clue dt{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .clue dd{margin:0;font-weight:700;font-size:1.1rem}
+  .pos{display:inline-block;border:2px solid var(--navy);border-radius:999px;padding:1px 12px;background:var(--white)}
+  .meaning{font-family:'Fraunces',serif;font-weight:800;font-size:1.3rem}
+  .dots{letter-spacing:3px}
+  .hintbox{margin:10px 0 0;font-weight:700}
+  .hintbox:empty{display:none}
+  /* guess */
+  form{display:flex;gap:10px}
+  input[type=text]{flex:1;min-width:0;font:inherit;font-size:1.15rem;padding:12px 16px;border-radius:999px;border:3px solid var(--navy);background:var(--white);color:var(--navy);box-shadow:3px 3px 0 var(--navy)}
+  input[type=text]:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .btn{font-family:'Fraunces',serif;font-weight:800;font-variation-settings:"SOFT" 100;font-size:1.05rem;border:2px solid var(--navy);border-radius:999px;
+    padding:10px 20px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;background:var(--yellow);color:var(--navy)}
+  .btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--navy)}
+  .btn.alt{background:var(--white)} .btn.blue{background:var(--blue)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .hintline{font-size:.9rem;color:var(--muted);margin:-8px 4px 0}
+  /* thermometer */
+  .meter{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+  .therm{position:relative;height:46px;margin:6px 0 30px 34px}
+  .tube{position:absolute;inset:6px 0 6px 0;border:3px solid var(--navy);border-radius:999px;background:var(--white);overflow:hidden}
+  .scale{position:absolute;inset:0;background:linear-gradient(90deg,var(--cold),var(--cool) 30%,var(--warm) 55%,var(--hot) 75%,var(--burn));opacity:.18}
+  .merc{position:absolute;left:0;top:0;bottom:0;width:4%;border-radius:999px;transition:width .8s cubic-bezier(.3,1.4,.5,1),background .5s;background:var(--cold)}
+  .bulb{position:absolute;left:-34px;top:-4px;width:54px;height:54px;border-radius:50%;border:3px solid var(--navy);background:var(--cold);transition:background .5s;z-index:2}
+  .bulb::after{content:"";position:absolute;right:-6px;top:15px;width:12px;height:18px;background:inherit}
+  .ticks{position:absolute;left:0;right:0;top:100%;margin-top:4px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+  .best{position:absolute;top:-2px;bottom:-2px;width:4px;border-radius:4px;background:var(--navy);transition:left .6s;opacity:0}
+  .best.on{opacity:.8}
+  .face{font-size:3.2rem;line-height:1;width:72px;height:72px;display:grid;place-items:center;border:3px solid var(--navy);border-radius:50%;background:var(--white);box-shadow:3px 3px 0 var(--navy)}
+  .face.pop{animation:pop .5s}
+  @keyframes pop{30%{transform:scale(1.25) rotate(-8deg)}}
+  .face.shiver{animation:shiver .5s steps(6)}
+  @keyframes shiver{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .fb{margin-top:6px}
+  .fb-head{font-family:'Fraunces',serif;font-weight:900;font-size:1.8rem;line-height:1.1}
+  .fb-note{margin:4px 0 0}
+  .dir{display:inline-block;margin-left:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;border:2px solid currentColor;border-radius:999px;padding:1px 10px;vertical-align:middle}
+  .idle{color:var(--muted);margin:0}
+  .Cold{color:var(--cold)} .Cool{color:var(--cool)} .Warm{color:var(--warm)} .Hot{color:var(--hot)} .Burning{color:var(--burn)} .Opposite{color:var(--opp)} .Found{color:var(--win)}
+  /* list */
+  ol.guesses{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+  ol.guesses li{display:grid;grid-template-columns:minmax(90px,auto) 1fr;gap:4px 12px;align-items:center;padding:8px 10px;border:2px solid var(--navy);border-radius:14px;background:var(--white)}
+  .gw{font-weight:700;font-size:1.05rem;overflow-wrap:anywhere}
+  .gbar{height:12px;border:2px solid var(--navy);border-radius:999px;background:var(--white);overflow:hidden}
+  .gbar i{display:block;height:100%;border-radius:999px}
+  .gmeta{grid-column:1 / -1;font-size:.9rem;color:var(--muted)}
+  .chip{display:inline-block;font-size:.75rem;font-weight:700;padding:0 8px;border-radius:999px;border:2px solid currentColor;margin-right:6px;background:var(--white)}
+  .empty{color:var(--muted);margin:0}
+  /* end */
+  .end{background:var(--mint)}
+  .end.lost{background:var(--pink2)}
+  .ladder{width:100%;border-collapse:collapse;margin-top:10px}
+  .ladder td{padding:6px 10px 6px 0;border-top:2px dashed rgba(31,42,92,.2)}
+  .ladder tr.me td{font-weight:700}
+  .ladder tr.me td span{background:linear-gradient(transparent 14%,var(--yellow) 14%,var(--yellow) 86%,transparent 86%);padding:0 .2em}
+  .ladder .tag{font-size:.8rem;color:var(--muted)}
+  ul.see{margin:6px 0 0;padding-left:20px}
+  .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .stats{font-size:.92rem;font-weight:700;color:var(--muted);margin-left:auto}
+  .linkbtn{all:unset;cursor:pointer;font-size:.85rem;color:var(--muted);text-decoration:underline}
+  textarea.export{width:100%;min-height:140px;margin-top:8px;font:12px ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--navy);border-radius:12px;padding:8px}
+  @media (max-width:560px){
+    .meter{grid-template-columns:1fr}
+    .face{position:absolute;right:14px;top:14px;width:52px;height:52px;font-size:2.2rem}
+    .heatcard{position:relative}
+    .therm{margin-right:62px}
+    .ticks span:nth-child(2),.ticks span:nth-child(4){display:none}
+    form .btn{padding:10px 16px}
+  }
+  @media (prefers-reduced-motion:reduce){.merc,.best{transition:none}.face.pop,.face.shiver{animation:none}}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="tape"><span>cold ✦ cool ✦ warm ✦ hot ✦ burning ✦ found it! ✦ cold ✦ cool ✦ warm ✦ hot ✦ burning ✦ found it! ✦ cold ✦ cool ✦ warm ✦ hot ✦ burning ✦ found it! ✦ cold ✦ cool ✦ warm ✦ hot ✦ burning ✦ found it! ✦ </span></div>
+
+<main class="wrap">
+  <header class="intro">
+    <span class="eyebrow">Vocabulary · B1–B2</span>
+    <h1 class="fat">Word Heat</h1>
+    <p>Read the clue and guess the hidden word. The thermometer tells you how close you are: the right meaning <i>and</i> the right strength.</p>
+  </header>
+
+  <section class="card clue" aria-label="Clue">
+    <h2>The clue</h2>
+    <dl>
+      <dt>Word type</dt><dd><span class="pos" id="cPos"></span></dd>
+      <dt>Meaning</dt><dd class="meaning" id="cMeaning"></dd>
+      <dt>Strength</dt><dd id="cStrength"></dd>
+      <dt>Style</dt><dd id="cReg"></dd>
+    </dl>
+    <p class="hintbox" id="hints"></p>
+  </section>
+
+  <form id="f" autocomplete="off">
+    <label for="g" class="hidden">Your guess</label>
+    <input type="text" id="g" placeholder="Type one English word…" enterkeyhint="send" spellcheck="false" autocapitalize="none" aria-label="Your guess">
+    <button type="submit" class="btn" id="go">Guess</button>
+  </form>
+  <p class="hintline">Nouns, adjectives and adverbs. Strength 1 = weak, 5 = very strong.</p>
+
+  <section class="card heatcard" aria-live="polite">
+    <div class="meter">
+      <div>
+        <div class="therm" aria-hidden="true">
+          <div class="bulb" id="bulb"></div>
+          <div class="tube"><div class="scale"></div><div class="merc" id="merc"></div></div>
+          <div class="best" id="best" title="Your best guess"></div>
+          <div class="ticks"><span style="left:6%">Cold</span><span style="left:30%">Cool</span><span style="left:55%">Warm</span><span style="left:76%">Hot</span><span style="left:94%">Burning</span></div>
+        </div>
+        <div class="fb" id="fb"><p class="idle">Make your first guess!</p></div>
+      </div>
+      <div class="face" id="face" aria-hidden="true">🤔</div>
+    </div>
+  </section>
+
+  <section class="card end hidden" id="endBox"></section>
+
+  <section class="card" aria-label="Your guesses">
+    <h2>Your guesses, hottest first</h2>
+    <ol class="guesses" id="list"></ol>
+  </section>
+
+  <section class="tools">
+    <button type="button" class="btn alt" id="giveup">Give up</button>
+    <button type="button" class="btn blue" id="next">Next word →</button>
+    <span class="stats" id="stats"></span>
+  </section>
+  <p style="margin:0"><button type="button" class="linkbtn" id="copy">Copy my session log (for your teacher)</button></p>
+  <div id="exportBox" class="hidden"></div>
+</main>
+
+<script>
+(function (root) {
+  'use strict';
+  var REG = { n: 'neutral', f: 'formal', i: 'informal' };
+
+  /* id | pos | meaning | words "word strength register" | opposite clusters | related clusters */
+  var RAW = [
+    ['tired', 'adjective', 'feeling tired', 'sleepy 1 n, tired 2 n, weary 3 f, drained 4 n, beat 4 i, exhausted 5 n, pooped 5 i', '', 'hungry'],
+    ['big', 'adjective', 'being large in size', 'big 2 n, large 2 f, massive 4 n, huge 4 n, vast 5 f, enormous 5 n, immense 5 f, colossal 5 f', 'small', 'important, house'],
+    ['small', 'adjective', 'being small in size', 'small 2 n, little 2 n, tiny 4 n, minuscule 5 f, diminutive 5 f', 'big', ''],
+    ['good', 'adjective', 'being of good quality', 'decent 1 n, fine 2 n, good 2 n, great 3 n, fantastic 4 n, excellent 4 n, awesome 4 i, superb 5 f, outstanding 5 f', 'bad', 'beautiful, kind, success'],
+    ['bad', 'adjective', 'being of bad quality', 'poor 2 n, bad 2 n, awful 4 n, terrible 4 n, dreadful 5 f, appalling 5 f, atrocious 5 f', 'good', 'dirty, mistake'],
+    ['happy', 'adjective', 'feeling happy', 'content 1 n, pleased 2 n, glad 2 n, happy 3 n, delighted 4 n, thrilled 4 n, ecstatic 5 n, overjoyed 5 n', 'sad', 'happiness'],
+    ['sad', 'adjective', 'feeling sad', 'unhappy 2 n, sad 2 n, gloomy 3 n, miserable 4 n, heartbroken 5 n, devastated 5 n', 'happy', 'angry, afraid, sadness'],
+    ['angry', 'adjective', 'feeling angry', 'annoyed 1 n, irritated 2 n, mad 3 i, angry 3 n, furious 5 n, livid 5 n, enraged 5 f', '', 'afraid, rude, anger, fight'],
+    ['afraid', 'adjective', 'feeling afraid', 'nervous 1 n, scared 3 n, afraid 3 n, frightened 3 n, terrified 5 n, petrified 5 n', 'brave', 'fear'],
+    ['surprising', 'adjective', 'being unexpected', 'unexpected 2 n, surprising 2 n, astonishing 4 n, amazing 4 n, astounding 5 f, staggering 5 n', '', 'strange'],
+    ['difficult', 'adjective', 'being hard to do', 'tricky 2 n, demanding 3 n, difficult 3 n, challenging 3 n, tough 3 i, arduous 5 f, grueling 5 n', 'easy', 'problem'],
+    ['easy', 'adjective', 'being easy to do', 'simple 2 n, easy 2 n, straightforward 2 n, effortless 4 n', 'difficult', ''],
+    ['important', 'adjective', 'being important', 'significant 3 f, important 3 n, essential 4 n, crucial 5 n, vital 5 n', '', 'big'],
+    ['interesting', 'adjective', 'holding your attention', 'interesting 2 n, intriguing 3 n, fascinating 4 n, gripping 4 n, compelling 4 f, captivating 5 f', 'boring', 'funny'],
+    ['boring', 'adjective', 'not holding your attention', 'dull 2 n, boring 3 n, tedious 4 f, monotonous 4 f', 'interesting', ''],
+    ['beautiful', 'adjective', 'looking beautiful', 'pretty 2 n, attractive 3 n, lovely 3 n, beautiful 4 n, gorgeous 5 n, stunning 5 n, breathtaking 5 n', '', 'good'],
+    ['cold', 'adjective', 'having a low temperature', 'cool 1 n, chilly 2 n, cold 3 n, icy 4 n, frosty 4 n, freezing 5 n', 'hot', 'storm'],
+    ['hot', 'adjective', 'having a high temperature', 'warm 1 n, hot 3 n, boiling 5 n, scorching 5 n, sweltering 5 n', 'cold', ''],
+    ['clever', 'adjective', 'having a quick mind', 'smart 2 n, clever 3 n, bright 3 n, intelligent 3 f, brilliant 5 n, ingenious 5 f', '', ''],
+    ['strange', 'adjective', 'being not normal', 'odd 2 n, unusual 2 n, weird 3 i, strange 3 n, peculiar 3 f, bizarre 5 n, outlandish 5 f', '', 'surprising'],
+    ['rich', 'adjective', 'having a lot of money', 'rich 3 n, wealthy 3 f, loaded 4 i, affluent 4 f, prosperous 4 f', '', ''],
+    ['loud', 'adjective', 'making a lot of noise', 'noisy 3 n, loud 3 n, deafening 5 n, thunderous 5 f', 'quiet', ''],
+    ['quiet', 'adjective', 'making little noise', 'quiet 2 n, hushed 3 f, silent 5 n', 'loud', ''],
+    ['quick', 'adjective', 'moving or acting fast', 'quick 2 n, fast 2 n, speedy 3 n, rapid 3 f, swift 4 f', '', 'quickly'],
+    ['brave', 'adjective', 'not afraid of danger', 'bold 3 n, brave 3 n, courageous 4 f, daring 4 n, fearless 5 n', 'afraid', 'fear'],
+    ['rude', 'adjective', 'showing bad manners', 'impolite 1 n, rude 2 n, disrespectful 3 n, offensive 4 n, insolent 5 f', '', 'angry'],
+    ['dirty', 'adjective', 'not being clean', 'dirty 2 n, grubby 3 n, grimy 4 n, filthy 5 n, squalid 5 f', '', 'bad, smell'],
+    ['wet', 'adjective', 'being covered in water', 'damp 1 n, wet 2 n, soaked 4 n, drenched 5 n, sodden 5 f', '', 'storm'],
+    ['hungry', 'adjective', 'wanting food', 'hungry 3 n, starving 5 n, famished 5 f', '', 'tired, meal'],
+    ['funny', 'adjective', 'making you laugh', 'amusing 2 n, funny 3 n, comical 3 f, hilarious 5 n, hysterical 5 i', '', 'interesting'],
+    ['kind', 'adjective', 'caring about other people', 'kind 2 n, thoughtful 3 n, generous 3 n, selfless 5 f, benevolent 5 f', '', 'good, friend'],
+    ['quickly', 'adverb', 'doing something fast', 'quickly 2 n, promptly 3 n, hastily 3 n, rapidly 3 f, swiftly 4 f', '', 'quick'],
+    ['degree', 'adverb', 'to what degree something is true', 'slightly 1 n, fairly 2 n, quite 2 n, rather 2 n, very 3 n, really 3 i, super 4 i, remarkably 4 f, highly 4 n, extremely 5 n, incredibly 5 n, exceedingly 5 f', '', ''],
+    ['frequency', 'adverb', 'how often something happens', 'rarely 1 n, occasionally 2 n, sometimes 2 n, often 3 n, frequently 4 f, usually 4 n, constantly 5 n, always 5 n', '', ''],
+    ['certainty', 'adverb', 'how sure you are', 'perhaps 1 n, possibly 1 n, maybe 1 i, probably 3 n, certainly 5 n, definitely 5 n, undoubtedly 5 f', '', ''],
+    /* ---- nouns ---- */
+    ['problem', 'noun', 'a difficult situation', 'hitch 1 n, glitch 1 i, issue 2 n, problem 3 n, trouble 3 n, setback 3 n, crisis 5 n, disaster 5 n, catastrophe 5 f', '', 'difficult, mistake'],
+    ['mistake', 'noun', 'something done wrong', 'slip 1 n, error 3 f, mistake 3 n, blunder 4 n, screwup 5 i', '', 'problem, bad, failure'],
+    ['fight', 'noun', 'an angry disagreement', 'disagreement 1 n, argument 2 n, quarrel 3 f, fight 3 n, clash 4 n, feud 5 n', '', 'angry, anger'],
+    ['fear', 'noun', 'the feeling of being afraid', 'worry 1 n, anxiety 2 n, fear 3 n, dread 4 n, panic 4 n, terror 5 n, horror 5 n', '', 'afraid, brave'],
+    ['happiness', 'noun', 'the feeling of being happy', 'contentment 1 f, satisfaction 2 n, happiness 3 n, joy 4 n, delight 4 n, bliss 5 n, euphoria 5 f', 'sadness', 'happy'],
+    ['sadness', 'noun', 'the feeling of being sad', 'disappointment 1 n, sadness 3 n, sorrow 4 f, misery 4 n, grief 5 n, despair 5 n', 'happiness', 'sad'],
+    ['anger', 'noun', 'the feeling of being angry', 'annoyance 1 n, irritation 2 n, frustration 2 n, anger 3 n, outrage 4 n, rage 5 n, fury 5 n', '', 'angry, fight'],
+    ['friend', 'noun', 'a person you know and like', 'acquaintance 1 n, friend 3 n, buddy 3 i, pal 3 i, companion 3 f, confidant 4 f, soulmate 5 n', '', 'kind'],
+    ['house', 'noun', 'a building where people live (from small to big)', 'shack 1 n, hut 1 n, cabin 2 n, house 3 n, home 3 n, villa 4 n, mansion 5 n, palace 5 n', '', 'big'],
+    ['meal', 'noun', 'food you eat (from a little to a lot)', 'bite 1 i, snack 1 n, meal 3 n, feast 5 n, banquet 5 f', '', 'hungry'],
+    ['storm', 'noun', 'bad weather with strong wind (from weak to strong)', 'breeze 1 n, wind 2 n, gust 3 n, gale 4 n, storm 4 n, hurricane 5 n, tornado 5 n', '', 'cold, wet'],
+    ['success', 'noun', 'getting a good result', 'progress 2 n, achievement 3 n, success 3 n, victory 4 n, triumph 5 n', 'failure', 'good'],
+    ['failure', 'noun', 'getting a bad result', 'failure 3 n, defeat 4 n, flop 4 i, fiasco 5 n', 'success', 'mistake'],
+    ['smell', 'noun', 'something you notice with your nose', 'scent 2 n, smell 2 n, odor 3 n, stink 4 i, stench 5 n', '', 'dirty']
+  ];
+
+  var CL = {}, IDX = {}, ALL = [];
+  function splitList(s) { return s ? s.split(',').map(function (x) { return x.trim(); }).filter(Boolean) : []; }
+  RAW.forEach(function (row) {
+    var c = { id: row[0], pos: row[1], concept: row[2], words: [], opp: {}, rel: {}, _opp: splitList(row[4]), _rel: splitList(row[5]) };
+    splitList(row[3]).forEach(function (chunk) {
+      var p = chunk.split(/\s+/);
+      var e = { w: p[0], i: parseInt(p[1], 10), r: p[2], c: c.id };
+      c.words.push(e); (IDX[e.w] = IDX[e.w] || []).push(e); ALL.push(e);
+    });
+    CL[c.id] = c;
+  });
+  Object.keys(CL).forEach(function (id) {
+    CL[id]._opp.forEach(function (o) { CL[id].opp[o] = 1; if (CL[o]) CL[o].opp[id] = 1; });
+    CL[id]._rel.forEach(function (o) { CL[id].rel[o] = 1; if (CL[o]) CL[o].rel[id] = 1; });
+  });
+  function validate() {
+    var errs = [];
+    Object.keys(CL).forEach(function (id) {
+      var c = CL[id], seen = {};
+      c.words.forEach(function (e) {
+        if (!(e.i >= 1 && e.i <= 5)) errs.push('bad intensity: ' + e.w);
+        if (!REG[e.r]) errs.push('bad register: ' + e.w);
+        if (seen[e.w]) errs.push('duplicate in cluster ' + id + ': ' + e.w);
+        seen[e.w] = 1;
+      });
+      c._opp.concat(c._rel).forEach(function (o) { if (!CL[o]) errs.push('unknown cluster ' + o + ' in ' + id); });
+      if (c.words.length < 2) errs.push('cluster too small: ' + id);
+    });
+    Object.keys(IDX).forEach(function (w) { if (IDX[w].length > 1) errs.push('word in several clusters: ' + w); });
+    return errs;
+  }
+  function twoHop(a, b) { var ra = CL[a].rel; for (var x in ra) if (CL[x] && CL[x].rel[b]) return true; return false; }
+  function art(w) { return /^[aeiou]/.test(w) ? 'an ' + w : 'a ' + w; }
+  function relate(e, T) {
+    var d, label, rank, dir, note;
+    if (e.c === T.c) {
+      if (e.w === T.w) return { win: true, exact: true, rank: 100, label: 'Found', dir: '', note: '' };
+      d = e.i - T.i;
+      if (d === 0 && e.r === T.r) return { win: true, exact: false, rank: 100, label: 'Found', dir: '', note: '"' + e.w + '" also fits the clue! The word I had in mind was "' + T.w + '".' };
+      dir = d > 0 ? 'stronger' : d < 0 ? 'weaker' : 'same';
+      if (Math.abs(d) <= 1) {
+        label = 'Burning'; rank = 90;
+        note = d === 0
+          ? 'Same meaning and strength, but this word is ' + REG[e.r] + '. The hidden word is ' + REG[T.r] + '.'
+          : 'Right meaning! But it\'s a little ' + dir + ' than the hidden word. Try a ' + (d > 0 ? 'weaker' : 'stronger') + ' one.';
+      } else {
+        label = 'Hot'; rank = 80;
+        note = 'Right meaning! But it\'s much ' + dir + ' than the hidden word. Try a ' + (d > 0 ? 'weaker' : 'stronger') + ' one.';
+      }
+      return { win: false, rank: rank, label: label, dir: dir === 'same' ? '' : dir, note: note };
+    }
+    if (CL[T.c].opp[e.c]) return { win: false, rank: 60, label: 'Opposite', dir: '', note: 'That\'s the opposite meaning! Turn it around.' };
+    if (CL[T.c].rel[e.c]) {
+      var pe = CL[e.c].pos, pt = CL[T.c].pos;
+      return { win: false, rank: 70, label: 'Warm', dir: '', note: pe !== pt ? 'Related idea, but this is ' + art(pe) + ' and the hidden word is ' + art(pt) + '.' : 'A related idea, but not the same meaning.' };
+    }
+    if (twoHop(T.c, e.c)) return { win: false, rank: 50, label: 'Cool', dir: '', note: 'Only a little related.' };
+    return { win: false, rank: 10, label: 'Cold', dir: '', note: 'No connection to the hidden word.' };
+  }
+  function evaluate(guess, T) {
+    var g = (guess || '').trim().toLowerCase(), entries = IDX[g];
+    if (!entries) return { unknown: true, word: g };
+    var best = null;
+    entries.forEach(function (e) { var r = relate(e, T); if (!best || r.rank > best.rank) best = r; });
+    best.word = g; return best;
+  }
+  function family(T) {
+    var c = CL[T.c], words = c.words.slice().sort(function (a, b) { return a.i - b.i; }), see = [];
+    Object.keys(c.rel).forEach(function (o) { see.push({ kind: 'related', concept: CL[o].concept, sample: CL[o].words[0].w, pos: CL[o].pos }); });
+    Object.keys(c.opp).forEach(function (o) { see.push({ kind: 'opposite', concept: CL[o].concept, sample: CL[o].words[0].w, pos: CL[o].pos }); });
+    return { concept: c.concept, pos: c.pos, words: words, see: see };
+  }
+  root.REG = REG; root.CLUSTERS = CL; root.ALL = ALL; root.validate = validate; root.evaluate = evaluate; root.family = family;
+  root.lookup = function (w) { return IDX[(w || '').trim().toLowerCase()] || null; };
+})(window.WordEngine = {});
+</script>
+<script>
+(function () {
+  var W = window.WordEngine;
+  var $ = function (id) { return document.getElementById(id); };
+  var queue = [], target = null, guesses = [], over = false, won = false, round = 0, solved = 0, totalGuesses = 0;
+  var history = [], unknown = [], last = null, lastMsg = null;
+  var HEAT = { Cold: 6, Cool: 28, Opposite: 40, Warm: 55, Hot: 76, Burning: 92, Found: 100 };
+  var COLOR = { Cold: 'var(--cold)', Cool: 'var(--cool)', Opposite: 'var(--opp)', Warm: 'var(--warm)', Hot: 'var(--hot)', Burning: 'var(--burn)', Found: 'var(--win)' };
+  var FACE = { Cold: '🥶', Cool: '😐', Opposite: '🙃', Warm: '🙂', Hot: '🥵', Burning: '🔥', Found: '🤩' };
+  var TITLE = { Cold: 'Cold!', Cool: 'Cool…', Opposite: 'Opposite!', Warm: 'Warm!', Hot: 'Hot!', Burning: 'Burning!!', Found: 'You found it!' };
+
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function dots(n) { var s = ''; for (var i = 1; i <= 5; i++) s += i <= n ? '●' : '○'; return s; }
+
+  function newRound() {
+    if (!queue.length) queue = shuffle(W.ALL.slice());
+    target = queue.pop();
+    guesses = []; over = false; won = false; round++; last = null; lastMsg = null;
+    $('g').value = ''; $('exportBox').classList.add('hidden');
+    render(); try { $('g').focus({ preventScroll: true }); } catch (e) {}
+  }
+  function finishRound(didWin) {
+    over = true; won = didWin; if (didWin) solved++;
+    history.push({ n: round, target: target.w, won: didWin, guesses: guesses.map(function (g) { return g.word + ' (' + g.label + ')'; }) });
+    render();
+    $('endBox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  function submit(raw) {
+    if (over) return;
+    var w = raw.trim().toLowerCase();
+    if (!w) return;
+    if (/\s/.test(w)) { showMsg('One word at a time, please.'); return; }
+    if (!/^[a-z'-]+$/.test(w)) { showMsg('Use English letters only.'); return; }
+    for (var i = 0; i < guesses.length; i++) if (guesses[i].word === w) { showMsg('You already tried "' + w + '".'); return; }
+    var r = W.evaluate(w, target);
+    if (r.unknown) { if (unknown.indexOf(w) < 0) unknown.push(w); showMsg('"' + w + '" is not on my word list yet. It doesn\'t count as a guess. Try a similar word!'); return; }
+    r.n = guesses.length + 1; guesses.push(r); totalGuesses++;
+    lastMsg = null; last = r;
+    if (r.win) finishRound(true); else render();
+  }
+  function showMsg(m) { lastMsg = m; render(); }
+
+  function renderClue() {
+    var c = W.CLUSTERS[target.c];
+    $('cPos').textContent = c.pos;
+    $('cMeaning').textContent = c.concept;
+    var s = $('cStrength'); s.textContent = '';
+    s.appendChild(el('span', 'dots', dots(target.i))); s.appendChild(document.createTextNode('  ' + target.i + ' / 5'));
+    $('cReg').textContent = W.REG[target.r];
+    var h = [];
+    if (guesses.length >= 4) h.push('💡 It starts with "' + target.w.charAt(0).toUpperCase() + '".');
+    if (guesses.length >= 7) h.push('It has ' + target.w.length + ' letters.');
+    $('hints').textContent = h.join(' ');
+  }
+  function bestGuess() { var b = null; guesses.forEach(function (g) { if (!b || g.rank > b.rank) b = g; }); return b; }
+  function renderMeter() {
+    var face = $('face'), merc = $('merc'), bulb = $('bulb'), best = $('best'), fb = $('fb');
+    var show = over && !won ? null : last;
+    if (show) {
+      merc.style.width = HEAT[show.label] + '%'; merc.style.background = COLOR[show.label]; bulb.style.background = COLOR[show.label];
+    } else if (!guesses.length) { merc.style.width = '4%'; merc.style.background = 'var(--cold)'; bulb.style.background = 'var(--cold)'; }
+    var b = bestGuess();
+    if (b && guesses.length > 1) { best.style.left = 'calc(' + HEAT[b.label] + '% - 2px)'; best.classList.add('on'); } else best.classList.remove('on');
+    fb.textContent = '';
+    if (lastMsg) { fb.appendChild(el('p', 'fb-note', lastMsg)); return; }
+    if (!last) { fb.appendChild(el('p', 'idle', over ? 'Round over.' : 'Make your first guess!')); face.textContent = over ? '😅' : '🤔'; return; }
+    var head = el('p', 'fb-head ' + last.label, '"' + last.word + '" · ' + TITLE[last.label]);
+    if (last.dir) { var d = el('span', 'dir', last.dir === 'stronger' ? '↑ too strong' : '↓ too weak'); head.appendChild(d); }
+    fb.appendChild(head);
+    fb.appendChild(el('p', 'fb-note', last.win ? (last.exact ? 'The hidden word was "' + target.w + '". 🎉' : last.note) : last.note));
+    {
+      face.textContent = FACE[last.label];
+      face.classList.remove('pop', 'shiver'); void face.offsetWidth;
+      face.classList.add(last.label === 'Cold' || last.label === 'Cool' ? 'shiver' : 'pop');
+    }
+  }
+  function renderList() {
+    var ol = $('list'); ol.textContent = '';
+    if (!guesses.length) { ol.appendChild(el('li', 'empty', 'No guesses yet.')); ol.firstChild.style.border = '0'; ol.firstChild.style.background = 'transparent'; return; }
+    guesses.slice().sort(function (a, b) { return b.rank - a.rank || b.n - a.n; }).forEach(function (g) {
+      var li = el('li');
+      li.appendChild(el('span', 'gw', g.word));
+      var bar = el('div', 'gbar'), fill = el('i'); fill.style.width = HEAT[g.label] + '%'; fill.style.background = COLOR[g.label]; bar.appendChild(fill); li.appendChild(bar);
+      var meta = el('div', 'gmeta');
+      meta.appendChild(el('span', 'chip ' + g.label, FACE[g.label] + ' ' + g.label));
+      meta.appendChild(document.createTextNode(g.note || ''));
+      li.appendChild(meta); ol.appendChild(li);
+    });
+  }
+  function renderEnd() {
+    var box = $('endBox'); box.classList.toggle('hidden', !over); if (!over) return;
+    box.classList.toggle('lost', !won); box.textContent = '';
+    var fam = W.family(target);
+    box.appendChild(el('h2', '', won ? '🎉 Solved in ' + guesses.length + (guesses.length === 1 ? ' guess!' : ' guesses!') : 'The word was "' + target.w + '"'));
+    box.appendChild(el('p', '', 'The whole word family: ' + fam.pos + 's that mean "' + fam.concept + '", from weakest to strongest.'));
+    var t = el('table', 'ladder');
+    fam.words.forEach(function (e) {
+      var tr = el('tr', e.w === target.w ? 'me' : '');
+      tr.appendChild(el('td', 'dots', dots(e.i))); var wtd = el('td'); wtd.appendChild(el('span', '', e.w)); tr.appendChild(wtd); tr.appendChild(el('td', 'tag', W.REG[e.r]));
+      t.appendChild(tr);
+    });
+    box.appendChild(t);
+    if (fam.see.length) {
+      box.appendChild(el('p', '', 'See also:')); var ul = el('ul', 'see');
+      fam.see.forEach(function (s) { ul.appendChild(el('li', '', (s.kind === 'opposite' ? 'Opposite: ' : 'Related: ') + s.concept + ' (' + s.pos + ', e.g. ' + s.sample + ')')); });
+      box.appendChild(ul);
+    }
+  }
+  function render() {
+    renderClue(); renderMeter(); renderList(); renderEnd();
+    $('g').disabled = over; $('go').disabled = over; $('giveup').disabled = over;
+    $('stats').textContent = 'Round ' + round + ' · solved ' + solved;
+  }
+  function logText() {
+    var lines = ['Word Heat - session log', ''];
+    history.forEach(function (h) {
+      lines.push('Round ' + h.n + ': ' + h.target + ' - ' + (h.won ? 'solved' : 'gave up') + ' in ' + h.guesses.length + ' guesses');
+      lines.push('  ' + h.guesses.join(', '));
+    });
+    if (!over && guesses.length) lines.push('Round ' + round + ' (in progress): ' + guesses.map(function (g) { return g.word + ' (' + g.label + ')'; }).join(', '));
+    lines.push('', 'Words not in the list: ' + (unknown.length ? unknown.join(', ') : 'none'));
+    return lines.join('\n');
+  }
+  function showExport(text) { var box = $('exportBox'); box.textContent = ''; var ta = el('textarea', 'export'); ta.value = text; ta.readOnly = true; box.appendChild(ta); box.classList.remove('hidden'); ta.focus(); ta.select(); }
+
+  $('f').addEventListener('submit', function (ev) { ev.preventDefault(); submit($('g').value); if (!over && last && !lastMsg) $('g').value = ''; try { $('g').focus({ preventScroll: true }); } catch (e) {} });
+  $('giveup').addEventListener('click', function () { if (!over) { last = null; lastMsg = null; finishRound(false); } });
+  $('next').addEventListener('click', function () { if (!over && guesses.length) history.push({ n: round, target: target.w, won: false, guesses: guesses.map(function (g) { return g.word + ' (' + g.label + ')'; }) }); newRound(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  $('copy').addEventListener('click', function () {
+    var text = logText();
+    try { navigator.clipboard.writeText(text).then(function () { $('copy').textContent = 'Copied! ✓'; setTimeout(function () { $('copy').textContent = 'Copy my session log (for your teacher)'; }, 1500); }, function () { showExport(text); }); }
+    catch (err) { showExport(text); }
+  });
+  newRound();
+})();
+</script>
+</body>
+</html>
