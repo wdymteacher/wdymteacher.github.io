@@ -48,8 +48,13 @@
   .hintline{font-size:.9rem;color:var(--muted);margin:-8px 4px 0}
   /* thermometer */
   .meter{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
-  .therm{position:relative;height:46px;margin:6px 0 30px 34px}
-  .tube{position:absolute;inset:6px 0 6px 0;border:3px solid var(--navy);border-radius:999px;background:var(--white);overflow:hidden}
+  .meter2{display:grid;grid-template-columns:76px 1fr 76px;gap:12px;align-items:center}
+  .tface{width:76px;height:76px;image-rendering:pixelated;transition:opacity .3s,filter .3s}
+  .tface.dim{opacity:.35;filter:grayscale(.6)}
+  .tface.shiver{animation:shiver .6s steps(8) 2}
+  .tface.pop{animation:pop .5s}
+  .therm{position:relative;height:40px;margin:0 0 22px}
+  .tube{position:absolute;inset:4px 0 4px 0;border:3px solid var(--navy);border-radius:999px;background:var(--white);overflow:hidden}
   .scale{position:absolute;inset:0;background:linear-gradient(90deg,var(--cold),var(--cool) 30%,var(--warm) 55%,var(--hot) 75%,var(--burn));opacity:.18}
   .merc{position:absolute;left:0;top:0;bottom:0;width:4%;border-radius:999px;transition:width .8s cubic-bezier(.3,1.4,.5,1),background .5s;background:var(--cold)}
   .bulb{position:absolute;left:-34px;top:-4px;width:54px;height:54px;border-radius:50%;border:3px solid var(--navy);background:var(--cold);transition:background .5s;z-index:2}
@@ -93,9 +98,8 @@
   textarea.export{width:100%;min-height:140px;margin-top:8px;font:12px ui-monospace,Menlo,Consolas,monospace;border:2px solid var(--navy);border-radius:12px;padding:8px}
   @media (max-width:560px){
     .meter{grid-template-columns:1fr}
-    .face{position:absolute;right:14px;top:14px;width:52px;height:52px;font-size:2.2rem}
-    .heatcard{position:relative}
-    .therm{margin-right:62px}
+    .meter2{grid-template-columns:52px 1fr 52px;gap:6px}
+    .tface{width:52px;height:52px}
     .ticks span:nth-child(2),.ticks span:nth-child(4){display:none}
     form .btn{padding:10px 16px}
   }
@@ -162,18 +166,16 @@
   <p class="hintline">One word at a time. American English, please! 🇺🇸</p>
 
   <section class="card heatcard" aria-live="polite">
-    <div class="meter">
-      <div>
-        <div class="therm" aria-hidden="true">
-          <div class="bulb" id="bulb"></div>
-          <div class="tube"><div class="scale"></div><div class="merc" id="merc"></div></div>
-          <div class="best" id="best" title="Your best guess"></div>
-          <div class="ticks"><span style="left:6%">Cold</span><span style="left:30%">Cool</span><span style="left:55%">Warm</span><span style="left:76%">Hot</span><span style="left:94%">Burning</span></div>
-        </div>
-        <div class="fb" id="fb"><p class="idle">Make your first guess!</p></div>
+    <div class="meter2">
+      <img class="tface" id="fCold" src="data:image/png;base64,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" alt="Teacher Maria freezing">
+      <div class="therm" aria-hidden="true">
+        <div class="tube"><div class="scale"></div><div class="merc" id="merc"></div></div>
+        <div class="best" id="best" title="Your best guess"></div>
+        <div class="ticks"><span style="left:0;transform:none">Cold</span><span style="left:28%">Cool</span><span style="left:52%">Warm</span><span style="left:75%">Hot</span><span style="left:auto;right:0;transform:none">Burning</span></div>
       </div>
-      <div class="face" id="face" aria-hidden="true">🤔</div>
+      <img class="tface" id="fHot" src="data:image/png;base64,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" alt="Teacher Maria sweating">
     </div>
+    <div class="fb" id="fb"><p class="idle">Make your first guess!</p></div>
   </section>
 
   <section class="card end hidden" id="endBox"></section>
@@ -352,22 +354,23 @@ const DATA = {"clusters":[{"id":"tired","pos":"adjective","topic":"describing","
   }
   function bestGuess() { var b = null; guesses.forEach(function (g) { if (!b || g.rank > b.rank) b = g; }); return b; }
   function renderMeter() {
-    var face = $('face'), merc = $('merc'), bulb = $('bulb'), best = $('best'), fb = $('fb');
+    var merc = $('merc'), best = $('best'), fb = $('fb'), fc = $('fCold'), fh = $('fHot');
     var show = over && !won ? null : last;
-    if (show) { merc.style.width = HEAT[show.label] + '%'; merc.style.background = COLOR[show.label]; bulb.style.background = COLOR[show.label]; }
-    else if (!guesses.length) { merc.style.width = '4%'; merc.style.background = 'var(--cold)'; bulb.style.background = 'var(--cold)'; }
+    if (show) { merc.style.width = HEAT[show.label] + '%'; merc.style.background = COLOR[show.label]; }
+    else if (!guesses.length) { merc.style.width = '4%'; merc.style.background = 'var(--cold)'; }
     var b = bestGuess();
     if (b && guesses.length > 1) { best.style.left = 'calc(' + HEAT[b.label] + '% - 2px)'; best.classList.add('on'); } else best.classList.remove('on');
     fb.textContent = '';
     if (lastMsg) { fb.appendChild(el('p', 'fb-note', lastMsg)); return; }
-    if (!last) { fb.appendChild(el('p', 'idle', over ? 'Round over.' : 'Make your first guess!')); face.textContent = over ? '😅' : '🤔'; return; }
+    if (!last) { fb.appendChild(el('p', 'idle', over ? 'Round over.' : 'Make your first guess!')); fc.className = 'tface'; fh.className = 'tface'; return; }
     var head = el('p', 'fb-head ' + last.label, '"' + last.word + '" · ' + TITLE[last.label]);
     if (last.dir) head.appendChild(el('span', 'dir', last.dir === 'stronger' ? '↑ too strong' : '↓ too weak'));
     fb.appendChild(head);
     fb.appendChild(el('p', 'fb-note', last.win ? (last.exact ? 'The hidden word was "' + target.w + '". 🎉' : last.note) : last.note));
-    face.textContent = FACE[last.label];
-    face.classList.remove('pop', 'shiver'); void face.offsetWidth;
-    face.classList.add(last.label === 'Cold' || last.label === 'Cool' ? 'shiver' : 'pop');
+    var cold = last.label === 'Cold' || last.label === 'Cool', hot = last.label === 'Hot' || last.label === 'Burning' || last.label === 'Found';
+    fc.className = 'tface'; fh.className = 'tface'; void fc.offsetWidth;
+    if (cold) { fc.classList.add('shiver'); fh.classList.add('dim'); }
+    else if (hot) { fh.classList.add('pop'); fc.classList.add('dim'); }
   }
   function renderList() {
     var ol = $('list'); ol.textContent = '';
