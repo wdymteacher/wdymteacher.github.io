@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Hidden Rules of The Hunger Games ✦ wdym, teacher?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,600..900,100;1,9..144,500..700,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8e6f5;--pink:#ebb3e6;--pink2:#f5d6f2;--blue:#9ccfdc;--blue2:#d7eef4;--yellow:#fbf06a;--yellow2:#fff8c4;--navy:#1f2a5c;--muted:#4f5683;--white:#fffdf9;--good:#2e9e6a;--bad:#d0284b;--mint:#c9f0dc;--orange:#f6b98a}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:'DM Sans',system-ui,sans-serif;color:var(--navy);background:var(--bg);min-height:100vh;line-height:1.5;background-image:radial-gradient(rgba(255,255,255,.55) 1px,transparent 1.5px);background-size:16px 16px}
+.fat{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900;letter-spacing:-.01em}
+.hidden{display:none!important}
+.tape{overflow:hidden;background:var(--orange);border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);white-space:nowrap;font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 0;transform:rotate(-1.2deg);margin:6px -20px 0}
+.tape span{display:inline-block;animation:slide 34s linear infinite}@keyframes slide{to{transform:translateX(-50%)}}
+.wrap{max-width:860px;margin:0 auto;padding:46px 16px 70px}
+.eyebrow{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:3px 12px}
+h1{font-size:clamp(2rem,7vw,3.2rem);margin:8px 0 4px;color:var(--orange);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:4px 4px 0 var(--navy);line-height:1.05}
+.lead{margin:6px 0 16px;max-width:640px}
+.card{background:var(--white);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:18px;margin-bottom:18px}
+.btn{font-family:'Fraunces',serif;font-weight:800;font-variation-settings:"SOFT" 100;font-size:1rem;border:2px solid var(--navy);border-radius:999px;padding:7px 16px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;background:var(--yellow);color:var(--navy)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--navy)}.btn.alt{background:var(--white)}.btn.sm{font-size:.88rem;padding:4px 12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.list{display:grid;gap:12px}
+.ep{all:unset;cursor:pointer;display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;background:var(--white);border:3px solid var(--navy);border-radius:18px;box-shadow:4px 4px 0 var(--navy);padding:10px 14px}
+.ep:hover,.ep:focus-visible{background:var(--yellow2)}
+.ep .n{width:46px;height:46px;border-radius:50%;border:2px solid var(--navy);display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:900;font-size:1.2rem;background:var(--pink2)}
+.ep.done .n{background:var(--mint)}
+.ep h3{margin:0;font-size:1.12rem}.ep p{margin:0;font-size:.9rem;color:var(--muted)}
+.ep .st{font-weight:700;font-size:.85rem;white-space:nowrap}
+.bar{height:14px;border:2px solid var(--navy);border-radius:999px;background:var(--white);overflow:hidden;margin:8px 0 14px}.bar i{display:block;height:100%;background:var(--good);width:0;transition:width .4s}
+h2{margin:0 0 6px;font-size:1.35rem}
+.sec{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.pre{background:var(--blue2)}
+audio{width:100%;margin:6px 0}
+.q{margin:0 0 16px}.q p{margin:0 0 6px;font-weight:700}
+.opts{display:grid;gap:8px}
+.opt{all:unset;cursor:pointer;border:2px solid var(--navy);border-radius:14px;padding:8px 12px;background:var(--white);font-weight:500}
+.opt:hover,.opt:focus-visible{background:var(--yellow2)}
+.opt.right{background:var(--mint);border-color:var(--good)}.opt.wrong{background:#ffd9df;border-color:var(--bad)}
+.opt[disabled]{cursor:default}
+.rule{background:var(--yellow2);border:2px dashed var(--navy);border-radius:14px;padding:10px 14px;font-size:.93rem;margin-bottom:12px}
+.rule b{font-family:'Fraunces',serif}
+.gq{margin:0 0 12px;line-height:2.1}
+.gq input{font:inherit;font-weight:700;color:var(--navy);border:0;border-bottom:3px solid var(--navy);background:var(--blue2);border-radius:6px 6px 0 0;padding:1px 8px;width:11em;max-width:60vw}
+.gq input:focus{outline:3px solid var(--yellow)}
+.gq .verb{font-weight:700;color:var(--muted)}
+.gq.ok input{background:var(--mint);border-color:var(--good)}.gq.no input{background:#ffd9df;border-color:var(--bad)}
+.gfb{display:block;font-size:.9rem;line-height:1.4;margin-top:2px}
+textarea{width:100%;min-height:90px;font:inherit;border:2px solid var(--navy);border-radius:14px;padding:10px;background:var(--white);color:var(--navy)}
+.idea{background:var(--pink2);border-radius:14px;padding:10px 14px;margin-top:8px}
+.voc{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.voc div{border:2px solid var(--navy);border-radius:14px;padding:8px 10px;background:var(--white)}
+.voc b{display:block;font-family:'Fraunces',serif;font-size:1.05rem}
+.tr{font-size:.98rem;line-height:1.65;max-height:420px;overflow:auto;border:2px solid var(--navy);border-radius:14px;padding:12px;background:var(--white)}
+.note{font-size:.85rem;color:var(--muted)}
+.score{font-family:'Fraunces',serif;font-weight:900;font-size:1.4rem}
+.speed .btn.on{background:var(--blue)}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="tape"><span>listen ✦ think ✦ simple past ✦ past perfect ✦ the reaping ✦ the Capitol ✦ the arena ✦ listen ✦ think ✦ simple past ✦ past perfect ✦ the reaping ✦ the Capitol ✦ the arena ✦ </span></div>
+<div class="wrap">
+ <div id="home">
+  <span class="eyebrow">Podcast · Listening · B2–C1</span>
+  <h1 class="fat">The Hidden Rules of The Hunger Games</h1>
+  <p class="lead">A podcast about the first half of the book, in 9 short episodes. Listen, answer the questions, practice the <b>Simple Past</b> and the <b>Past Perfect</b>, and think about the big ideas. Your progress is saved on this device.</p>
+  <div class="card">
+   <div class="row" style="justify-content:space-between"><span class="score" id="hScore"></span><button class="btn" id="cont">Start →</button></div>
+   <div class="bar"><i id="hBar"></i></div>
+   <div class="list" id="list"></div>
+  </div>
+  <p class="note">Content note: the story includes violence and the deaths of young people.</p>
+ </div>
+
+ <div id="epv" class="hidden">
+  <div class="row" style="justify-content:space-between;margin-bottom:10px"><button class="btn alt sm" id="back">← All episodes</button><span class="eyebrow" id="epN"></span></div>
+  <h1 class="fat" id="epT" style="font-size:clamp(1.8rem,6vw,2.6rem)"></h1>
+  <p class="lead" id="epS"></p>
+
+  <div class="card pre"><p class="sec">Before you listen</p><p id="pre" style="margin:0;font-weight:500"></p></div>
+
+  <div class="card"><p class="sec">🎧 Listen</p>
+   <audio id="au" controls preload="metadata"></audio>
+   <div class="row speed"><button class="btn alt sm" id="rw">↺ 10s</button><span class="note">Speed:</span><button class="btn alt sm" data-sp="0.75">0.75×</button><button class="btn alt sm on" data-sp="1">1×</button><button class="btn alt sm" data-sp="1.25">1.25×</button></div>
+  </div>
+
+  <div class="card"><p class="sec">1 · Check your understanding</p><div id="mcq"></div></div>
+
+  <div class="card"><p class="sec">2 · Grammar: put the verb in the right form</p>
+   <div class="rule"><b>Simple Past</b> (<i>she ran, he threw</i>): the actions of the story, one after the other.<br><b>Past Perfect</b> (<i>had + past participle: she had run, he had thrown</i>): an action that happened <b>before</b> another moment in the past.</div>
+   <div id="gr"></div>
+   <button class="btn" id="grCheck">Check all</button>
+  </div>
+
+  <div class="card"><p class="sec">3 · Think about it</p><p id="think" style="margin:0 0 8px;font-weight:700"></p>
+   <textarea id="ans" placeholder="Write your answer in English…"></textarea>
+   <div class="row" style="margin-top:8px"><button class="btn alt sm" id="ideaBtn">💡 See an idea from the podcast</button></div>
+   <div class="idea hidden" id="idea"></div>
+  </div>
+
+  <div class="card"><p class="sec">Vocabulary</p><div class="voc" id="voc"></div></div>
+
+  <div class="card"><div class="row" style="justify-content:space-between"><p class="sec" style="margin:0">Transcript</p><button class="btn alt sm" id="trBtn">Show transcript</button></div>
+   <div class="hidden" id="trBox"><p class="note">Try to answer before you read! The transcript was made automatically, so a few words may be slightly different from the audio.</p><div class="tr" id="tr"></div></div>
+  </div>
+
+  <div class="card" style="text-align:center"><p class="score" id="epScore"></p><div class="row" style="justify-content:center"><button class="btn" id="next">Next episode →</button></div></div>
+ </div>
+</div>
+<script>
+const EP=[
+{t:"The hidden rulebook",sub:"Why this story is like a rigged board game",
+ pre:"Have you read The Hunger Games or watched the movies? What do you remember about the story?",
+ mcq:[["What do the hosts compare a normal game to?",["A board game, where the rules are printed inside the box","A video game with secret levels","A soccer match with a bad referee"],0],
+      ["Which sources did they use for this episode?",["Only the movies","Sociology and political science papers, plus the first half of the book","Interviews with Suzanne Collins"],1],
+      ["What do the hosts say about politics?",["They want listeners to vote in a certain way","They are not taking a political stance","They think the book is only about politics"],1]],
+ gr:[["Before they started recording, the hosts ___ a big stack of sources.","gather",["had gathered"]],
+     ["At the start of the episode, Alex ___ the story to a board game.","compare",["compared"]],
+     ["By the time they recorded the episode, they ___ the first half of the book.","read",["had read"]],
+     ["The hosts ___ clearly that they weren't taking a political stance.","say",["said"]]],
+ think:"Can you think of a “game” in real life where the rules are hidden?",
+ idea:"Job interviews, office politics, or social media algorithms: everybody plays, but nobody shows you the real rules.",
+ voc:[["rigged","arranged dishonestly so one side always wins"],["mechanics","how something works; the rules of a game"],["impartially","without taking sides"],["deep dive","a long, detailed look at a topic"]]},
+{t:"Life in District 12",sub:"The Seam, the fence and the woods",
+ pre:"Imagine living in a place you can't leave. What would you miss most?",
+ mcq:[["Who does Katniss provide for?",["Her father and her brother","Her mother and her 12-year-old sister, Prim","Gale's family"],1],
+      ["How often is the fence really electrified?",["24 hours a day","Never","Maybe two or three hours in the evenings"],2],
+      ["What is the penalty for poaching in the woods?",["A small fine","Public execution","One year in prison"],1]],
+ gr:[["By the time her father died, Katniss ___ to hunt with him.","learn",["had learned","had learnt"]],
+     ["One morning, she ___ under the fence and went into the woods.","slide",["slid"]],
+     ["The miners' nails were black because coal dust ___ into them over many years.","get",["had gotten","had got"]],
+     ["Everyone knew that the Capitol ___ hunting in the woods illegal.","make",["had made"]]],
+ think:"The Capitol says the fence keeps predators out. What do the hosts say it is really for?",
+ idea:"Its real job is to keep the citizens locked in. The danger outside is an excuse for control inside.",
+ voc:[["hardened","tough because of difficult experiences"],["poverty","the state of being very poor"],["trespassing","entering a place without permission"],["poaching","hunting animals illegally"]]},
+{t:"The Reaping",sub:"Tesserae, Gale, Madge and Prim",
+ pre:"What would you do if your younger brother or sister was chosen for something dangerous?",
+ mcq:[["What is a tessera?",["A year's supply of grain and oil for one person","A ticket to leave the district","A golden pin"],0],
+      ["How many times is Katniss's name in the glass ball?",["Once","20 times","42 times"],1],
+      ["Why is Madge different from Gale?",["She is older","She never needed to sign up for tesserae","She volunteers for the Games"],1]],
+ gr:[["By the age of 16, Katniss ___ for tesserae many times.","sign up",["had signed up"]],
+     ["Madge's family had more money, so she ___ to take tesserae.","never / need",["had never needed"]],
+     ["When Prim's name was read, the blood ___ from her face.","drain",["drained"]],
+     ["Katniss ___ before anyone could stop her.","volunteer",["volunteered"]]],
+ think:"Is Gale's anger at Madge justified, or is he falling into the Capitol's trap?",
+ idea:"The hosts say it's a trap: if poor people resent people who are only a little richer, they never unite against the real oppressor. Divide and conquer.",
+ voc:[["lottery","a system where names are chosen by chance"],["resentment","a feeling of anger because something is unfair"],["cumulative","growing because new amounts are added"],["volunteer","to offer to do something"]]},
+{t:"The bread",sub:"Peeta, the rain and a dandelion",
+ pre:"Has a stranger ever helped you when you really needed it?",
+ mcq:[["How old was Katniss when this happened?",["11","14","16"],0],
+      ["What did Peeta do with the burned bread?",["He fed it all to the pig","He threw it to Katniss","He took it home"],1],
+      ["What did the dandelion make Katniss realize?",["That spring was coming","That she could hunt and forage in the woods","That Peeta liked her"],1]],
+ gr:[["Katniss was starving because her father ___ in a mine explosion.","die",["had died"]],
+     ["Peeta had a red mark on his cheek because his mother ___ him.","hit",["had hit"]],
+     ["Instead of feeding the pig, he ___ the bread to Katniss.","throw",["threw"]],
+     ["The next day at school, Katniss ___ a dandelion.","see",["saw"]]],
+ think:"Did Peeta burn the bread on purpose? And why does Katniss hate owing him?",
+ idea:"Maybe he did it on purpose and accepted the beating to help her. Katniss hates owing anyone because depending on people means you can be let down.",
+ voc:[["forage","to search for wild food"],["debt","something you owe to someone"],["altruism","helping others without wanting anything back"],["cost-benefit","comparing what you lose with what you gain"]]},
+{t:"Welcome to the Capitol",sub:"The train, the Avox girl and “the girl who was on fire”",
+ pre:"What would shock you most about arriving in a very rich city?",
+ mcq:[["How fast is the train?",["50 miles per hour","250 miles per hour","500 miles per hour"],1],
+      ["What is an Avox?",["A Capitol stylist","A traitor whose tongue was cut out","A type of hovercraft"],1],
+      ["Why did Katniss shoot an arrow at the Gamemakers' table?",["Because she missed the target","Because they were ignoring her","Because she was hungry"],1]],
+ gr:[["Katniss recognized the Avox girl because she ___ her capture in the woods.","see",["had seen"]],
+     ["Haymitch ___ the Games many years before, but now he was a mess.","win",["had won"]],
+     ["For the opening ceremony, Cinna ___ them in black with synthetic flames.","dress",["dressed"]],
+     ["After her private session, Katniss ___ a score of 11 out of 12.","get",["got"]]],
+ think:"Why does Katniss feel guilty about the Avox girl? Would you have helped her?",
+ idea:"She watched the girl get captured and did nothing, because her instinct was to protect herself.",
+ voc:[["excess","much more than is necessary"],["mentor","an experienced person who guides you"],["guilt","the bad feeling after doing something wrong"],["unprecedented","never seen or done before"]]},
+{t:"The interview",sub:"Peeta drops a bombshell",
+ pre:"How important is your image on social media?",
+ mcq:[["Why are sponsors so important?",["They can send medicine, food or weapons","They choose the winner","They train the tributes"],0],
+      ["What did Peeta confess on live TV?",["That he was afraid","That he was in love with Katniss","That he wanted to go home"],1],
+      ["How did Katniss react?",["She thanked him","She cried","She shoved him into a vase"],2]],
+ gr:[["Katniss was furious because Peeta ___ her about his plan.","not / tell",["had not told","hadn't told"]],
+     ["When they got off stage, she ___ him into an expensive vase.","shove",["shoved"]],
+     ["Haymitch explained that Peeta ___ her look desirable.","make",["had made"]],
+     ["Peeta ___ that sponsors only invest in good stories.","understand",["understood"]]],
+ think:"Katniss focuses on physical survival, Peeta on “narrative survival”. Which matters more in the Games? And in real life?",
+ idea:"In the Games, a good story brings sponsors, and sponsors bring medicine and food. Image is currency.",
+ voc:[["sponsor","a person who gives money or help"],["bombshell","a big, shocking piece of news"],["star-crossed","(lovers) destined to be unlucky"],["narrative","a story"]]},
+{t:"The bloodbath",sub:"Sixty seconds and a silver bow",
+ pre:"If you were in the arena, what would you grab first?",
+ mcq:[["How long must the tributes stand on their metal plates?",["10 seconds","60 seconds","5 minutes"],1],
+      ["What made Katniss hesitate?",["She heard a noise","Peeta shook his head at her","She couldn't see the bow"],1],
+      ["What did she grab in the end?",["The silver bow","A sword","A bright orange backpack"],2]],
+ gr:[["When the countdown ended, the bloodbath ___.","begin",["began"]],
+     ["Just before the gong, Peeta ___ his head at her.","shake",["shook"]],
+     ["Katniss missed the bow because she ___ for a second.","hesitate",["had hesitated"]],
+     ["By the time she reached the woods, a knife ___ her backpack.","hit",["had hit"]]],
+ think:"Was missing the bow a mistake?",
+ idea:"Probably not: if she had run to the center, the Careers would likely have killed her.",
+ voc:[["bloodbath","a violent event where many people die"],["hesitate","to stop for a moment before acting"],["scramble","to move quickly and with difficulty"],["flee","to run away from danger"]]},
+{t:"The first night",sub:"A campfire, the Careers and a surprise",
+ pre:"Who would you trust in the arena?",
+ mcq:[["What was in the orange backpack?",["Food for a week and a map","A sleeping bag, iodine, crackers, wire and an empty bottle","A bow and arrows"],1],
+      ["How many tributes died on the first day?",["5","11","20"],1],
+      ["What does Katniss discover from her tree?",["Peeta is with the Careers","Peeta is dead","The Careers are leaving"],0]],
+ gr:[["By the end of the first day, eleven tributes ___.","die",["had died"]],
+     ["That night, a girl ___ a campfire to keep warm.","start",["started"]],
+     ["Katniss realized that Peeta ___ the Careers.","join",["had joined"]],
+     ["The night before the Games, Peeta ___ her he wanted to die as himself.","tell",["told","had told"]]],
+ think:"Is Peeta betraying Katniss by joining the Careers, or is it a strategy?",
+ idea:"The hosts don't give a final answer. Remember what he did with the bread: Peeta knows how to play inside unfair rules.",
+ voc:[["eavesdrop","to listen secretly to a conversation"],["ally","to join someone as a partner"],["endurance","the ability to continue for a long time"],["hypocrisy","saying one thing and doing the opposite"]]},
+{t:"Bread and circuses",sub:"Where the name Panem comes from",
+ pre:"What do you think “bread and circuses” means?",
+ mcq:[["What does “bread and circuses” mean?",["Food and fun keep people from questioning power","A Roman festival for children","A type of Roman bakery"],0],
+      ["Where does the name Panem come from?",["The name of a Roman emperor","The Latin phrase panem et circenses","A city in Greece"],1],
+      ["What do the hosts call the Capitol's true “masterpiece”?",["The tracker jackers","The arena","Isolation: making the victims see each other as enemies"],2]],
+ gr:[["The Roman Empire ___ a tactic called “bread and circuses”.","use",["used"]],
+     ["Suzanne Collins ___ the country Panem after this Latin phrase.","name",["named"]],
+     ["Before the Games even started, the Capitol ___ the districts against each other.","turn",["had turned"]],
+     ["By the end of the episode, the hosts ___ the whole first half of the book.","cover",["had covered"]]],
+ think:"Are people distracted by “bread and circuses” today? Give an example.",
+ idea:"The hosts mention endless media spectacles, reality TV and manufactured outrage.",
+ voc:[["spectacle","an impressive show or event"],["distract","to take someone's attention away"],["outrage","strong anger, often public"],["isolation","being alone or separated from others"]]}
+];
+const TR=["You know, usually when you sit down to play a board game, the rules are just, like, printed right there on the inside of the box. Right, yeah. Exactly. You roll a six, you move six spaces. Like, everyone agrees on the mechanics of how you win and how you lose. Sure. There's a transparency to it. The board is visible to all the players, and if the rules change, everyone at the table knows about it right away. But then, you know, you look at systems of extreme societal control, and suddenly that rulebook is just completely missing. You're playing this game where the board itself is rigged, the rules are hidden, and the real mechanics of winning have, well, absolutely nothing to do with what you've been told. Yeah, that is such a great way to frame it. Right. And that actually brings us to our mission for this deep dive, because we've gathered a really fascinating stack of sources today. We've got sociological analyses of dystopian literature. some political science papers on totalitarian control, and of course the primary text, which is the first half of Suzanne Collins' The Hunger Games. It's a pretty remarkable collection of material. I mean, because it operates on so many levels at once. We're looking at a fictional world, but the underlying mechanisms of control are just incredibly grounded in historical and sociological reality. Absolutely. Now, just a quick note for you listening, as we dive into these themes of class resentment and wealth inequality, government overreach, we are not here to take a political stance or endorse the socio-political viewpoints found in these sources. Right. We are just looking at the text. Exactly. Our goal is strictly to unpack the brilliant, albeit terrifying, fictional architecture that Suzanne Collins built, and to impartially report on the ideas presented in the research. Our mission today is to explore the brutal architecture of Panem's societal control. We want to decode how survival in this world requires not just like physical mastery of the woods, but the actual psychological manipulation of public perception. Which is frankly a massive heavy lift for anyone, let alone the protagonist we are about to meet. It really, really is.", "So let's set the scene for you. We just drop right into the harsh reality of Katniss Everdeen. She is a hardened 16-year-old living in the Seam, which is the absolute poorest part of District 12. Yeah, and this is a place entirely defined by coal-dusted poverty. The people heading to the morning shift, they have hunched shoulders, swollen knuckles, and there is literally coal dust permanently embedded in their broken nails. And Katniss is the sole provider for her mother and her 12-year-old sister, Prim. Right. And her environment is just strictly aggressively controlled by the central government, the Capitol. District 12 is enclosed by this high chain link fence topped with barbed wire loops. Which is terrifying. It is. And it's theoretically electrified 24 hours a day. They say it's to keep predators out like packs of wild dogs and flesh bait eaters. But let's be honest, its primary function is to keep the citizens locked in. Right. Definitely. Although Katniss does note they are lucky to get maybe two or three hours of electricity in the evenings. So she actually regularly slides under a loose stretch of the fence to hunt in the woods beyond. But she's risking her life every single time she does that. Exactly. Trespassing in the woods is illegal and poaching carries the severest of penalties, like public execution. So the threat of state violence is just constant. Yeah, it's hanging over everything.", "Reading through our sources, the Capitol doesn't just rely on electric fences and peacekeepers to keep people trapped. They fully realize that a starving population is a compliant population, which brings us to how they actually use food as a weapon. Exactly. The Capitol uses physical borders, sure, but they also manipulate basic biological needs, which leads us perfectly into the day the story actually begins, which is the reaping. Right, the reaping. Yeah. This is the annual lottery where one boy and one girl from each of the 12 districts are selected to fight to the death in this vast outdoor arena. And the reaping isn't just like a random lottery where everyone has an equal chance. There's a deeply insidious system within it called Tesserae. And really what's fascinating here is how the Tesserae system is meticulously engineered to breed class resentment within the districts. I mean, here's the math of misery for you. When you turn 12, your name is entered into the reaping once, at 13, twice, and so on until you're 18. But if you are starving, you can opt to add your name extra times in exchange for a tessera, which is just a meager year's supply of grain and oil for one person. So looking at the mechanics of this, okay, let's unpack this. Because this essentially functions as a predatory payday loan. Instead of compounding financial interest, the citizens are paying with their literal lifeblood. That is a brilliant way to look at it. Because the entries are cumulative. So Katniss, at 16, has had to sign up for Tesserae for herself, her sister, and her mother every single year just to keep them from starving. Meaning her name is in the glass ball 20 times. 20 times. And her hunting partner, Gale, who is 18 and feeds a family of five, his name is in there 42 times. It's just staggering. And then you compare that to Madge, the mayor's daughter, who represents the slightly better off merchant class in the district. She is never needed to sign up for Tesserae. Right. She has a fraction of the entries Gale has. And she actually shows up to the reaping wearing this beautifully crafted solid gold mockingjay pin that could literally keep a family in bread for months. And Gale looks at Madge and he is just furious. He takes a really sharp dig at her about her low number of entries. But, you know, I was thinking about this dynamic and I have to ask you, is Gale's anger at Madge actually justified or is he falling perfectly into the psychological trap the Capitol has set? Oh, he is absolutely falling into the trap. And even Katniss in her internal monologue, she notes that Gale knows his anger is misdirected. By making the poorest people resent the slightly less starving merchant class in the town, the Capitol keeps the districts completely divided. If the citizens are busy resenting each other over grain and oil, they are incapable of trusting one another enough to unite against the real oppressor, the Capitol. It's textbook divide and conquer. And that systemic trap inevitably springs, despite having only one single slip of paper in a glass ball of thousands, 12-year-old Prim's name is drawn. It's a completely heart-stopping moment in the text. The blood just drains from Prim's face. So awful. And the author gives us this tiny, heartbreaking detail that her blouse is untucked in the back, forming a little duck tail. It just emphasizes just how young and fragile she really is. But Katniss doesn't even hesitate. She violently shoves Prim behind her and volunteers as tribute in her place. It's a radical, almost extinct act in District 12 because volunteering as tribute is... Pretty much synonymous with volunteering to be a corpse. Right, no one does it. But then, the boy tribute is drawn. Peeta Mellark, the baker's son. And as soon as his name is called, Katniss immediately remembers this haunting encounter she had with him years ago.", "Yes, this is a pivotal memory that informs so much of their dynamic. Katniss was 11 at the time. Her father had just been blown to bits in a coal mine explosion. Which is horrific on its own. Completely. And her mother totally clocked out mentally. immobilizing sadness. When the money ran out, Katniss, Prim, and her mother were slowly starving to death, literally wasting away. This scene is just so bleak. Katniss is wandering in the freezing rain behind the merchant shops. She's weak, dizzy, hoping to find rotted vegetables in the trash bins. And the baker's wife catches her and screams at her to get away. Yeah, she's treated like an animal. She collapses by an apple tree, completely defeated, and she is ready to Then she hears a physical blow inside the bakery. Peeta comes out with a red wheel on his cheekbone, carrying two large loaves of bread that had fallen into the fire. And his mother is yelling at him to feed the ruined bread to the pig. But instead of tossing it to the pig, Peeta tears off small pieces for the animal and then throws the two large, burned loaves of bread directly into the dirt for Katniss. Oh, man. It was an enormous, life-saving kindness. And the very next day at school... She sees Peeta's bruised face, and in that same moment, she spots a dandelion in the schoolyard. That dandelion sparks her realization that she could hunt and forage in the woods to survive, using the knowledge her dad taught her. Now, I was reading my notes on her background, and I just don't get why she is so angry at everyone who tries to help her. I mean, Peeta saves her life with that bread, and yet she almost resents him for it. It seems counterintuitive, right? Like, why be mad? You have to look at the severe trauma she's experienced. She refuses to forgive her mother for abandoning them mentally when they needed her most. Yeah, that makes sense. Because of that specific trauma, Katniss views survival as an entirely solitary, self-reliant endeavor. Relying on someone else means you can be let down, which means you can die. So for her, owing a debt to anyone is terrifying. Oh, I see. She feels she owes Peeta her life for that bread, and she hates that feeling. It deeply compromises her sense of independence. But I was looking at this flashback from a different angle, and here's where it gets really interesting. Because I want to question Peeta's altruism for a second. Oh, okay. Let's hear it. We read this flashback and assume Peeta was just a kind boy who accidentally dropped bread in the oven and made the best of a bad situation. But was burning that bread purely an act of innocent kindness? self-sacrifice to manipulate an outcome. Because Katniss herself wonders later if he dropped the loaves into the flames on purpose, knowing it meant taking a physical beating from his mother just so he could have an excuse to deliver them to a starving girl. That is a really brilliant distinction to draw. If he burned that bread on purpose, he wasn't just being randomly kind. He was actively calculating a cost-benefit analysis. He traded physical pain for the opportunity to save her life. Exactly. It shows an incredible early understanding of how to maneuver within strict, abusive rules to achieve a highly specific desired result.", "And this specific skill set becomes crucial as they are transported from the extreme poverty of the district into the absolute excess of the Capitol. Right. Because with Katniss and Peeta locked in as tributes, being able to hunt and forage in the woods is no longer enough. They must now navigate a completely alien world where their survival depends entirely on, like, performative identity. The sensory shock of arriving in the Capitol is overwhelming for them. We are talking about kids who eat squirrel and tree bark, getting on a high-speed train traveling 250 miles per hour. That's insane. Where simply pushing a button on a wall conjures incredibly rich food, like lamb stew with dried plums and limitless hot chocolate. But the luxury is constantly layered with these grotesque realities. Their mentor, Haymitch, who is the only living victor from District 12 and is supposed to teach them how to survive. He is a staggeringly drunken mess who just vomits all over the expensive carpets. Yeah, he is completely broken by his own trauma. And at dinner, Katniss recognizes their server. It's an Avox girl. For those listening who don't know, an Avox is a traitor to the Capitol who has had her tongue cut out so she can never speak again. So dark. And Katniss carries this heavy, silent guilt because she actually watched this specific redheaded girl get captured by a Capitol hovercraft in the woods back home. She watched her get netted like an animal, and she did nothing to help her because she was paralyzed by the instinct to protect herself. The Capitol flaunts its power in so many ways, turning political rebels into voiceless, mutilated servants is one. But they also flaunt their power through massive media spectacle. Enter Cinna, Katniss's stylist. Oh, Cinna is a genius. He really is. For the opening ceremonies, instead of putting them in the usual dusty, depressing coal miner outfits that District 12 usually gets stuck with, Cinna dresses Katniss and Peeta in sleek black unitards and synthetic flames. He completely rebrands Katniss as the girl who was on fire. And it works perfectly. The Capitol crowd goes absolutely nuts for them. But Katniss also brings her own heat. During her private training session with the Gamemakers, you know, the elite officials who design and control the arena, she is furious. Oh, this scene is so good. With her actual life on the line, these officials are ignoring her. They are literally paying more attention to a roasted pig that just arrived at their banquet table than to a girl fighting for survival. Which is just the ultimate insult. So she takes action. She shoots an arrow straight toward their banquet table, skewering the apple right out of the roast pig's mouth, pinning it to the wall, and effectively demanding their attention. It's a total power move, and she gets an unprecedented score of 11 out of 12 for it. But despite her physical skills, the real game is being played on a stage during the televised interviews with the host, Caesar Flickerman.", "And when you step back, if we connect this to the bigger picture, the games are actually won and lost in these pregame interviews. The wealthy Capitol sponsors watching at home are the real lifeline once the tributes are in the arena. Right, because they send the supplies. Exactly. Sponsors can pay exorbitant amounts of money to send medicine, food, or weapons to a tribute in need. But they only invest in compelling, dramatic narratives. Peeta understands this inherently. During his interview, he drops a bombshell. He sure does. He confesses on live national television that he is desperately in love with Katniss. He tells the audience that winning the Games won't help him because the girl he loves came to the arena with him. It's just wild to think about. Yeah, it's like an extreme dystopian reality TV political campaign, where the currency is literal physical survival, and Peeta just dropped the ultimate narrative bombshell. But Katniss doesn't see the genius in it. Not at all. She is furious. She physically shoves him into an expensive vase when they get off stage. She views his public confession as a betrayal that makes her look weak, desirable and vulnerable, rather than the fierce, independent killer she wants to project. I look at this and I have to ask: isn't Peeta actually playing three-dimensional chess while Katniss is still playing checkers? He absolutely is. As Haymitch quickly points out to an angry Katniss, Peeta just made her desirable. He turned them into the tragic star-crossed lovers from District 12. It's a romantic, doomed narrative the Capitol audience will completely eat up. They love that stuff. You see, Katniss is entirely focused on physical survival. She's thinking about bows, arrows, and snares. Peeta is focused on narrative survival. He is manipulating the audience's emotions to secure the sponsors they will desperately need when things get dire.", "So we have all these crafted personas, the makeup, the glittering dresses, the beautifully televised narratives. And then they abruptly collide with the brutal, unscripted reality of the arena. The transition is just jarring. The tributes are launched up through glass cylinders into the outdoor arena. You have to stand perfectly still on metal plates for a 60-second countdown. If they step off early, landmines will literally blow their legs off. So tense. They're standing in a massive ring around the cornucopia, which is a giant golden horn spilling over with critical supplies like food, water, and weapons. The countdown ends, and it is an absolute bloodbath. Katniss spots a silver bow and arrow resting on a mound of blankets. It's her weapon. She knows she can reach it. She is gearing up to sprint for it, but just before the gong rings, she catches Peeta looking at her, and he is shaking his head, telling her no. That split-second distraction costs her everything. She hesitates, misses her window, and instead has to scramble for scraps on the outer edges. Which is terrifying. She grabs a piece of plastic, a knife, and a bright orange backpack, wrestling it away from a boy from District 9 who suddenly gets a knife in his back and coughs blood all over her face. She barely escapes with her life as the girl from District 2 throws a knife that lodges directly into the canvas of Katniss's backpack. She flees deep into the pine woods, putting miles between herself and the bloodbath.", "And we should point out, the arena itself is a weapon. The Capitol even weaponizes the environment. They've engineered these genetically modified killer wasps called tracker jackers, placing their nests strategically to force conflict. Nowhere is safe. But for now, Katniss is just trying to survive the night. She spends her first night strapped into the fork of a willow tree by her belt, watching the death recap projected into the night sky. 11 kids dead on the very first day. But the real twist comes in the middle of the night. A nearby tribute, a girl makes a fatal mistake. She starts a campfire for warmth. In an arena filled with trained killers, she literally waves a flag of fire. The pack of Career tributes, these are the wealthy, well-fed kids from Districts 1, 2, and 4 who have trained in special academies their whole lives for this and formed an alliance. They descend on the girl and slaughter her. It's brutal. But as Katniss hides in her tree, eavesdropping on the pack below, she realizes something horrifying: Peeta is with them. He is alive, he has allied with the Careers, and he is actively leading them through the woods to hunt her down. Looking at that hypocrisy, this raises an important question. If we look back to the night before the Games, Peeta tells Katniss he doesn't want the Capitol to change him. Right, I remember that. He wants to show them they don't own him, that he's more than just a piece in their Games. He says he wants to die as himself. So how does that noble sentiment align with joining a bloodthirsty pack of Career tributes to hunt down the very girl he claims to love? It seems like the ultimate betrayal, right? But before we judge him too harshly, we have to look at Katniss's own instincts at the start of the Games. We see Katniss flee into the woods, and we have to wonder, so what does this all mean for her survival strategy? Well, it changes everything. Let's look back at the cornucopia. Was her hesitation to grab the silver bow a failure of her hunting instincts? Or was fleeing without her signature weapon actually her greatest survival trait? Because sometimes the tool you think you desperately need is the exact thing that will get you killed. Yeah, that's incredibly profound. If she had sprinted for that bow in the center of the fray, she almost certainly would have been swarmed and killed in the initial bloodbath. Peeta's distraction, whether it was intentional or not, absolutely saved her life. It's a profound point to consider. In a system designed from the ground up to destroy you, the obvious path to power, like grabbing the biggest weapon in the center of the arena, is often a deadly trap. Right. Katniss survives by taking the margins. She grabs the orange backpack, which turns out to contain a sleeping bag that reflects body heat, iodine to purify water, crackers, wire, and an empty water bottle, and gives her the unglamorous tools of endurance rather than the flashy tools of immediate violence. It's all about playing the long game, and that concept is so incredibly relevant for you listening to this right now. While you aren't fighting in a literal arena with tracker jackers and electrified fences, Every day requires navigating complex systems with hidden rules. Think about office politics or the algorithms dictating what you see on social media. Exactly. You have to figure out who you can genuinely trust. You have to understand that the identity you project to the world, your personal brand, your curated narrative, it can be both a shield and a weapon. Peeta understands that image is currency. Katniss is slowly learning that pure physical. competence isn't enough if the audience isn't invested in your survival. Precisely. The Capitol maintains its grip on power, not just through brutal physical force, but through media spectacle and psychological manipulation.", "Which leaves us with a final thought for you to chew on as we wrap up this deep dive. The Roman Empire used a concept called panem et circenses, bread and circuses. A classic control tactic. Right. The idea was that if you give the public cheap food and incredibly distracting, they will never realize they are being stripped of their political rights. Suzanne Collins literally named the country Panem after this concept. It's hiding in plain sight. So looking at The Hunger Games, we have to ask ourselves about our own world. How often are modern societies distracted by endless media spectacles, reality television, and manufactured outrage, keeping us entirely focused on the entertainment rather than questioning the people actually holding the power? But even more than the distraction, you have to look at the isolation. Exactly. Because the Capitol forces the tributes to fight each other physically. But what if their absolute greatest weapon isn't the tracker jackers, the electrified fences, or the arena itself? What if the Capitol's true masterpiece of control is the psychological isolation they enforce, convincing the victims of the system that their fellow victims are the ones who are the victims? Are there ultimate enemies? It definitely makes you wonder who is really designing the games we play every day. Something to think about the next time you sit down and play."];
+const DUR=[126, 78, 222, 208, 164, 111, 84, 239, 79];
+
+const $=id=>document.getElementById(id);
+const KEY='wdym-hunger-games';
+let ST={};try{ST=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){ST={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+const total=EP.length*7;
+function epState(i){return ST[i]||(ST[i]={m:{},g:{},a:''});}
+function epPts(i){const s=ST[i];if(!s)return 0;let p=0;for(const k in s.m)if(s.m[k].ok)p++;for(const k in s.g)if(s.g[k].ok)p++;return p;}
+function epDone(i){const s=ST[i];return !!s&&Object.keys(s.m).length===EP[i].mcq.length&&Object.keys(s.g).length===EP[i].gr.length;}
+function home(){
+  $('epv').classList.add('hidden');$('home').classList.remove('hidden');try{$('au').pause()}catch(e){}
+  let pts=0,done=0;EP.forEach((_,i)=>{pts+=epPts(i);if(epDone(i))done++;});
+  $('hScore').textContent=`${done} / ${EP.length} episodes · ⭐ ${pts} / ${total}`;
+  $('hBar').style.width=(done/EP.length*100)+'%';
+  $('list').innerHTML=EP.map((e,i)=>`<button class="ep ${epDone(i)?'done':''}" data-i="${i}"><span class="n">${epDone(i)?'✓':i+1}</span><span><h3 class="fat">${esc(e.t)}</h3><p>${esc(e.sub)} · ${fmt(DUR[i])}</p></span><span class="st">${epDone(i)?'⭐ '+epPts(i)+'/7':''}</span></button>`).join('');
+  $('list').querySelectorAll('.ep').forEach(b=>b.onclick=()=>open(+b.dataset.i));
+  const nx=EP.findIndex((_,i)=>!epDone(i));$('cont').textContent=done===0?'Start →':nx<0?'Review episode 1 →':`Continue: episode ${nx+1} →`;
+  $('cont').onclick=()=>open(nx<0?0:nx);
+}
+let CUR=0;
+function open(i){
+  CUR=i;const e=EP[i],s=epState(i);
+  $('home').classList.add('hidden');$('epv').classList.remove('hidden');window.scrollTo(0,0);
+  $('epN').textContent=`Episode ${i+1} of ${EP.length} · ${fmt(DUR[i])}`;$('epT').textContent=e.t;$('epS').textContent=e.sub;$('pre').textContent=e.pre;
+  const au=$('au');au.src=`hg-${i+1}.mp3`;setSpeed(+(ST.sp||1));
+  $('mcq').innerHTML=e.mcq.map((q,k)=>`<div class="q" data-k="${k}"><p>${k+1}. ${esc(q[0])}</p><div class="opts">${q[1].map((o,j)=>`<button class="opt" data-j="${j}">${esc(o)}</button>`).join('')}</div></div>`).join('');
+  $('mcq').querySelectorAll('.q').forEach(qd=>{const k=+qd.dataset.k;
+    const mark=(j)=>{qd.querySelectorAll('.opt').forEach(b=>{const jj=+b.dataset.j;b.disabled=true;if(jj===e.mcq[k][2])b.classList.add('right');else if(jj===j)b.classList.add('wrong');});};
+    if(s.m[k])mark(s.m[k].j);
+    qd.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(s.m[k])return;const j=+b.dataset.j;s.m[k]={j,ok:j===e.mcq[k][2]};save();mark(j);upd();});
+  });
+  $('gr').innerHTML=e.gr.map((g,k)=>{const [a,b]=g[0].split('___');return `<div class="gq" data-k="${k}">${k+1}. ${esc(a)}<input aria-label="verb form" autocomplete="off" autocapitalize="off" spellcheck="false"> <span class="verb">(${esc(g[1])})</span>${esc(b)}<span class="gfb"></span></div>`}).join('');
+  $('gr').querySelectorAll('.gq').forEach(gd=>{const k=+gd.dataset.k,inp=gd.querySelector('input');
+    if(s.g[k]){inp.value=s.g[k].v;showG(gd,k,s.g[k].ok);}
+    inp.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();checkG(gd,k);const nx=gd.nextElementSibling;if(nx)nx.querySelector('input').focus();}});
+  });
+  $('think').textContent=e.think;$('ans').value=s.a||'';$('idea').classList.add('hidden');$('idea').textContent=e.idea;
+  $('voc').innerHTML=e.voc.map(v=>`<div><b>${esc(v[0])}</b>${esc(v[1])}</div>`).join('');
+  $('tr').innerHTML=TR[i].split(/(?<=[.?!])\s+/).reduce((acc,sen,n)=>{const p=Math.floor(n/5);(acc[p]=acc[p]||[]).push(sen);return acc},[]).map(p=>`<p>${esc(p.join(' '))}</p>`).join('');
+  $('trBox').classList.add('hidden');$('trBtn').textContent='Show transcript';
+  $('next').textContent=i<EP.length-1?'Next episode →':'Back to all episodes';
+  upd();
+}
+const norm=v=>v.toLowerCase().replace(/[’']/g,"'").replace(/\s+/g,' ').trim().replace(/[.!]$/,'');
+function checkG(gd,k){const e=EP[CUR],s=epState(CUR),v=gd.querySelector('input').value;if(!v.trim())return;
+  const ok=e.gr[k][2].some(a=>norm(a)===norm(v));s.g[k]={v,ok};save();showG(gd,k,ok);upd();}
+function showG(gd,k,ok){const g=EP[CUR].gr[k];gd.classList.toggle('ok',ok);gd.classList.toggle('no',!ok);
+  const pp=g[2][0].startsWith('had');
+  gd.querySelector('.gfb').innerHTML=ok?`✓ Correct! ${pp?'Past Perfect: it happened <b>before</b> another past moment.':'Simple Past: the next action in the story.'}`:`✗ Answer: <b>${esc(g[2][0])}</b>. ${pp?'Past Perfect: this happened <b>before</b> another past moment.':'Simple Past: this is just the next action in the story.'}`;}
+$('grCheck').onclick=()=>$('gr').querySelectorAll('.gq').forEach(gd=>checkG(gd,+gd.dataset.k));
+function upd(){const p=epPts(CUR);$('epScore').textContent=epDone(CUR)?`⭐ ${p} / 7 in this episode`:`Answer everything in parts 1 and 2 to finish this episode.`;}
+$('ans').addEventListener('input',()=>{epState(CUR).a=$('ans').value;save();});
+$('ideaBtn').onclick=()=>$('idea').classList.toggle('hidden');
+$('trBtn').onclick=()=>{const h=$('trBox').classList.toggle('hidden');$('trBtn').textContent=h?'Show transcript':'Hide transcript';};
+$('back').onclick=home;
+$('next').onclick=()=>{if(CUR<EP.length-1)open(CUR+1);else home();};
+$('rw').onclick=()=>{const a=$('au');a.currentTime=Math.max(0,a.currentTime-10);};
+function setSpeed(v){const a=$('au');a.playbackRate=v;a.defaultPlaybackRate=v;ST.sp=v;save();document.querySelectorAll('[data-sp]').forEach(b=>b.classList.toggle('on',+b.dataset.sp===v));}
+document.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>setSpeed(+b.dataset.sp));
+$('au').addEventListener('loadedmetadata',()=>{$('au').playbackRate=+(ST.sp||1);});
+home();
+</script>
+<script data-goatcounter="https://wdymteacher.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
