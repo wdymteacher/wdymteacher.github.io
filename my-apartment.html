@@ -251,7 +251,7 @@ const starsFor=(s,t)=>s/t>=.9?3:s/t>=.7?2:s/t>=.5?1:0;
    ========================================================= */
 function mapSVG(){
   const rooms=[
-    {k:'bedroom',name:'Bedroom & Closet',x:20,y:28,w:94,h:42,f:'#f5d6f2',art:B(28,48,34,12,'#ebb3e6')+R(28,44,8,6,'#fffdf9')+B(84,36,22,26,'#c98c4e')+R(95,38,1,22,N)},
+    {k:'bedroom',name:'Bedroom & Closet',x:20,y:28,w:94,h:42,f:'#f5d6f2',open:true,href:'closet.html',art:B(28,48,34,12,'#ebb3e6')+R(28,44,8,6,'#fffdf9')+B(84,36,22,26,'#c98c4e')+R(95,38,1,22,N)},
     {k:'bathroom',name:'Bathroom',x:116,y:28,w:84,h:42,f:'#d7eef4',art:B(124,50,30,10,'#fffdf9')+R(126,46,3,5,'#8e9bb0')+B(170,46,12,14,'#fffdf9')+B(168,42,16,5,'#fffdf9')},
     {k:'living',name:'Living Room',x:20,y:72,w:94,h:42,f:'#fff8c4',art:B(28,94,40,10,'#ebb3e6')+B(28,88,40,7,'#e58fb0')+B(80,84,24,16,'#3b4160')+R(91,100,2,4,N)},
     {k:'kitchen',name:'Kitchen',x:116,y:72,w:84,h:42,f:'#c9f0dc',open:true,art:B(176,80,16,26,'#fffdf9')+R(176,90,16,1,N)+B(124,92,48,4,'#fff8c4')+B(124,96,48,10,'#9ccfdc')+B(140,96,16,10,'#e3e7ee')+B(146,99,10,5,'#3b4160')+B(150,84,10,8,'#e2385a')},
@@ -269,7 +269,8 @@ function mapSVG(){
     s+=`<text class="maptext" x="${r.x+7}" y="${r.y+9.6}" font-size="5.6" fill="${N}">${r.name}</text>`;
     if(r.open){
       s+=`<rect class="ring" x="${r.x+1.5}" y="${r.y+1.5}" width="${r.w-3}" height="${r.h-3}" fill="none" stroke="#e0b821" stroke-width="2" shape-rendering="geometricPrecision"/>`;
-      const st=['kfurn','kdraw','kchores','kdo'].reduce((a,k)=>a+(BEST[k]||0),0);
+      let st=['kfurn','kdraw','kchores','kdo'].reduce((a,k)=>a+(BEST[k]||0),0);
+      if(r.href){let cb={};try{cb=JSON.parse(localStorage.getItem('wdym-closet')||'{}')}catch(e){}const n=Object.keys(cb).length;s+=`<rect x="${r.x+r.w-34}" y="${r.y+3}" width="31" height="9" rx="4" fill="#fbf06a" stroke="${N}" stroke-width=".8" shape-rendering="geometricPrecision"/><text class="maptext" x="${r.x+r.w-31}" y="${r.y+9.6}" font-size="5.4" fill="${N}">${n?n+'/6 · ':''}Go in</text>`;s+=`</g>`;return;}
       s+=`<rect x="${r.x+r.w-44}" y="${r.y+3}" width="41" height="9" rx="4" fill="#fbf06a" stroke="${N}" stroke-width=".8" shape-rendering="geometricPrecision"/><text class="maptext" x="${r.x+r.w-41}" y="${r.y+9.6}" font-size="5.4" fill="${N}">★ ${st}/12 · Go in</text>`;
     }else{
       s+=`<rect x="${r.x+1}" y="${r.y+1}" width="${r.w-2}" height="${r.h-2}" fill="#fffdf9" opacity=".55"/>`;
@@ -281,6 +282,9 @@ function mapSVG(){
 }
 function showMap(){
   $('mapSvg').innerHTML=mapSVG();
+  const bd=$('mapSvg').querySelector('[data-room="bedroom"]');
+  bd.addEventListener('click',()=>{location.href='closet.html';});
+  bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();location.href='closet.html';}});
   const k=$('mapSvg').querySelector('[data-room="kitchen"]');
   k.addEventListener('click',showRoom);
   k.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showRoom();}});
