@@ -76,8 +76,8 @@ h1{font-size:clamp(2.4rem,11vw,3.6rem);margin:6px 0 2px;color:var(--yellow);-web
     <p class="lead">Read the sentence and shoot the alien with the right form of the verb. Wrong alien? You lose a life!</p>
     <div id="gals"></div>
     <div class="card"><ul class="how">
-      <li>📱 Touch and hold to shoot. Drag your finger to move the ship.</li>
-      <li>💻 On a computer: hold the mouse button (or SPACE) to shoot, and move with the mouse or ← →.</li>
+      <li>📱 Tap the alien you want: the ship goes there and shoots. Or drag to aim and let go to shoot.</li>
+      <li>💻 On a computer: move with the mouse or ← → and click (or press SPACE) to shoot.</li>
       <li>👀 Look for the clues: <i>every day, yesterday, ago, have, has, had, didn't, does…</i></li>
       <li>⭐ 3 lives left = 3 stars.</li>
     </ul></div>
@@ -221,10 +221,12 @@ function hitAlien(a){
 /* ===== input ===== */
 let keys={};
 function setTarget(e){if(!S)return;const r=cv.getBoundingClientRect();const p=e.touches?e.touches[0]:e;S.ship.tx=(p.clientX-r.left)/r.width*W}
-let FIRING=false;cv.addEventListener('pointermove',setTarget);cv.addEventListener('pointerdown',e=>{FIRING=true;setTarget(e)});
-['pointerup','pointercancel','pointerleave'].forEach(ev=>cv.addEventListener(ev,()=>FIRING=false));
-cv.addEventListener('touchmove',e=>{setTarget(e);e.preventDefault()},{passive:false});
-window.addEventListener('keydown',e=>{keys[e.key]=1;if(e.key===' ')e.preventDefault();if(e.key==='Escape'||e.key==='p')pause()});window.addEventListener('keyup',e=>keys[e.key]=0);
+let SHOOT=false,DOWN=false;
+cv.addEventListener('pointerdown',e=>{DOWN=true;SHOOT=false;setTarget(e)});
+cv.addEventListener('pointermove',e=>{if(DOWN||e.pointerType==='mouse')setTarget(e)});
+cv.addEventListener('pointerup',e=>{if(DOWN){setTarget(e);SHOOT=true}DOWN=false});
+['pointercancel','pointerleave'].forEach(ev=>cv.addEventListener(ev,()=>DOWN=false));
+window.addEventListener('keydown',e=>{keys[e.key]=1;if(e.key===' '){e.preventDefault();if(!e.repeat)SHOOT=true}if(e.key==='Escape'||e.key==='p')pause()});window.addEventListener('keyup',e=>keys[e.key]=0);
 /* ===== loop ===== */
 function loop(now){
   const dt=Math.min(.05,(now-last)/1000);last=now;
@@ -232,8 +234,8 @@ function loop(now){
 function update(dt){
   S.t+=dt;const sh=S.ship;
   if(keys.ArrowLeft)sh.tx=sh.x-260*dt*3;if(keys.ArrowRight)sh.tx=sh.x+260*dt*3;
-  sh.tx=Math.max(26,Math.min(W-26,sh.tx));sh.x+=(sh.tx-sh.x)*Math.min(1,dt*14);sh.inv=Math.max(0,sh.inv-dt);
-  S.fire-=dt;if(S.state==='play'&&(FIRING||keys[' '])){if(S.fire<=0){S.fire=.26;S.bullets.push({x:sh.x-9,y:sh.y-34},{x:sh.x+9,y:sh.y-34});SFX.shot()}}
+  sh.tx=Math.max(26,Math.min(W-26,sh.tx));sh.x+=(sh.tx-sh.x)*Math.min(1,dt*16);if(Math.abs(sh.tx-sh.x)<1.5)sh.x=sh.tx;sh.inv=Math.max(0,sh.inv-dt);
+  S.fire-=dt;if(SHOOT&&S.state==='play'&&Math.abs(sh.tx-sh.x)<3&&S.fire<=0){SHOOT=false;S.fire=.3;S.bullets.push({x:sh.x,y:sh.y-34,big:1});SFX.shot()}
   S.bullets.forEach(b=>b.y-=520*dt);S.bullets=S.bullets.filter(b=>b.y>-20&&!b.gone);
   // aliens
   const sp=S.speed;S.descend+=dt;
@@ -273,7 +275,8 @@ function draw(){
     cx.font="700 15px 'Pixelify Sans',monospace";const tw=cx.measureText(a.w).width+14,ly=a.y+sp.height/2+12,lx=Math.max(tw/2+3,Math.min(W-tw/2-3,a.x));
     cx.fillStyle='#fffdf9';cx.strokeStyle='#1f2a5c';cx.lineWidth=2;rr(lx-tw/2,ly-10,tw,20,8);cx.fill();cx.stroke();cx.fillStyle='#1f2a5c';cx.fillText(a.w,lx,ly+1)});
   // bullets
-  S.bullets.forEach(b=>{cx.fillStyle='#ff9ad8';cx.fillRect(b.x-2,b.y-8,4,12);cx.fillStyle='#fff';cx.fillRect(b.x-1,b.y-8,2,6)});
+  S.bullets.forEach(b=>{cx.fillStyle='#ff9ad8';cx.fillRect(b.x-4,b.y-10,8,18);cx.fillStyle='#fff';cx.fillRect(b.x-2,b.y-10,4,9)});
+  if(DOWN&&S.state==='play'){cx.strokeStyle='rgba(255,154,216,.45)';cx.setLineDash([6,8]);cx.lineWidth=2;cx.beginPath();cx.moveTo(S.ship.x,S.ship.y-40);cx.lineTo(S.ship.x,0);cx.stroke();cx.setLineDash([])}
   S.ebullets.forEach(e=>{cx.fillStyle='#ff5a7a';cx.beginPath();cx.arc(e.x,e.y,5,0,7);cx.fill();cx.fillStyle='#ffd0d8';cx.beginPath();cx.arc(e.x,e.y,2,0,7);cx.fill()});
   // ship
   const sh=S.ship;if(!(sh.inv>0&&Math.floor(sh.inv*12)%2)){const fl=Math.sin(t*30)*3;
@@ -299,7 +302,7 @@ function intro(gi,li){const g=GALAXIES[gi],l=g.levels[li];hideScreens();$('#intr
   const tips=[['r1','r2'],['r1','neg'],['part'],['pp','neg']][gi];
   $('#introBox').innerHTML=`<div class="card"><p class="how">${g.name}</p><h2 class="fat" style="margin:4px 0 6px;font-size:1.6rem">Level ${li+1}: ${l.n}</h2><p class="how">${g.sub}${l.groups?` · verbs from Irregular Verbs, ${GLAB[li]}`:''}</p>
    <div style="margin:12px 0;padding:10px 12px;border-radius:12px;background:#fff8c4;border:2px solid #1f2a5c;font-size:.95rem;line-height:1.5">${tips.map(k=>TIPS[k]).join('<hr style="border:0;border-top:1px dashed #1f2a5c">')}</div>
-   <p class="how">👆 Hold to shoot, let go to stop. ${WAVES} waves + ${l.big?'a BIG boss (5 hits)':'a boss (3 hits)'}. ${gi>0?'Watch out: the aliens shoot back! ':''}</p></div>
+   <p class="how">👆 Tap where you want to shoot (or drag to aim and let go). ${WAVES} waves + ${l.big?'a BIG boss (5 hits)':'a boss (3 hits)'}. ${gi>0?'Watch out: the aliens shoot back! ':''}</p></div>
    <div class="row"><button class="btn" id="go">Start ▶</button><button class="btn alt" id="back">Back</button></div>`;
   $('#go').onclick=()=>startLevel(gi,li);$('#back').onclick=menu}
 function endLevel(won){
