@@ -152,7 +152,7 @@ function msg(kind,html){return `<div class="msg show ${kind}">${html}</div>`;}
 const REQCATS=['shirts','tops','bottoms','dresses','shoes','socks','bags'];
 function reqLine(it){return it.cat==='bags'?`I'd like to take the ${it.label}.`:`I'd like to wear the ${it.label}.`;}
 function roundReq(){
-  if(!G.queue){G.total=8;const cats=shuffle(REQCATS);G.queue=[];let k=0;while(G.queue.length<G.total){const c=cats[k%cats.length];const pool=ITEMS.filter(i=>i.cat===c&&!G.queue.includes(i));G.queue.push(pick(pool));k++;}}
+  if(!G.queue){G.total=8;const cats=shuffle(REQCATS);G.queue=[];let k=0;while(G.queue.length<G.total){const c=cats[k%cats.length];const pool=ITEMS.filter(i=>i.cat===c&&!G.queue.includes(i)&&CLIPS[ckey(reqLine(i))]);G.queue.push(pick(pool));k++;}}
   if(G.round>=G.total)return finish();hud();
   const t=G.queue[G.round];G.target=t;G.tries=0;
   const same=shuffle(ITEMS.filter(i=>i.cat===t.cat&&i!==t));const sameType=same.filter(i=>i.type===t.type).slice(0,3);
