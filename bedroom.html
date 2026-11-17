@@ -314,10 +314,10 @@ function endGame(key,miss,again,extra){const st=miss===0?3:miss<=2?2:1;if(st>(ST
 
 /* ---------- EXPLORE ---------- */
 function explore(){
-  $('#panel').innerHTML=`<p class="q">Explore my bedroom 🏠</p><p class="how">Tap things in the room to hear the words. You can open the wardrobe, pull down the blind, turn on the lamp, make the bed… Tap the <b>laptop</b> to start a video call! 💻</p><p class="how" id="exlog" style="margin-top:8px;min-height:1.4em"></p>`;
+  $('#panel').innerHTML=`<p class="q">Explore my bedroom 🏠</p><p class="how">Tap things in the room to hear the words. You can open the wardrobe, pull down the blind, turn on the lamp, make the bed… Tap the <b>laptop</b> to start a video call! 💻 Tap the <b>bookshelf</b> to read a book! 📖</p><p class="how" id="exlog" style="margin-top:8px;min-height:1.4em"></p>`;
   TAPFN=(x,y)=>{const k=hit(x,y,4);if(!k)return;const o=OBJ[k];let msg=act(k);
     if(msg==='LAPTOP'){speak('Laptop.');$('#exlog').innerHTML=`💻 <b>Laptop</b> — <button class="lvb" id="gocall">📞 Video call</button> <button class="lvb" id="golis">🎧 Listen and correct</button>`;$('#gocall').onclick=()=>go('call');$('#golis').onclick=()=>go('listen');return}
-    speak(o.w+'.');toast(o.w);$('#exlog').innerHTML=`<b>${esc(o.w)}</b>${msg?' · '+esc(msg):''} ${spk(o.w+'.')}`};
+    speak(o.w+'.');toast(o.w);$('#exlog').innerHTML=`<b>${esc(o.w)}</b>${msg?' · '+esc(msg):''} ${spk(o.w+'.')}`+((k==='books'||k==='bookshelf')&&!msg?` <a class="lvb" href="bookshelf.html" style="text-decoration:none">📖 Read a book</a>`:'')};
 }
 
 /* ---------- VOCABULARY ---------- */
