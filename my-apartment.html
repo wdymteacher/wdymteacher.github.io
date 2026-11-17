@@ -301,7 +301,7 @@ function mapSVG(){
   const rooms=[
     {k:'bedroom',name:'Bedroom',x:20,y:28,w:56,h:42,f:'#f5d6f2',open:true,href:'bedroom.html',store:'wdym-bedroom',tot:9,art:B(26,50,36,12,'#ebb3e6')+R(26,46,9,6,'#fffdf9')},
     {k:'closet',name:'Closet',x:78,y:28,w:36,h:42,f:'#ead6f7',open:true,href:'closet.html',store:'wdym-closet',tot:6,art:B(84,38,24,26,'#c98c4e')+R(96,40,1,22,N)+R(85,36,22,1,'#e0e0ea')+B(87,40,3,10,'#e2385a')+B(91,40,3,12,'#fbf06a')+B(100,40,3,11,'#9ccfdc')},
-    {k:'bathroom',name:'Bathroom',x:116,y:28,w:84,h:42,f:'#d7eef4',art:B(124,50,30,10,'#fffdf9')+R(126,46,3,5,'#8e9bb0')+B(170,46,12,14,'#fffdf9')+B(168,42,16,5,'#fffdf9')},
+    {k:'bathroom',name:'Bathroom',x:116,y:28,w:84,h:42,f:'#d7eef4',open:true,href:'bathroom.html',store:'wdym-bathroom',tot:7,art:B(124,50,30,10,'#fffdf9')+R(126,46,3,5,'#8e9bb0')+B(170,46,12,14,'#fffdf9')+B(168,42,16,5,'#fffdf9')},
     {k:'living',name:'Living Room',x:20,y:72,w:94,h:42,f:'#fff8c4',open:true,href:'living-room.html',store:'wdym-livingroom',tot:8,art:B(28,94,40,10,'#3f6a38')+B(28,88,40,7,'#2e5a2c')+B(80,84,24,16,'#3b4160')+R(91,100,2,4,N)},
     {k:'kitchen',name:'Kitchen',x:116,y:72,w:84,h:42,f:'#c9f0dc',open:true,art:B(176,80,16,26,'#fffdf9')+R(176,90,16,1,N)+B(124,92,48,4,'#fff8c4')+B(124,96,48,10,'#9ccfdc')+B(140,96,16,10,'#e3e7ee')+B(146,99,10,5,'#3b4160')+B(150,84,10,8,'#e2385a')},
     {k:'laundry',name:'Laundry Room',x:20,y:116,w:94,h:40,f:'#ebe1fb',art:B(30,130,20,22,'#fffdf9')+R(34,136,12,12,'#9ccfdc')+R(34,136,12,1,N)+B(56,130,20,22,'#fffdf9')+R(60,136,12,12,'#9ccfdc')},
@@ -332,7 +332,7 @@ function mapSVG(){
 }
 function showMap(){
   $('mapSvg').innerHTML=mapSVG();
-  [['closet','closet.html'],['living','living-room.html'],['bedroom','bedroom.html']].forEach(([k,h])=>{const bd=$('mapSvg').querySelector(`[data-room="${k}"]`);
+  [['closet','closet.html'],['living','living-room.html'],['bedroom','bedroom.html'],['bathroom','bathroom.html']].forEach(([k,h])=>{const bd=$('mapSvg').querySelector(`[data-room="${k}"]`);
     bd.addEventListener('click',()=>{location.href=h;});
     bd.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();location.href=h;}});});
   const k=$('mapSvg').querySelector('[data-room="kitchen"]');
