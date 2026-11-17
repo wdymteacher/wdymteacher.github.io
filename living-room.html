@@ -94,6 +94,27 @@ h1{margin:0;font-size:clamp(2rem,7vw,3rem);color:var(--yellow);-webkit-text-stro
 </style>
 </head>
 <body>
+<!-- wdym mute -->
+<button id="wdymMute" aria-label="Sound on/off" title="Sound on/off" style="position:fixed;top:12px;right:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 12px;box-shadow:2px 2px 0 #1f2a5c;cursor:pointer">🔊 Sound on</button>
+<script>
+(function(){
+  var K='wdym-mute',m=false;try{m=localStorage.getItem(K)==='1'}catch(e){}
+  var allow=0,live=new Set(),btn=document.getElementById('wdymMute');
+  /* when muted, audio only plays if the student taps a 🔊 / listen button */
+  document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('button,[role=button],.show,.mcard');
+    if(b&&b.id!=='wdymMute'&&(/🔊/.test(b.textContent)||b.matches('.speak,.spk,.ml,.show,[data-listen]')))allow=Date.now();},true);
+  function ok(){return !m||Date.now()-allow<1500}
+  var P=HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play=function(){if(!ok())return Promise.resolve();live.add(this);return P.apply(this,arguments)};
+  if(window.speechSynthesis){var S=speechSynthesis.speak.bind(speechSynthesis);speechSynthesis.speak=function(u){if(ok())S(u)}}
+  function ui(){btn.textContent=m?'🔇 Sound off':'🔊 Sound on';btn.style.background=m?'#ffd6df':'#fffdf9'}
+  btn.onclick=function(){m=!m;try{localStorage.setItem(K,m?'1':'0')}catch(e){}
+    if(m){live.forEach(function(a){try{a.pause()}catch(e){}});try{speechSynthesis.cancel()}catch(e){}}ui()};
+  ui();
+})();
+</script>
+<!-- /wdym mute -->
+
 <a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
 <div class="wrap">
   <a class="back2" href="my-apartment.html">← My Apartment</a>
@@ -544,5 +565,25 @@ tabs();go('explore');
 setTimeout(fit,50);
 </script>
 <script data-goatcounter="https://wdymteacher.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!-- wdym daily tracker -->
+<script>
+(function(){
+  var K='wdym-daily',page=(location.pathname.split('/').pop()||'index.html').toLowerCase(),last=0,act=0;
+  function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+  function poke(){last=Date.now()}
+  ['pointerdown','keydown','touchstart','wheel'].forEach(function(e){addEventListener(e,poke,{passive:true,capture:true})});
+  setInterval(function(){
+    if(document.hidden||Date.now()-last>45000) return;
+    act+=5;
+    try{
+      var s=JSON.parse(localStorage.getItem(K)||'{}'),d=today();s.days=s.days||{};
+      var r=s.days[d]=s.days[d]||{};
+      r[page]=(r[page]||0)+5;
+      var ks=Object.keys(s.days).sort();while(ks.length>60){delete s.days[ks.shift()]}
+      localStorage.setItem(K,JSON.stringify(s));
+    }catch(e){}
+  },5000);
+})();
+</script>
 </body>
 </html>

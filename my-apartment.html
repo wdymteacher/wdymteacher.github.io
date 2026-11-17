@@ -71,9 +71,16 @@
   .mcard.sel{background:var(--yellow)}.mcard.ok{background:#bff0cf;box-shadow:none;cursor:default}.mcard.no{background:#ffc7d2;animation:shake .4s}
   .scenebox.tall{aspect-ratio:1/1;max-height:62vh;margin:0 auto}.scenebox.tall svg{width:100%;height:100%;display:block}
   .scenebox img.mk{position:absolute;height:92%;bottom:1%;left:50%;transform:translateX(-50%);image-rendering:pixelated;pointer-events:none}
+  #ipanel{position:absolute;inset:3% 3% auto 3%;max-height:94%;overflow:auto;background:var(--white);border:3px solid var(--navy);border-radius:14px;box-shadow:4px 4px 0 var(--navy);padding:8px;z-index:5}
+  #ipanel.hidden{display:none}#ipanel .cphead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}#ipanel .cpx{border:2px solid var(--navy);background:var(--white);border-radius:999px;width:30px;height:30px;cursor:pointer}
+  .ipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:4px}
+  .ipit{font:700 .7rem 'DM Sans',sans-serif;border:2px solid var(--navy);border-radius:10px;background:var(--yellow2);color:var(--navy);padding:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .ipit span{font-size:1.25rem}.ipit.taken{opacity:.35;cursor:default}.ipit.nope{background:#ffc7d2;animation:shake .4s}
+  .inglist{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.ing{border:2px dashed var(--navy);border-radius:999px;padding:2px 10px;font-weight:700}.ing.ok{background:#bff0cf;border-style:solid;text-decoration:line-through}
   .rcard{background:var(--white);border:3px solid var(--navy);border-radius:16px;padding:12px 16px;box-shadow:4px 4px 0 var(--navy)}
   .rcard .rt{font-family:'Fraunces',serif;font-weight:900;font-size:1.4rem}
   .rcard ol{margin:8px 0 0;padding-left:22px;line-height:1.6}.rcard li.done{color:#127a4c}.rcard li.now{font-weight:700;background:var(--yellow2)}
+  .toks{display:flex;flex-wrap:wrap;gap:6px}.tok{font:600 1.1rem 'DM Sans',sans-serif;border:2px solid var(--navy);border-radius:10px;padding:5px 10px;background:var(--white);cursor:pointer;color:var(--navy)}.tok.bad{background:#ffc7d2}.tok.fixed{background:#bff0cf}.tok.nope{opacity:.4}
   .gtext{font-size:1.15rem;line-height:2;background:var(--white);border:3px solid var(--navy);border-radius:16px;padding:12px 16px;margin:0}
   .gap{display:inline-block;min-width:70px;border-bottom:3px dashed var(--navy);text-align:center;font-weight:800;color:#9aa;padding:0 4px}
   .gap.now{background:var(--yellow);color:var(--navy);border-radius:6px}.gap.ok{color:#127a4c;border-bottom-color:#127a4c}
@@ -175,6 +182,27 @@
 </style>
 </head>
 <body>
+<!-- wdym mute -->
+<button id="wdymMute" aria-label="Sound on/off" title="Sound on/off" style="position:fixed;top:12px;right:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 12px;box-shadow:2px 2px 0 #1f2a5c;cursor:pointer">🔊 Sound on</button>
+<script>
+(function(){
+  var K='wdym-mute',m=false;try{m=localStorage.getItem(K)==='1'}catch(e){}
+  var allow=0,live=new Set(),btn=document.getElementById('wdymMute');
+  /* when muted, audio only plays if the student taps a 🔊 / listen button */
+  document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('button,[role=button],.show,.mcard');
+    if(b&&b.id!=='wdymMute'&&(/🔊/.test(b.textContent)||b.matches('.speak,.spk,.ml,.show,[data-listen]')))allow=Date.now();},true);
+  function ok(){return !m||Date.now()-allow<1500}
+  var P=HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play=function(){if(!ok())return Promise.resolve();live.add(this);return P.apply(this,arguments)};
+  if(window.speechSynthesis){var S=speechSynthesis.speak.bind(speechSynthesis);speechSynthesis.speak=function(u){if(ok())S(u)}}
+  function ui(){btn.textContent=m?'🔇 Sound off':'🔊 Sound on';btn.style.background=m?'#ffd6df':'#fffdf9'}
+  btn.onclick=function(){m=!m;try{localStorage.setItem(K,m?'1':'0')}catch(e){}
+    if(m){live.forEach(function(a){try{a.pause()}catch(e){}});try{speechSynthesis.cancel()}catch(e){}}ui()};
+  ui();
+})();
+</script>
+<!-- /wdym mute -->
+
 <a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
 <div class="tape"><span>kitchen ✦ fridge ✦ stove ✦ sink ✦ ladle ✦ whisk ✦ sweep the floor ✦ do the dishes ✦ set the table ✦ kitchen ✦ fridge ✦ stove ✦ sink ✦ ladle ✦ whisk ✦ sweep the floor ✦ do the dishes ✦ set the table ✦ </span></div>
 
@@ -192,7 +220,7 @@
 <section id="room" class="hidden">
   <button class="back" id="toMap">← Back to the apartment</button>
   <h2>The Kitchen</h2>
-  <p class="lead" style="margin-bottom:10px">Nine games! In games 1–3, use <b>Learn</b> first to see and hear the words, then <b>Play</b>. Games 5–9 have levels: choose yours.</p>
+  <p class="lead" style="margin-bottom:10px">Ten games! In games 1–3, use <b>Learn</b> first to see and hear the words, then <b>Play</b>. Games 5–9 have levels: choose yours.</p>
   <div class="card" style="padding:8px"><div class="scenebox" id="roomScene"></div></div>
   <div class="games" id="games"></div>
 </section>
@@ -598,6 +626,7 @@ const GAMES=[
   {k:'kmaria',n:6,title:"What's Teacher Maria doing?",desc:'Chopping, stirring, frying… Look at me and choose the right sentence.',learn:null},
   {k:'krecipe',n:7,title:'Cook the recipe',desc:'Pancakes, brigadeiro, spaghetti… Choose the right verb for each step: chop, peel, boil, stir…',learn:null},
   {k:'kgap',n:8,title:'Gap fill',desc:'Read the text and fill in the gaps with the right words.',learn:null,levels:{A2:'food & meals',B1:'cooking & eating habits'}},
+  {k:'kmist',n:10,title:'Fix the mistakes',desc:'"I had a lunch", "I lunched yesterday"… Find the mistakes students make all the time!',learn:null,levels:{A2:'meals & food',B1:'food & cooking'}},
   {k:'kspeak',n:9,title:'Speak! 🎤',desc:'Use the microphone. Say what I\'m doing… or what happened! (Oh no, I burned the cake!)',learn:null,levels:{now:"What's she doing? (present continuous)",past:'What happened? (past simple)'}}
 ];
 function showRoom(){
@@ -625,9 +654,9 @@ function hud(){const gm=GAMES.find(x=>x.k===S.k);$('hudTitle').textContent=(S.le
   if(!S.learn){$('hudQ').textContent=`${Math.min(S.n+1,S.qs.length)} / ${S.qs.length}`;$('hudScore').textContent=`✓ ${S.score}`;}}
 function start(k,learn,lv){
   clearTimeout(autoT);$('roomScene').innerHTML='';
-  S={k,learn,lv,n:0,score:0,tries:0,locked:false};$('playArea').innerHTML='';document.querySelector('.stage').classList.toggle('solo',['kfood','kmaria','krecipe','kgap','kspeak'].includes(k));
+  S={k,learn,lv,n:0,score:0,tries:0,locked:false};$('playArea').innerHTML='';document.querySelector('.stage').classList.toggle('solo',['kfood','kmaria','krecipe','kgap','kspeak','kmist'].includes(k));
   $('choices').innerHTML='';$('words').classList.add('hidden');$('words').innerHTML='';hideFb();bubble('');setDoll('neutral');
-  $('promptRow').querySelector('.speak').classList.remove('hidden');if(k==='kfurn')furnStart();else if(k==='kdraw')drawStart();else if(k==='kdo')doStart();else if(k==='kfood')matchStart();else if(k==='kmaria')mkStart();else if(k==='krecipe')recStart();else if(k==='kgap')gapStart();else if(k==='kspeak')spkStart();else choresStart();
+  $('promptRow').querySelector('.speak').classList.remove('hidden');if(k==='kfurn')furnStart();else if(k==='kdraw')drawStart();else if(k==='kdo')doStart();else if(k==='kfood')matchStart();else if(k==='kmaria')mkStart();else if(k==='krecipe')recStart();else if(k==='kgap')gapStart();else if(k==='kspeak')spkStart();else if(k==='kmist')mistStart();else choresStart();
   show('play');hud();
 }
 function finish(){
@@ -859,7 +888,7 @@ const MKA=[['chop',"She's chopping onions."],['stir',"She's stirring the soup."]
 function mkStart(){S.qs=shuffle(MKA).slice(0,8);S.ask=mkAsk;$('promptRow').querySelector('.speak').classList.add('hidden');mkAsk();}
 function mkAsk(){const [k,s]=S.qs[S.n];hideFb();setDoll('neutral');bubble('');
   $('q').textContent="What's Teacher Maria doing?";$('sub').textContent='Look at the picture and choose.';
-  $('playArea').innerHTML=`<div class="scenebox tall" id="sbox">${kitchenSVG()}<img class="mk" src="${MK[k]}" alt=""></div>`;$('ksvg').setAttribute('preserveAspectRatio','xMidYMax slice');resetOverlays($('ksvg'));$('ksvg').querySelectorAll('.obj').forEach(o=>o.classList.remove('obj'));
+  $('playArea').innerHTML=`<div class="scenebox tall" id="sbox">${kitchenSVG()}<img class="mk" src="${MK[k]}" alt=""></div>`;$('ksvg').setAttribute('preserveAspectRatio','xMidYMax slice');$('ksvg').querySelectorAll('.obj[data-k="table"],.obj[data-k="chair"]').forEach(e=>e.remove());resetOverlays($('ksvg'));$('ksvg').querySelectorAll('.obj').forEach(o=>o.classList.remove('obj'));
   const opts=shuffle([s,...shuffle(MKA.filter(x=>x[0]!==k)).slice(0,3).map(x=>x[1])]);
   $('choices').innerHTML=opts.map(o=>`<button class="choice">${esc(o)}</button>`).join('');
   $('choices').querySelectorAll('.choice').forEach(b=>b.onclick=()=>{if(S.locked)return;
@@ -878,8 +907,11 @@ const RECIPES=[
  {n:'Steamed vegetables',e:'🥦',st:[['Peel the carrots.','peel'],['Chop the broccoli and the carrots.','chop'],['Steam them for ten minutes.','steam'],['Season with olive oil and lemon.','season']]},
 ];
 const VERBS=['mix','whisk','pour','fry','stir','simmer','boil','chop','drain','season','twirl','preheat','roast','slice','peel','mash','grate','bake','steam','add','grill'];
-function recStart(){const rs=shuffle(RECIPES).slice(0,3);S.qs=[];rs.forEach(r=>r.st.forEach((s,i)=>S.qs.push({r,i,s:s[0],v:s[1]})));S.ask=recAsk;$('promptRow').querySelector('.speak').classList.add('hidden');recAsk();}
-function recAsk(){const q=S.qs[S.n];hideFb();setDoll('neutral');bubble(q.i===0?`Let's make ${q.r.n.toLowerCase()}!`:'');
+const ING={Pancakes:['flour','sugar','milk','eggs'],Brigadeiro:['condensed milk','butter','chocolate powder'],Spaghetti:['pasta','salt','onions','garlic','basil'],'Roast chicken':['chicken','garlic','herbs'],'Mashed potatoes':['potatoes','butter','milk'],'Scrambled eggs':['eggs','milk','salt','black pepper'],'Cheese toast':['bread','cheese'],'Steamed vegetables':['carrots','broccoli','olive oil','lemon']};
+const PLACE={fridge:{name:'the fridge',items:[['milk','🥛'],['eggs','🥚'],['butter','🧈'],['cheese','🧀'],['chicken','🍗'],['herbs','🌿'],['basil','🌱'],['carrots','🥕'],['broccoli','🥦'],['lemon','🍋'],['yogurt','🥣'],['orange juice','🧃'],['sausages','🌭'],['strawberries','🍓']]},
+ cabinet:{name:'the cabinet',items:[['flour','🌾'],['sugar','🍬'],['salt','🧂'],['black pepper','⚫'],['pasta','🍝'],['rice','🍚'],['condensed milk','🥫'],['chocolate powder','🍫'],['olive oil','🫒'],['garlic','🧄'],['onions','🧅'],['potatoes','🥔'],['bread','🍞'],['cereal','🥣'],['cookies','🍪']]}};
+function recStart(){const rs=shuffle(RECIPES).slice(0,3);S.qs=[];rs.forEach(r=>{S.qs.push({r,ing:1});r.st.forEach((s,i)=>S.qs.push({r,i,s:s[0],v:s[1]}))});S.ask=recAsk;$('promptRow').querySelector('.speak').classList.add('hidden');recAsk();}
+function recAsk(){const q=S.qs[S.n];if(q.ing)return ingAsk(q);hideFb();setDoll('neutral');bubble(q.i===0?`Let's make ${q.r.n.toLowerCase()}!`:'');
   const blank=q.s.replace(new RegExp('^'+q.v[0].toUpperCase()+q.v.slice(1)+'\\b'),'___').replace(new RegExp('\\b'+q.v+'\\b'),'___');
   $('q').textContent=blank;$('sub').textContent='Choose the right verb.';
   $('playArea').innerHTML=`<div class="rcard"><div class="rt">${q.r.e} ${esc(q.r.n)}</div><ol>${q.r.st.map((s,i)=>`<li class="${i<q.i?'done':i===q.i?'now':''}">${i<q.i?esc(s[0]):i===q.i?esc(blank):'…'}</li>`).join('')}</ol></div>`;
@@ -900,6 +932,43 @@ const GAPS={
      {t:'Healthy eating',s:'I\'m trying to [cut down on] sugar, so I don\'t eat much candy anymore. I prefer [steamed] vegetables to [fried] food. On Fridays my friends and I usually [eat out] at a Japanese restaurant, where I always order [salmon] and [shrimp].'},
      {t:'Pasta night',s:'[Boil] the water with a little salt. While you wait, [chop] the garlic and [grate] the cheese. [Stir] the tomato sauce and let it [simmer] for ten minutes. Then [twirl] the spaghetti on your fork and enjoy!'}]
 };
+function ingAsk(q){hideFb();setDoll('neutral');bubble('');const need=ING[q.r.n];S.got=new Set();S.err=0;
+  $('q').textContent=`${q.r.e} ${q.r.n}: get the ingredients!`;$('sub').textContent='Open the fridge and the cabinet and take what you need.';
+  $('playArea').innerHTML=`<div class="scenebox" id="sbox">${kitchenSVG()}<div class="cpanel hidden" id="ipanel"></div></div><div class="rcard" style="margin-top:10px"><div class="rt" style="font-size:1.1rem">🛒 You need:</div><div class="inglist">${need.map(n=>`<span class="ing" data-n="${esc(n)}">${esc(n)}</span>`).join('')}</div></div>`;
+  const svg=$('ksvg');resetOverlays(svg);svg.querySelectorAll('.obj').forEach(o=>{const k=o.dataset.k;if(k==='fridge'||k==='cabinet'){o.style.cursor='pointer';o.onclick=()=>ingOpen(k,q)}else o.classList.remove('obj')});
+  $('choices').innerHTML=`<button class="choice" data-o="fridge">🧊 Open the fridge</button><button class="choice" data-o="cabinet">🗄️ Open the cabinet</button>`;
+  $('choices').querySelectorAll('.choice').forEach(b=>b.onclick=()=>ingOpen(b.dataset.o,q));}
+function ingOpen(k,q){const P=PLACE[k],need=ING[q.r.n];speak(k==='fridge'?'fridge':'cabinet');
+  const p=$('ipanel');p.classList.remove('hidden');
+  p.innerHTML=`<div class="cphead"><b>${k==='fridge'?'🧊 The fridge':'🗄️ The cabinet'}</b><button class="cpx" id="ipx">✕</button></div><div class="ipgrid">${P.items.map(([n,e])=>`<button class="ipit ${S.got.has(n)?'taken':''}" data-n="${esc(n)}"><span>${e}</span>${esc(n)}</button>`).join('')}</div>`;
+  $('ipx').onclick=()=>p.classList.add('hidden');
+  p.querySelectorAll('.ipit').forEach(b=>b.onclick=()=>{const n=b.dataset.n;if(S.got.has(n))return;speak(n);
+    if(need.includes(n)){S.got.add(n);b.classList.add('taken');$('playArea').querySelector(`.ing[data-n="${n}"]`).classList.add('ok');setDoll('happy');bubble('Got it!');
+      if(S.got.size===need.length){p.classList.add('hidden');S.locked=true;if(S.err<=1)S.score++;hud();fb('good','All the ingredients! ✓',`Now let's make the ${q.r.n.toLowerCase()}.`,2400)}}
+    else{S.err++;b.classList.add('nope');setTimeout(()=>b.classList.remove('nope'),500);setDoll('sad');bubble(`We don't need ${n}!`)}})}
+/* ---------- Fix the mistakes (common errors) ---------- */
+const MIST={
+ A2:[["I had [a] lunch with my friends.","",'We say "have lunch", with no "a".'],["Yesterday I [lunched] at a restaurant.","had lunch",'"Lunch" is a noun here: "have lunch".'],["We [dinnered] at eight.","had dinner",'Say "have dinner", not "dinner" as a verb.'],
+     ["Let's [take] a coffee!","have",'In English we "have" or "get" a coffee.'],["She's [doing] a cake for my birthday.","making",'We "make" a cake.'],["Can you help me [make] the dishes?","do",'We "do the dishes".'],
+     ["I [ate] a soup for dinner.","had",'With soup, we usually say "have soup".'],["I need to buy [breads] for breakfast.","bread",'"Bread" is uncountable: some bread.'],["I always [take] breakfast at seven.","have",'We "have breakfast".'],["Can I have some [juice of orange], please?","orange juice",'Say "orange juice" (the fruit comes first).']],
+ B1:[["How [many] sugar do you want in your coffee?","much",'"Sugar" is uncountable: how much.'],["I ate [many] rice yesterday.","a lot of",'"Rice" is uncountable: a lot of rice.'],["I prefer [eat] at home.","eating",'"Prefer" + -ing (or to + verb).'],
+     ["Would you like [more one] coffee?","another",'Say "another coffee" or "one more coffee".'],["We need to [make] the shopping today.","do",'We "do the shopping".'],["The soup is [very delicious]!","absolutely delicious",'"Delicious" is extreme: absolutely delicious (not very).'],
+     ["I'm trying to [cut] sugar from my diet.","cut out",'"Cut out" = stop eating it completely.'],["Let's [eat out] at home tonight.","eat in",'"Eat out" = at a restaurant. At home = eat in.'],["I'm so [hungry], I can't eat anymore!","full",'If you can\'t eat anymore, you\'re full.'],["This meat is [cru], put it back in the oven.","raw",'"Raw" = not cooked.']]
+};
+function mistStart(){S.qs=shuffle(MIST[S.lv]).slice(0,8);S.ask=mistAsk;$('promptRow').querySelector('.speak').classList.add('hidden');mistAsk();}
+function mistAsk(){const [s,fix,why]=S.qs[S.n];hideFb();setDoll('neutral');bubble('');S.picked=0;
+  const toks=[];s.replace(/\[([^\]]+)\]|(\S+)/g,(m,a,b)=>{toks.push(a?{w:a,bad:1}:{w:b});return m});
+  $('q').textContent='Find the mistake.';$('sub').textContent='Tap the wrong word, then choose the correction.';
+  $('playArea').innerHTML=`<div class="toks">${toks.map((t,i)=>`<button class="tok" data-i="${i}">${esc(t.w)}</button>`).join('')}</div>`;$('choices').innerHTML='';
+  const bad=toks.find(t=>t.bad).w;const pool=[fix||'(delete it)',...shuffle(MIST[S.lv].map(x=>x[1]||'(delete it)').filter(x=>x!==(fix||'(delete it)'))).slice(0,2)];
+  $('playArea').querySelectorAll('.tok').forEach(b=>b.onclick=()=>{if(S.picked||S.locked)return;const t=toks[+b.dataset.i];
+    if(!t.bad){S.tries++;b.classList.add('nope');bubble('That word is OK!');setDoll('sad');return}
+    S.picked=1;b.classList.add('bad');
+    $('choices').innerHTML=shuffle(pool).map(o=>`<button class="choice" data-o="${esc(o)}">${esc(o)}</button>`).join('');
+    $('choices').querySelectorAll('.choice').forEach(c=>c.onclick=()=>{if(S.locked)return;
+      if(c.dataset.o===(fix||'(delete it)')){S.locked=true;if(!S.tries)S.score++;hud();c.classList.add('right');
+        if(fix){b.textContent=fix;b.classList.remove('bad');b.classList.add('fixed')}else b.remove();setDoll('happy');fb('good','Correct! ✓',why,3200)}
+      else{S.tries++;c.classList.add('picked');c.disabled=true;setDoll('sad')}})})}
 function gapStart(){S.qs=shuffle(GAPS[S.lv]);S.ask=gapAsk;$('promptRow').querySelector('.speak').classList.add('hidden');gapAsk();}
 function gapAsk(){const g=S.qs[S.n];hideFb();setDoll('neutral');bubble('');S.err=0;
   const ans=[];const html=esc(g.s).replace(/\[([^\]]+)\]/g,(m,a)=>{ans.push(a);return `<span class="gap" data-i="${ans.length-1}">${ans.length}</span>`});S.ans=ans;S.cur=0;
@@ -926,7 +995,7 @@ function spkStart(){S.qs=shuffle(SPK[S.lv]).slice(0,8);S.ask=spkAsk;$('promptRow
 function spkAsk(){const a=S.qs[S.n];hideFb();setDoll('neutral');bubble('');S.tries=0;
   $('q').textContent=S.lv==='now'?"What's Teacher Maria doing?":'Oh no! What happened?';
   $('sub').textContent=S.lv==='now'?'Say it: "She\'s …ing …"':'Say it in the past simple: "She burned / spilled / broke …"';
-  $('playArea').innerHTML=`<div class="scenebox tall" id="sbox">${kitchenSVG()}<img class="mk" src="${MK[a.img]}" alt=""></div>`;$('ksvg').setAttribute('preserveAspectRatio','xMidYMax slice');resetOverlays($('ksvg'));$('ksvg').querySelectorAll('.obj').forEach(o=>o.classList.remove('obj'));
+  $('playArea').innerHTML=`<div class="scenebox tall" id="sbox">${kitchenSVG()}<img class="mk" src="${MK[a.img]}" alt=""></div>`;$('ksvg').setAttribute('preserveAspectRatio','xMidYMax slice');$('ksvg').querySelectorAll('.obj[data-k="table"],.obj[data-k="chair"]').forEach(e=>e.remove());resetOverlays($('ksvg'));$('ksvg').querySelectorAll('.obj').forEach(o=>o.classList.remove('obj'));
   $('choices').innerHTML=`<div class="spkrow">${SRk?'<button class="btn" id="mic">🎤 Tap and speak</button>':''}<input id="mtype" placeholder="${SRk?'or type it here…':'Type your answer…'}"><button class="btn alt" id="msend">Check</button></div>${SRk?'':'<p class="sub">Your browser can\'t listen. Try Chrome, or type your answer.</p>'}`;
   if(SRk)$('mic').onclick=()=>{try{RECk&&RECk.abort()}catch(e){}RECk=new SRk();RECk.lang='en-US';RECk.maxAlternatives=5;$('mic').textContent='🎙️ Listening…';$('mic').disabled=true;
     RECk.onresult=e=>spkJudge([...e.results[0]].map(r=>r.transcript));RECk.onerror=e=>bubble(e.error==='not-allowed'?'Please allow the microphone 🎤':"I didn't hear you. Try again!");
@@ -1086,5 +1155,25 @@ $('doll').src=IMG.neutral;
 showMap();
 </script>
 <script data-goatcounter="https://wdymteacher.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<!-- wdym daily tracker -->
+<script>
+(function(){
+  var K='wdym-daily',page=(location.pathname.split('/').pop()||'index.html').toLowerCase(),last=0,act=0;
+  function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+  function poke(){last=Date.now()}
+  ['pointerdown','keydown','touchstart','wheel'].forEach(function(e){addEventListener(e,poke,{passive:true,capture:true})});
+  setInterval(function(){
+    if(document.hidden||Date.now()-last>45000) return;
+    act+=5;
+    try{
+      var s=JSON.parse(localStorage.getItem(K)||'{}'),d=today();s.days=s.days||{};
+      var r=s.days[d]=s.days[d]||{};
+      r[page]=(r[page]||0)+5;
+      var ks=Object.keys(s.days).sort();while(ks.length>60){delete s.days[ks.shift()]}
+      localStorage.setItem(K,JSON.stringify(s));
+    }catch(e){}
+  },5000);
+})();
+</script>
 </body>
 </html>

@@ -116,6 +116,70 @@
   footer{max-width:1000px;margin:40px auto 0;padding:26px 20px 46px;text-align:center;border-top:2px dashed var(--navy)}
   footer .fat{font-size:1.5rem;margin:0 0 4px}
   footer p{margin:4px 0;color:var(--muted);font-size:.92rem}
+
+
+  /* TODAY */
+  .today{background:var(--white);border:3px solid var(--navy);border-radius:24px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 26px}
+  .today .top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .today h2{font-size:clamp(1.6rem,4.4vw,2.2rem);margin:0}
+  .today .date{color:var(--muted);font-size:.9rem;margin:2px 0 0}
+  .week{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+  .week .d{width:30px;height:34px;border:2px solid var(--navy);border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.66rem;font-weight:700;background:var(--white);line-height:1.1}
+  .week .d b{font-size:.85rem}
+  .week .d.some{background:var(--yellow2)} .week .d.full{background:var(--pink)} .week .d.now{box-shadow:2px 2px 0 var(--navy)}
+  .week .cnt{font-weight:700;font-size:.85rem;margin-left:6px}
+  .tgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+  @media(max-width:720px){.tgrid{grid-template-columns:1fr}}
+  .gotd{background:var(--night);color:#fff;border-radius:18px;padding:16px 18px;position:relative;overflow:hidden;box-shadow:0 0 0 3px var(--neon-pink)}
+  .gotd .k{font-family:'Pixelify Sans',monospace;color:var(--neon-cyan);font-size:.9rem;letter-spacing:.06em}
+  .gotd h3{font-family:'Pixelify Sans',monospace;font-size:1.7rem;color:var(--yellow);margin:2px 0 6px;text-shadow:3px 3px 0 #ff2fa8}
+  .gotd p{margin:0 0 10px;color:#d9d4ff;font-size:.93rem}
+  .gotd .ch{background:#241d5a;border:1.5px dashed var(--neon-cyan);border-radius:12px;padding:8px 10px;margin:0 0 12px;color:#fff;font-size:.92rem}
+  .gotd .ch b{color:var(--neon-cyan)}
+  .gotd .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .gotd .play{font-weight:700;text-decoration:none;background:var(--neon-pink);color:#fff;border:2px solid #fff;border-radius:999px;padding:6px 18px;box-shadow:0 0 12px rgba(255,111,216,.8)}
+  .gotd .bonus{font:inherit;font-weight:700;font-size:.85rem;background:transparent;color:var(--neon-cyan);border:2px solid var(--neon-cyan);border-radius:999px;padding:5px 12px;cursor:pointer}
+  .gotd .bonus[aria-pressed="true"]{background:var(--yellow);color:var(--night);border-color:var(--yellow)}
+  .missions h4{margin:0 0 8px;font-size:1.05rem}
+  .mis{display:flex;gap:10px;align-items:center;border:2px solid var(--navy);border-radius:14px;padding:9px 11px;margin-bottom:8px;text-decoration:none;background:var(--white)}
+  .mis:hover{background:var(--yellow2)}
+  .mis .ck{flex:none;width:26px;height:26px;border:2px solid var(--navy);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .mis.done{background:var(--blue2)} .mis.done .ck{background:var(--navy);color:var(--yellow)}
+  .mis .tx{flex:1;min-width:0;font-size:.92rem;line-height:1.3}
+  .mis .tx b{display:block;font-size:.95rem}
+  .mis .tx small{display:block;color:var(--muted)}
+  .mis .bar{display:block;height:6px;background:var(--pink2);border-radius:99px;margin-top:5px;overflow:hidden;border:1px solid var(--navy)}
+  .mis .bar i{display:block;height:100%;background:var(--navy);width:0}
+  .allset{display:none;background:var(--yellow);border:2px solid var(--navy);border-radius:14px;padding:8px 12px;font-weight:700;box-shadow:3px 3px 0 var(--navy);margin-top:4px}
+  .allset.on{display:block}
+  .tnote{font-size:.8rem;color:var(--muted);margin:10px 0 0}
+  .tnote a{font-weight:700}
+  /* LEVEL GUIDE */
+  .guide{background:var(--white);border:3px solid var(--navy);border-radius:24px;box-shadow:6px 6px 0 var(--navy);padding:22px 22px 24px;margin:8px 0 10px}
+  .guide h2{font-size:clamp(1.6rem,4.4vw,2.2rem);margin:0}
+  .guide .lead{margin:4px 0 16px;color:var(--muted)}
+  .guide .pt{display:block;font-size:.8rem;color:var(--muted);font-weight:400;margin-top:2px}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .step{border:2px solid var(--navy);border-radius:18px;padding:12px 12px 10px;background:var(--pink2)}
+  .step:nth-child(2){background:var(--blue2)} .step:nth-child(3){background:var(--yellow2)} .step:nth-child(4){background:#e8e1fb}
+  .step h3{font-size:1.05rem;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+  .step h3 .n{font-family:'Pixelify Sans',monospace;background:var(--navy);color:var(--white);border-radius:999px;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;flex:none}
+  .can{display:flex;gap:9px;align-items:flex-start;width:100%;text-align:left;font:inherit;font-weight:700;font-size:.92rem;color:var(--navy);background:var(--white);border:2px solid var(--navy);border-radius:12px;padding:8px 10px;margin:0 0 7px;cursor:pointer;line-height:1.3}
+  .can .box{flex:none;width:20px;height:20px;border:2px solid var(--navy);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;background:var(--white);margin-top:1px}
+  .can[aria-pressed="true"]{background:var(--yellow);box-shadow:2px 2px 0 var(--navy)}
+  .can[aria-pressed="true"] .box{background:var(--navy);color:var(--yellow)}
+  .can[aria-pressed="true"] .box::after{content:"✓"}
+  .result{margin-top:16px;border:2px dashed var(--navy);border-radius:18px;padding:14px 16px;background:var(--bg)}
+  .result p{margin:0 0 8px}
+  .result .lv{font-family:'Fraunces',serif;font-weight:900;font-size:1.4rem}
+  .result ol{margin:6px 0 10px;padding-left:22px}
+  .result li{margin:2px 0}
+  .result li a{font-weight:700}
+  .gbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .gbtn{font:inherit;font-weight:700;font-size:.92rem;background:var(--yellow);border:2px solid var(--navy);border-radius:999px;padding:6px 16px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;color:var(--navy)}
+  .gbtn.ghost{background:var(--white)}
+  .card.pick{outline:4px solid var(--yellow);outline-offset:3px}
+  .card .startsticker{position:absolute;left:10px;top:10px;background:var(--yellow);border:2px solid var(--navy);border-radius:999px;font-weight:700;font-size:.72rem;padding:2px 10px;color:var(--navy);font-family:'DM Sans',sans-serif}
   .hidden{display:none!important}
   @media (max-width:560px){
     .logo{-webkit-text-stroke:2px var(--navy);text-shadow:3px 3px 0 var(--navy)}
@@ -156,6 +220,34 @@
 </header>
 
 <main>
+  <section class="today" id="today">
+    <div class="top">
+      <div>
+        <h2 class="fat">Today&rsquo;s <span class="hl">missions</span></h2>
+        <p class="date" id="tdate"></p>
+      </div>
+      <div class="week" id="week"></div>
+    </div>
+    <div class="tgrid">
+      <div class="gotd" id="gotd"></div>
+      <div class="missions">
+        <h4>Do 3 missions today</h4>
+        <div id="mlist"></div>
+        <div class="allset" id="allset">★ All done for today! See you tomorrow.</div>
+      </div>
+    </div>
+    <p class="tnote" id="tnote"></p>
+  </section>
+
+  <section class="guide" id="guide">
+    <h2 class="fat">Where do I <span class="hl">start?</span></h2>
+    <p class="lead">Not sure about your level? Tap everything you can already do in English.<span class="pt">Não sabe seu nível? Toque em tudo que você já consegue fazer em inglês.</span></p>
+    <div class="steps" id="steps"></div>
+    <div class="result" id="gresult">
+      <p>Tap the sentences that are true for you. Your starting point will appear here. 👆</p>
+    </div>
+  </section>
+
   <div class="sectionhead">
     <div>
       <h2 class="fat">Study &amp; <span class="hl">practice</span></h2>
@@ -320,6 +412,188 @@ document.querySelectorAll('.wo').forEach(b=>b.addEventListener('click',()=>{
   if(b.dataset.ok==='1'){ b.classList.add('yes'); document.querySelectorAll('.wo').forEach(x=>{ if(x!==b) x.classList.add('no'); x.disabled=true; }); document.getElementById('wres').classList.remove('hidden'); }
   else { b.classList.add('no'); b.disabled=true; }
 }));
+
+/* LEVEL GUIDE */
+(function(){
+  const STEPS=[
+    {lv:'A1',name:'First steps',cans:[
+      ['I can say my name, my job and where I live.','Sei dizer meu nome, minha profissão e onde moro.'],
+      ['I can talk about my family and the things I like.','Sei falar da minha família e do que eu gosto.'],
+      ['I can understand simple questions when people speak slowly.','Entendo perguntas simples quando falam devagar.']]},
+    {lv:'A2',name:'Everyday English',cans:[
+      ['I can talk about what I did last weekend.','Sei contar o que fiz no último fim de semana.'],
+      ['I can order food, buy things and ask for directions.','Sei pedir comida, fazer compras e pedir informações na rua.'],
+      ['I can describe my routine, my home and my city.','Sei descrever minha rotina, minha casa e minha cidade.']]},
+    {lv:'B1',name:'Stories & opinions',cans:[
+      ['I can tell a story and say how I felt.','Sei contar uma história e dizer como me senti.'],
+      ['I can give my opinion and explain why.','Sei dar minha opinião e explicar o porquê.'],
+      ['I can watch a series with English subtitles and follow it.','Consigo assistir a uma série com legenda em inglês e acompanhar.']]},
+    {lv:'B2',name:'Real conversations',cans:[
+      ['I can discuss the news, work and technology.','Sei discutir notícias, trabalho e tecnologia.'],
+      ['I can watch movies without subtitles and understand most of it.','Assisto a filmes sem legenda e entendo quase tudo.'],
+      ['I can speak for a long time without stopping to think about grammar.','Falo por bastante tempo sem parar para pensar na gramática.']]}
+  ];
+  const PICKS={
+    A1:['my-apartment.html','at-in-on.html','supermarket-sweep.html','irregular-verbs.html'],
+    A2:['who-are-you-talking-to.html','verb-invaders.html','prep-man.html','my-apartment.html'],
+    B1:['strange-stories.html','story-tower.html','connector-catcher.html','word-heat.html'],
+    B2:['hunger-games.html','connector-catcher.html','strange-stories.html','word-heat.html']
+  };
+  const TIP={
+    A1:'Start with words for your home, prepositions and simple verbs.',
+    A2:'Practice the past, prepositions and everyday conversations.',
+    B1:'Time for stories, questions and connectors.',
+    B2:'Go deeper: hidden grammar, connectors and fluency.'
+  };
+  const wrap=document.getElementById('steps'), res=document.getElementById('gresult');
+  let saved={}; try{saved=JSON.parse(localStorage.getItem('wdym-level')||'{}')}catch(e){}
+  STEPS.forEach((st,i)=>{
+    const d=document.createElement('div'); d.className='step';
+    d.innerHTML='<h3><span class="n">'+(i+1)+'</span>'+st.name+'</h3>'+st.cans.map((c,j)=>{
+      const k=st.lv+j, on=!!saved[k];
+      return '<button class="can" data-k="'+k+'" aria-pressed="'+on+'"><span class="box"></span><span>'+c[0]+'<span class="pt">'+c[1]+'</span></span></button>';
+    }).join('');
+    wrap.appendChild(d);
+  });
+  const title=h=>{const c=document.querySelector('.card[href="'+h+'"] h3');return c?c.textContent:h};
+  function level(){
+    let lv=null;
+    for(const st of STEPS){
+      const n=st.cans.filter((c,j)=>saved[st.lv+j]).length;
+      if(n>=2) lv=st.lv; else break;
+    }
+    return lv;
+  }
+  function clearPicks(){document.querySelectorAll('.card.pick').forEach(c=>{c.classList.remove('pick');c.querySelector('.startsticker')?.remove()})}
+  function render(){
+    const any=Object.values(saved).some(Boolean);
+    if(!any){res.innerHTML='<p>Tap the sentences that are true for you. Your starting point will appear here. 👆</p>';return}
+    let lv=level(), note='';
+    if(!lv){lv='A1';note='You’re just starting, and that’s great! '}
+    const picks=PICKS[lv];
+    res.innerHTML='<p>'+note+'Your level is around <span class="lv">'+lv+'</span></p>'+
+      '<p>'+TIP[lv]+' Start here:</p><ol>'+picks.map(h=>'<li><a href="'+h+'">'+title(h)+'</a></li>').join('')+'</ol>'+
+      '<p style="font-size:.85rem;color:var(--muted)">Too easy? Try the next level. Too hard? Go back one. 😉</p>'+
+      '<div class="gbtns"><button class="gbtn" id="gshow">Show my games</button><button class="gbtn ghost" id="greset">Start again</button></div>';
+    document.getElementById('gshow').onclick=()=>{
+      const f=document.querySelector('.filter[data-l="'+lv+'"]'); if(f) f.click();
+      clearPicks();
+      picks.forEach(h=>{const c=document.querySelector('.card[href="'+h+'"]'); if(!c) return; c.classList.add('pick');
+        const a=c.querySelector('.art'); if(a){const s=document.createElement('span');s.className='startsticker';s.textContent='★ start here';a.appendChild(s)}});
+      document.getElementById('study').scrollIntoView({behavior:'smooth',block:'start'});
+    };
+    document.getElementById('greset').onclick=()=>{
+      saved={}; try{localStorage.removeItem('wdym-level')}catch(e){}
+      wrap.querySelectorAll('.can').forEach(b=>b.setAttribute('aria-pressed','false'));
+      clearPicks(); const f=document.querySelector('.filter[data-l="all"]'); if(f) f.click(); render();
+    };
+  }
+  wrap.addEventListener('click',e=>{
+    const b=e.target.closest('.can'); if(!b) return;
+    const on=b.getAttribute('aria-pressed')!=='true'; b.setAttribute('aria-pressed',on);
+    saved[b.dataset.k]=on; try{localStorage.setItem('wdym-level',JSON.stringify(saved))}catch(e){}
+    render();
+  });
+  render();
+})();
+
+/* TODAY'S MISSIONS + GAME OF THE DAY */
+(function(){
+  /* ✏️ Teacher Maria: to choose the game for a specific day, add a line here:
+     '2026-11-20': {game:'verb-invaders.html', challenge:'Clear Galaxy 2 without losing a life.'},
+     Days that are not on this list are chosen automatically. */
+  const SCHEDULE={
+  };
+  const CH={
+    'verb-invaders.html':['Clear a wave without losing a life.','Get to the boss in Galaxy 2.','Beat your high score in any galaxy.','Play Galaxy 3: present perfect or past?'],
+    'my-apartment.html':['Cook a recipe in the kitchen.','Play a kitchen game you have never played.','Try the food matching game one level up.'],
+    'irregular-verbs.html':['Listen to 10 verbs you don’t know yet.','Do one exercise with no mistakes.'],
+    'at-in-on.html':['Finish a round with no mistakes.','Do the time AND the place cards.'],
+    'supermarket-sweep.html':['Finish 2 stages.','Finish a stage with no mistakes.'],
+    'word-heat.html':['Guess 5 words.','Guess a word in 3 tries or fewer.'],
+    'story-tower.html':['Finish a story without the tower falling.','Try a story one level above yours.'],
+    'who-are-you-talking-to.html':['Get 10 situations right.','Finish all 22 situations.'],
+    'prep-man.html':['Clear a maze without losing a life.','Beat your high score.'],
+    'strange-stories.html':['Solve one strange story.','Solve a story you have never played.'],
+    'connector-catcher.html':['Play at the fastest speed.','Catch 10 connectors without losing a life.'],
+    'hunger-games.html':['Listen to one part of the podcast and do the exercises.']
+  };
+  const ROOMS=[
+    {page:'living-room.html',link:'my-apartment.html',name:'Visit Sagwa',tip:'Living room: find Sagwa, put the words on her shelves in order, water the plants.'},
+    {page:'closet.html',link:'my-apartment.html',name:'Get dressed in the closet',tip:'Closet: choose clothes for the weather and the occasion.'},
+    {page:'my-apartment.html',link:'my-apartment.html',name:'Cook in the kitchen',tip:'Kitchen: food, recipes and what Teacher Maria is doing.'}
+  ];
+  const NEED=120; /* seconds of active play for a mission */
+  const K='wdym-daily';
+  const pad=n=>('0'+n).slice(-2);
+  const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+  function rng(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%100000)/100000}}
+  const cards=[...document.querySelectorAll('.card[data-levels]')].map(c=>({href:c.getAttribute('href'),title:c.querySelector('h3').textContent,levels:c.dataset.levels.split(' ')}));
+  const T=h=>(cards.find(c=>c.href===h)||{title:h}).title;
+  function myLevel(){
+    let sv={};try{sv=JSON.parse(localStorage.getItem('wdym-level')||'{}')}catch(e){}
+    if(!Object.values(sv).some(Boolean)) return null;
+    let lv='A1';for(const L of ['A1','A2','B1','B2']){if([0,1,2].filter(j=>sv[L+j]).length>=2) lv=L; else break}
+    return lv;
+  }
+  function plan(d){
+    const k=key(d), r=rng('wdym'+k);
+    const day=Math.floor(new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()/864e5);
+    const pool=cards.filter(c=>c.levels.includes('A2')).map(c=>c.href).sort();
+    const perm=pool.slice();const pr=rng('wdym-order');for(let i=perm.length-1;i>0;i--){const j=Math.floor(pr()*(i+1));[perm[i],perm[j]]=[perm[j],perm[i]]}
+    let g=perm[day%perm.length], chal=null;
+    if(SCHEDULE[k]){g=SCHEDULE[k].game||g;chal=SCHEDULE[k].challenge||null}
+    const chs=CH[g]||['Play for 2 minutes and beat your last score.'];
+    if(!chal) chal=chs[Math.floor(r()*chs.length)];
+    const lv=myLevel();
+    let p2=cards.filter(c=>c.href!==g&&c.href!=='my-apartment.html'&&(!lv||c.levels.includes(lv))).map(c=>c.href);
+    if(!p2.length) p2=cards.filter(c=>c.href!==g).map(c=>c.href);
+    const m2=p2[Math.floor(r()*p2.length)];
+    const rooms=ROOMS.filter(x=>x.page!==g);
+    const m3=rooms[Math.floor(r()*rooms.length)];
+    return {k,g,chal,lv,m:[
+      {page:g,link:g,name:'Game of the Day: '+T(g),tip:'Play for 2 minutes.'},
+      {page:m2,link:m2,name:'Practice: '+T(m2),tip:(lv?'A game for your level ('+lv+').':'Play for 2 minutes.')},
+      {page:m3.page,link:m3.link,name:m3.name,tip:m3.tip}
+    ]};
+  }
+  function load(){try{return JSON.parse(localStorage.getItem(K)||'{}')}catch(e){return{}}}
+  function store(s){try{localStorage.setItem(K,JSON.stringify(s))}catch(e){}}
+  function render(){
+    const now=new Date(), P=plan(now), s=load(); s.days=s.days||{}; s.done=s.done||{}; s.bonus=s.bonus||{};
+    const t=s.days[P.k]||{};
+    document.getElementById('tdate').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+    const g=P.g;
+    document.getElementById('gotd').innerHTML='<div class="k">★ GAME OF THE DAY</div><h3>'+T(g)+'</h3>'+
+      '<p>Everyone gets the same game today. Ready?</p>'+
+      '<div class="ch"><b>Today’s challenge:</b> '+P.chal+'</div>'+
+      '<div class="row"><a class="play" href="'+g+'">Play</a><button class="bonus" id="bonus" aria-pressed="'+!!s.bonus[P.k]+'">'+(s.bonus[P.k]?'★ Challenge done!':'I did the challenge!')+'</button></div>';
+    document.getElementById('bonus').onclick=e=>{const v=load();v.bonus=v.bonus||{};v.bonus[P.k]=!v.bonus[P.k];store(v);render()};
+    let n=0;
+    document.getElementById('mlist').innerHTML=P.m.map(m=>{
+      const sec=t[m.page]||0, ok=sec>=NEED; if(ok) n++;
+      const pct=Math.min(100,Math.round(sec/NEED*100));
+      return '<a class="mis'+(ok?' done':'')+'" href="'+m.link+'"><span class="ck">'+(ok?'✓':'')+'</span><span class="tx"><b>'+m.name+'</b><small>'+m.tip+'</small>'+(ok?'':'<span class="bar"><i style="width:'+pct+'%"></i></span>')+'</span></a>';
+    }).join('');
+    document.getElementById('allset').classList.toggle('on',n===3);
+    if((s.done[P.k]||0)!==n){s.done[P.k]=n;store(s)}
+    /* week Mon–Sun */
+    const mon=new Date(now);mon.setDate(now.getDate()-((now.getDay()+6)%7));
+    let html='',cnt=0;
+    'MTWTFSS'.split('').forEach((L,i)=>{
+      const d=new Date(mon);d.setDate(mon.getDate()+i);const k=key(d);
+      const played=Object.values(s.days[k]||{}).some(v=>v>=NEED), full=(s.done[k]||0)>=3;
+      if(played) cnt++;
+      html+='<span class="d'+(full?' full':played?' some':'')+(k===P.k?' now':'')+'" title="'+k+'">'+L+'<b>'+(full?'★':played?'✓':'·')+'</b></span>';
+    });
+    document.getElementById('week').innerHTML=html+'<span class="cnt">'+cnt+'/7 this week</span>';
+    document.getElementById('tnote').innerHTML=(P.lv?'':'Missions for your level: <a href="#guide">find your level below</a>. ')+'New missions every day at midnight. Your progress is saved in this browser.';
+  }
+  render();
+  addEventListener('pageshow',render);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden) render()});
+  document.getElementById('steps').addEventListener('click',()=>setTimeout(render,50));
+})();
 document.getElementById('random').addEventListener('click',()=>{
   const cards=[...document.querySelectorAll('#arcade .card')]; const c=cards[Math.floor(Math.random()*cards.length)];
   c.scrollIntoView({behavior:'smooth',block:'center'}); c.style.transition='box-shadow .2s';
