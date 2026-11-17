@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Apartment ✦ wdym, teacher?</title>
+<title>The Apartment ✦ wdym, teacher?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
 <style>
@@ -71,8 +71,9 @@
   .mcard.sel{background:var(--yellow)}.mcard.ok{background:#bff0cf;box-shadow:none;cursor:default}.mcard.no{background:#ffc7d2;animation:shake .4s}
   .scenebox.tall{aspect-ratio:1/1;max-height:62vh;margin:0 auto}.scenebox.tall svg{width:100%;height:100%;display:block}
   .scenebox img.mk{position:absolute;height:92%;bottom:1%;left:50%;transform:translateX(-50%);image-rendering:pixelated;pointer-events:none}
-  #ipanel{position:absolute;inset:3% 3% auto 3%;max-height:94%;overflow:auto;background:var(--white);border:3px solid var(--navy);border-radius:14px;box-shadow:4px 4px 0 var(--navy);padding:8px;z-index:5}
+  #ipanel{position:absolute;inset:3% 3% auto 3%;transform:none;width:auto;margin:0;animation:none;max-height:94%;overflow:auto;background:var(--white);border:3px solid var(--navy);border-radius:14px;box-shadow:4px 4px 0 var(--navy);padding:8px;z-index:5}
   #ipanel.hidden{display:none}#ipanel .cphead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}#ipanel .cpx{border:2px solid var(--navy);background:var(--white);border-radius:999px;width:30px;height:30px;cursor:pointer}
+  @media(max-width:640px){#ipanel{position:static;max-height:none;overflow:visible;box-shadow:none;border-width:3px 0 0;border-radius:0}}
   .ipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:4px}
   .ipit{font:700 .7rem 'DM Sans',sans-serif;border:2px solid var(--navy);border-radius:10px;background:var(--yellow2);color:var(--navy);padding:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
   .ipit span{font-size:1.25rem}.ipit.taken{opacity:.35;cursor:default}.ipit.nope{background:#ffc7d2;animation:shake .4s}
@@ -140,7 +141,7 @@
   .autobar{height:6px;background:#eee;border-radius:9px;margin-top:10px;overflow:hidden}
   .autobar div{height:100%;background:var(--good);transform-origin:left}
   .feedback.bad .autobar div{background:var(--bad)}
-  .game:nth-child(4){background:var(--yellow2)}
+  .game:nth-child(4n+4){background:var(--yellow2)} .game:nth-child(4n+1){background:var(--blue2)} .game:nth-child(4n+2){background:var(--pink2)} .game:nth-child(4n+3){background:var(--mint)}
   .cpanel{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:min(560px,94%);background:#f3e7d6;border:3px solid var(--navy);border-radius:16px;box-shadow:4px 4px 0 var(--navy);padding:8px 10px;z-index:5;animation:pop .2s ease-out}
   .phead{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;margin-bottom:6px}
   .pclose{all:unset;cursor:pointer;font-weight:700;width:26px;height:26px;display:grid;place-items:center;border:2px solid var(--navy);border-radius:50%;background:var(--white)}
@@ -211,7 +212,7 @@
 <!-- MAP -->
 <section id="map">
   <span class="eyebrow">Vocabulary &amp; grammar · A1–B2</span>
-  <h1 class="fat">My Apartment</h1>
+  <h1 class="fat">The Apartment</h1>
   <p class="lead">Welcome home! Every room has its own games: things, objects and actions. Click a room to go in.</p>
   <div class="card mapcard" id="mapSvg"></div>
 </section>
@@ -635,7 +636,7 @@ function showRoom(){
   clearTimeout(autoT);$('playArea').innerHTML='';
   $('roomScene').innerHTML=kitchenSVG();
   resetOverlays($('roomScene').querySelector('svg'));
-  $('games').innerHTML=GAMES.map(gm=>`<div class="game"><div class="gtop"><span class="num">Game ${gm.n}</span><span class="stars">${starHTML(BEST[gm.k]||0)}</span></div>
+  $('games').innerHTML=GAMES.slice().sort((a,b)=>a.n-b.n).map(gm=>`<div class="game"><div class="gtop"><span class="num">Game ${gm.n}</span><span class="stars">${starHTML(BEST[gm.k]||0)}</span></div>
     <h3 class="fat">${gm.title}</h3><p>${gm.desc}</p>
     <div class="row">${gm.levels?Object.entries(gm.levels).map(([l,d])=>`<button class="btn" data-play="${gm.k}" data-lv="${l}" title="${d}">${l.length===2?l:l==='now'?'Now':'Past'} ${(BEST[gm.k+'-'+l]?starHTML(BEST[gm.k+'-'+l]):'')}</button>`).join(''):`${gm.learn?`<button class="btn alt" data-learn="${gm.k}">Learn</button>`:''}<button class="btn" data-play="${gm.k}">${gm.learn?'Play →':gm.k==='kdo'?'Start the challenge →':'Play →'}</button>`}</div>${gm.levels?`<p class="lvdesc">${Object.entries(gm.levels).map(([l,d])=>`<b>${l.length===2?l:l==='now'?'Now':'Past'}:</b> ${d}`).join(' · ')}</p>`:''}</div>`).join('');
   $('games').querySelectorAll('[data-learn]').forEach(b=>b.onclick=()=>start(b.dataset.learn,true));
