@@ -120,6 +120,7 @@ try{pv();speechSynthesis.onvoiceschanged=pv}catch(e){}
 function tts(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-US';if(VOICE)u.voice=VOICE;u.rate=.92;speechSynthesis.speak(u)}catch(e){}}
 const ckey=t=>String(t).toLowerCase().replace(/’/g,"'").replace(/[^a-z' ]/g,' ').replace(/\s+/g,' ').trim();
 const AU={};let CUR=null,END=null;
+setInterval(()=>{try{if(CUR&&!CUR.paused&&END!=null&&CUR.currentTime>=END){CUR.pause();END=null}}catch(e){}},15);
 function aud(n){if(!AU[n]){const a=new Audio('closet-'+n+'.mp3');a.preload='auto';a.addEventListener('timeupdate',()=>{if(CUR===a&&END!=null&&a.currentTime>=END){a.pause();END=null;}});a.addEventListener('error',()=>{a.broken=true;});AU[n]=a;}return AU[n];}
 function speak(t){const c=CLIPS[ckey(t)];if(!c){tts(t);return;}
   try{speechSynthesis.cancel()}catch(e){}const a=aud(c[0]);if(a.broken){tts(t);return;}

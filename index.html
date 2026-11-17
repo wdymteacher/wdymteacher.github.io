@@ -140,6 +140,16 @@
   .gotd .play{font-weight:700;text-decoration:none;background:var(--neon-pink);color:#fff;border:2px solid #fff;border-radius:999px;padding:6px 18px;box-shadow:0 0 12px rgba(255,111,216,.8)}
   .gotd .bonus{font:inherit;font-weight:700;font-size:.85rem;background:transparent;color:var(--neon-cyan);border:2px solid var(--neon-cyan);border-radius:999px;padding:5px 12px;cursor:pointer}
   .gotd .bonus[aria-pressed="true"]{background:var(--yellow);color:var(--night);border-color:var(--yellow)}
+  .gotd.study{background:var(--yellow2);color:var(--navy);box-shadow:none;border:3px solid var(--navy);box-shadow:5px 5px 0 var(--navy)}
+  .gotd.study.pink{background:var(--pink2)} .gotd.study.blue{background:var(--blue2)}
+  .gotd.study .k{font-family:'DM Sans',sans-serif;font-weight:700;color:var(--navy);letter-spacing:.08em}
+  .gotd.study h3{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900;color:var(--yellow);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:3px 3px 0 var(--navy);font-size:2rem}
+  .gotd.study p{color:var(--muted)}
+  .gotd.study .ch{background:var(--white);border:2px dashed var(--navy);color:var(--navy)}
+  .gotd.study .ch b{color:var(--navy)}
+  .gotd.study .play{background:var(--yellow);color:var(--navy);border-color:var(--navy);box-shadow:3px 3px 0 var(--navy)}
+  .gotd.study .bonus{color:var(--navy);border-color:var(--navy);background:var(--white)}
+  .gotd.study .bonus[aria-pressed="true"]{background:var(--yellow)}
   .missions h4{margin:0 0 8px;font-size:1.05rem}
   .mis{display:flex;gap:10px;align-items:center;border:2px solid var(--navy);border-radius:14px;padding:9px 11px;margin-bottom:8px;text-decoration:none;background:var(--white)}
   .mis:hover{background:var(--yellow2)}
@@ -317,7 +327,7 @@
       <div class="art"><div class="big fat">my apartment<span class="small">home vocabulary</span></div></div>
       <div class="body">
         <h3 class="fat">My Apartment</h3>
-        <p>Walk around the apartment and play in every room: the kitchen (furniture, drawers, chores), the closet (clothes, fabrics, verbs, prepositions), and the living room with Sagwa the cat (prepositions, present continuous, word order).</p>
+        <p>Walk around the apartment and play in every room: the kitchen (food, recipes, cooking verbs), the closet (clothes, fabrics, prepositions), the living room with Sagwa the cat, and the bedroom (instructions, a video call and listen and correct).</p>
         <div class="meta"><span class="lvl">A1–B2</span><span>vocabulary</span><span>actions</span><span>new rooms soon</span></div>
         <span class="go">Play</span>
       </div>
@@ -528,7 +538,7 @@ document.querySelectorAll('.wo').forEach(b=>b.addEventListener('click',()=>{
   const pad=n=>('0'+n).slice(-2);
   const key=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
   function rng(str){let h=2166136261;for(const c of str){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)%100000)/100000}}
-  const cards=[...document.querySelectorAll('.card[data-levels]')].map(c=>({href:c.getAttribute('href'),title:c.querySelector('h3').textContent,levels:c.dataset.levels.split(' ')}));
+  const cards=[...document.querySelectorAll('.card[data-levels]')].map(c=>({href:c.getAttribute('href'),title:c.querySelector('h3').textContent,levels:c.dataset.levels.split(' '),arcade:!!c.closest('#arcade'),color:['pink','blue','yellow'].find(x=>c.classList.contains(x))||'yellow'}));
   const T=h=>(cards.find(c=>c.href===h)||{title:h}).title;
   function myLevel(){
     let sv={};try{sv=JSON.parse(localStorage.getItem('wdym-level')||'{}')}catch(e){}
@@ -563,7 +573,8 @@ document.querySelectorAll('.wo').forEach(b=>b.addEventListener('click',()=>{
     const now=new Date(), P=plan(now), s=load(); s.days=s.days||{}; s.done=s.done||{}; s.bonus=s.bonus||{};
     const t=s.days[P.k]||{};
     document.getElementById('tdate').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-    const g=P.g;
+    const g=P.g, gc=cards.find(c=>c.href===g)||{arcade:true};
+    document.getElementById('gotd').className='gotd'+(gc.arcade?'':' study '+gc.color);
     document.getElementById('gotd').innerHTML='<div class="k">★ GAME OF THE DAY</div><h3>'+T(g)+'</h3>'+
       '<p>Everyone gets the same game today. Ready?</p>'+
       '<div class="ch"><b>Today’s challenge:</b> '+P.chal+'</div>'+
