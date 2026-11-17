@@ -182,7 +182,7 @@
 
 <!-- MAP -->
 <section id="map">
-  <span class="eyebrow">Vocabulary · A1–A2</span>
+  <span class="eyebrow">Vocabulary &amp; grammar · A1–B2</span>
   <h1 class="fat">My Apartment</h1>
   <p class="lead">Welcome home! Every room has its own games: things, objects and actions. Click a room to go in.</p>
   <div class="card mapcard" id="mapSvg"></div>
@@ -274,14 +274,15 @@ function mapSVG(){
     {k:'bedroom',name:'Bedroom',x:20,y:28,w:56,h:42,f:'#f5d6f2',art:B(26,50,36,12,'#ebb3e6')+R(26,46,9,6,'#fffdf9')},
     {k:'closet',name:'Closet',x:78,y:28,w:36,h:42,f:'#ead6f7',open:true,href:'closet.html',store:'wdym-closet',tot:6,art:B(84,38,24,26,'#c98c4e')+R(96,40,1,22,N)+R(85,36,22,1,'#e0e0ea')+B(87,40,3,10,'#e2385a')+B(91,40,3,12,'#fbf06a')+B(100,40,3,11,'#9ccfdc')},
     {k:'bathroom',name:'Bathroom',x:116,y:28,w:84,h:42,f:'#d7eef4',art:B(124,50,30,10,'#fffdf9')+R(126,46,3,5,'#8e9bb0')+B(170,46,12,14,'#fffdf9')+B(168,42,16,5,'#fffdf9')},
-    {k:'living',name:'Living Room',x:20,y:72,w:94,h:42,f:'#fff8c4',open:true,href:'living-room.html',store:'wdym-livingroom',tot:3,art:B(28,94,40,10,'#3f6a38')+B(28,88,40,7,'#2e5a2c')+B(80,84,24,16,'#3b4160')+R(91,100,2,4,N)},
+    {k:'living',name:'Living Room',x:20,y:72,w:94,h:42,f:'#fff8c4',open:true,href:'living-room.html',store:'wdym-livingroom',tot:8,art:B(28,94,40,10,'#3f6a38')+B(28,88,40,7,'#2e5a2c')+B(80,84,24,16,'#3b4160')+R(91,100,2,4,N)},
     {k:'kitchen',name:'Kitchen',x:116,y:72,w:84,h:42,f:'#c9f0dc',open:true,art:B(176,80,16,26,'#fffdf9')+R(176,90,16,1,N)+B(124,92,48,4,'#fff8c4')+B(124,96,48,10,'#9ccfdc')+B(140,96,16,10,'#e3e7ee')+B(146,99,10,5,'#3b4160')+B(150,84,10,8,'#e2385a')},
     {k:'laundry',name:'Laundry Room',x:20,y:116,w:94,h:40,f:'#ebe1fb',art:B(30,130,20,22,'#fffdf9')+R(34,136,12,12,'#9ccfdc')+R(34,136,12,1,N)+B(56,130,20,22,'#fffdf9')+R(60,136,12,12,'#9ccfdc')},
     {k:'entrance',name:'Entrance',x:116,y:116,w:84,h:40,f:'#ffe2cf',art:B(146,124,22,32,'#c98c4e')+R(163,140,2,2,N)+B(178,140,10,12,'#e2385a')+R(180,132,6,9,'#6fcf97')}
   ];
   let s=`<svg class="px" viewBox="0 0 220 168" role="img" aria-label="Apartment map">`;
   s+=R(10,18,200,146,N)+R(12,26,196,136,'#fffdf9');
-  s+=`<polygon points="4,24 110,2 216,24" fill="${N}"/><polygon points="12,22 110,6 208,22" fill="#e58fb0"/>`;
+  s+=R(6,14,208,6,N)+R(8,15.5,204,3,'#e58fb0');
+  s+=R(30,7,1,7,N)+R(189,7,1,7,N)+B(22,8,10,6,'#e2385a')+R(25,4,4,4,'#6fcf97')+B(188,8,10,6,'#9ccfdc')+R(191,4,4,4,'#6fcf97');
   rooms.forEach(r=>{
     s+=`<g class="room ${r.open?'open':''}" data-room="${r.k}" ${r.open?'tabindex="0" role="button" aria-label="Go into the '+r.name+'"':''}>`;
     s+=`<g class="roomfill">${R(r.x,r.y,r.w,r.h,r.f)}${r.art}</g>`;
@@ -290,9 +291,9 @@ function mapSVG(){
     s+=`<text class="maptext" x="${r.x+7}" y="${r.y+9.6}" font-size="5.6" fill="${N}">${r.name}</text>`;
     if(r.open){
       s+=`<rect class="ring" x="${r.x+1.5}" y="${r.y+1.5}" width="${r.w-3}" height="${r.h-3}" fill="none" stroke="#e0b821" stroke-width="2" shape-rendering="geometricPrecision"/>`;
-      let st=['kfurn','kdraw','kchores','kdo'].reduce((a,k)=>a+(BEST[k]||0),0);
-      if(r.href){let cb={};try{cb=JSON.parse(localStorage.getItem(r.store)||'{}')}catch(e){}const n=r.k==='living'?['where','doing','shelves'].filter(k=>cb[k]).length:Object.keys(cb).length;s+=`<rect x="${r.x+r.w-34}" y="${r.y+r.h-12}" width="31" height="9" rx="4" fill="#fbf06a" stroke="${N}" stroke-width=".8" shape-rendering="geometricPrecision"/><text class="maptext" x="${r.x+r.w-31}" y="${r.y+r.h-5.4}" font-size="5.4" fill="${N}">${n?n+'/'+r.tot+' · ':''}Go in</text>`;s+=`</g>`;return;}
-      s+=`<rect x="${r.x+r.w-44}" y="${r.y+3}" width="41" height="9" rx="4" fill="#fbf06a" stroke="${N}" stroke-width=".8" shape-rendering="geometricPrecision"/><text class="maptext" x="${r.x+r.w-41}" y="${r.y+9.6}" font-size="5.4" fill="${N}">★ ${st}/12 · Go in</text>`;
+      let st=GAMES.filter(gm=>BEST[gm.k]).length;
+      if(r.href){let cb={};try{cb=JSON.parse(localStorage.getItem(r.store)||'{}')}catch(e){}const ks=Object.keys(cb);const n=r.k==='living'?(['where','doing','shelves','maria'].filter(k=>cb[k]).length+['v','i','f','w'].filter(p=>ks.some(k=>k.length===3&&k[0]===p)).length):ks.length;s+=`<rect x="${r.x+r.w-34}" y="${r.y+r.h-12}" width="31" height="9" rx="4" fill="#fbf06a" stroke="${N}" stroke-width=".8" shape-rendering="geometricPrecision"/><text class="maptext" x="${r.x+r.w-31}" y="${r.y+r.h-5.4}" font-size="5.4" fill="${N}">${n?n+'/'+r.tot+' · ':''}Go in</text>`;s+=`</g>`;return;}
+      s+=`<rect x="${r.x+r.w-44}" y="${r.y+3}" width="41" height="9" rx="4" fill="#fbf06a" stroke="${N}" stroke-width=".8" shape-rendering="geometricPrecision"/><text class="maptext" x="${r.x+r.w-41}" y="${r.y+9.6}" font-size="5.4" fill="${N}">★ ${st}/9 · Go in</text>`;
     }else{
       s+=`<rect x="${r.x+1}" y="${r.y+1}" width="${r.w-2}" height="${r.h-2}" fill="#fffdf9" opacity=".55"/>`;
       s+=`<text class="maptext" x="${r.x+r.w/2}" y="${r.y+r.h/2+3}" text-anchor="middle" font-size="6" fill="${N}" opacity=".8">🔒 Coming soon</text>`;
@@ -593,7 +594,7 @@ const GAMES=[
   {k:'kdraw',n:2,title:'In the drawers',desc:'Spatula, ladle, whisk… Open the drawers and the cabinet and find what I need.',learn:'Open the drawers and the cabinet. Tap the things to see and hear their names.'},
   {k:'kchores',n:3,title:'Kitchen chores',desc:'Sweep the floor, do the dishes, set the table… Pick the right action and watch it happen!',learn:'Tap each action to see what it means.'},
   {k:'kdo',n:4,title:'Follow the instructions',desc:'The final challenge! Listen and do it: open the drawers, get things, mop the floor…',learn:null},
-  {k:'kfood',n:5,title:'Food & drink',desc:'Match words, sounds, pictures and meanings. From fish and rice to lobster and zucchini!',learn:null,levels:{A2:'word + sound + picture',B1:'sound + picture',B2:'sound + meaning'}},
+  {k:'kfood',n:5,title:'Food & drink',desc:'Match words, sounds, pictures and meanings. From fish and rice to lobster and zucchini!',learn:null,levels:{A1:'basic food & drinks, word + sound + picture',A2:'more food, word + sound + picture',B1:'sound + picture',B2:'sound + meaning'}},
   {k:'kmaria',n:6,title:"What's Teacher Maria doing?",desc:'Chopping, stirring, frying… Look at me and choose the right sentence.',learn:null},
   {k:'krecipe',n:7,title:'Cook the recipe',desc:'Pancakes, brigadeiro, spaghetti… Choose the right verb for each step: chop, peel, boil, stir…',learn:null},
   {k:'kgap',n:8,title:'Gap fill',desc:'Read the text and fill in the gaps with the right words.',learn:null,levels:{A2:'food & meals',B1:'cooking & eating habits'}},
@@ -832,7 +833,7 @@ const FOOD=[
  ['simmer',null,'B1','to cook slowly, just below boiling'],['grate',null,'B1','to cut food into very small pieces by rubbing it on a metal tool'],['drain',null,'B1','to remove the water from food after cooking'],
  ['whisk',null,'B1','to mix eggs or cream very quickly'],['peel',null,'B1','to remove the skin of a fruit or vegetable'],['preheat',null,'B1','to turn on the oven before you put the food in'],
 ];
-const FLV={A2:{d:'word + sound + picture',pool:FOOD.filter(f=>f[1]&&f[2]!=='B1'),mode:'word'},
+const FLV={A1:{d:'word + sound + picture',pool:FOOD.filter(f=>f[1]&&f[2]==='A1'),mode:'word'},A2:{d:'word + sound + picture',pool:FOOD.filter(f=>f[1]&&f[2]!=='B1'),mode:'word'},
            B1:{d:'sound + picture',pool:FOOD.filter(f=>f[1]),mode:'sound'},
            B2:{d:'sound + meaning',pool:FOOD.filter(f=>f[2]==='B1'),mode:'meaning'}};
 function matchStart(){
