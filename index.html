@@ -173,7 +173,7 @@
   .step{border:2px solid var(--navy);border-radius:18px;padding:12px 12px 10px;background:var(--pink2)}
   .step:nth-child(2){background:var(--blue2)} .step:nth-child(3){background:var(--yellow2)} .step:nth-child(4){background:#e8e1fb}
   .step h3{font-size:1.05rem;margin:0 0 8px;display:flex;align-items:center;gap:8px}
-  .step h3 .n{font-family:'Pixelify Sans',monospace;background:var(--navy);color:var(--white);border-radius:999px;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;flex:none}
+  .step h3 .n{font-family:'DM Sans',system-ui,sans-serif;font-weight:800;background:var(--navy);color:var(--white);border-radius:999px;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;flex:none}
   .can{display:flex;gap:9px;align-items:flex-start;width:100%;text-align:left;font:inherit;font-weight:700;font-size:.92rem;color:var(--navy);background:var(--white);border:2px solid var(--navy);border-radius:12px;padding:8px 10px;margin:0 0 7px;cursor:pointer;line-height:1.3}
   .can .box{flex:none;width:20px;height:20px;border:2px solid var(--navy);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;background:var(--white);margin-top:1px}
   .can[aria-pressed="true"]{background:var(--yellow);box-shadow:2px 2px 0 var(--navy)}
@@ -485,12 +485,13 @@ document.querySelectorAll('.wo').forEach(b=>b.addEventListener('click',()=>{
   });
   const title=h=>{const c=document.querySelector('.card[href="'+h+'"] h3');return c?c.textContent:h};
   function level(){
-    let lv=null;
+    /* the highest step where the student ticked 2+ sentences; if none, the highest step with any tick */
+    let lv2=null,lv1=null;
     for(const st of STEPS){
       const n=st.cans.filter((c,j)=>saved[st.lv+j]).length;
-      if(n>=2) lv=st.lv; else break;
+      if(n>=2) lv2=st.lv; if(n>=1) lv1=st.lv;
     }
-    return lv;
+    return lv2||lv1;
   }
   function clearPicks(){document.querySelectorAll('.card.pick').forEach(c=>{c.classList.remove('pick');c.querySelector('.startsticker')?.remove()})}
   function render(){
