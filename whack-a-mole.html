@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whack-a-Mole: Phrasal Verbs ✦ wdym, teacher?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=Lora:ital,wght@0,500;0,700;1,500&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ebb3e6;--pink2:#f5d6f2;--blue:#9ccfdc;--yellow:#fbf06a;--navy:#1f2a5c;--white:#fffdf7;--good:#2e9e6a;--bad:#e2385a}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Lora',Georgia,serif;color:var(--navy);background:var(--pink);min-height:100vh;
+  background-image:radial-gradient(rgba(255,255,255,.35) 1px,transparent 1.5px);background-size:14px 14px}
+.fat{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900}
+.wrap{max-width:860px;margin:0 auto;padding:58px 14px 40px}
+.logo{font-size:clamp(1.7rem,6vw,2.7rem);color:var(--yellow);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:3px 3px 0 var(--navy);margin:0 0 4px;line-height:1.05}
+.sub{margin:4px 0 14px}
+.card{background:var(--white);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:20px}
+.btn{font-family:'Fraunces',serif;font-weight:800;font-size:1.05rem;border:2px solid var(--navy);border-radius:999px;padding:9px 22px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;background:var(--yellow);color:var(--navy)}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--navy)}
+.btn.alt{background:var(--blue)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.row .lab{font-weight:700;min-width:120px}
+.opt{font:700 .95rem 'Lora',serif;border:2px solid var(--navy);border-radius:999px;padding:5px 14px;background:#fff;color:var(--navy);cursor:pointer;box-shadow:2px 2px 0 var(--navy)}
+.opt.on{background:var(--yellow)}
+.opt small{color:#c08a00;margin-left:4px}
+.hud{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pill{background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:4px 12px;font-weight:700;box-shadow:2px 2px 0 var(--navy)}
+.bar{background:var(--white);border:3px solid var(--navy);border-radius:18px;box-shadow:4px 4px 0 var(--navy);padding:12px 16px;font-size:clamp(1.05rem,3.3vw,1.45rem);line-height:1.45;text-align:center;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.blank{display:inline-block;min-width:3.6em;border-bottom:4px solid var(--navy);text-align:center;font-family:'Fraunces',serif;font-weight:900;margin:0 .1em}
+.blank.good{color:var(--good);border-color:var(--good)}
+.blank.bad{animation:shake .35s;border-color:var(--bad)}
+.mean{font-size:.85em;color:#4f5683;min-height:1.3em;margin-top:4px}
+.mean b{color:var(--good)}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* FIELD */
+.field{position:relative;margin-top:14px;border:3px solid var(--navy);border-radius:22px;overflow:hidden;padding:18px 10px 8px;
+  background:linear-gradient(180deg,#bfe6f3 0%,#d8f1f8 22%,#8fd18b 22.2%,#6fbf6f 60%,#5aa95c 100%);
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg transform='rotate(-35 24 24)'%3E%3Crect x='21' y='16' width='6' height='30' rx='2' fill='%23d9a066' stroke='%231f2a5c' stroke-width='2'/%3E%3Crect x='8' y='4' width='32' height='15' rx='4' fill='%23e2385a' stroke='%231f2a5c' stroke-width='2'/%3E%3Crect x='11' y='6' width='26' height='3' rx='1.5' fill='%23fff' opacity='.5'/%3E%3C/g%3E%3C/svg%3E") 14 10,pointer;
+  user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.cloud{position:absolute;top:10px;width:70px;height:18px;background:#fff;border-radius:20px;opacity:.85}
+.cloud::before{content:"";position:absolute;left:14px;top:-10px;width:30px;height:24px;background:#fff;border-radius:50%}
+.grid{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:4px 6px;margin-top:22px}
+.hole{position:relative;height:150px}
+.pit{position:absolute;left:12%;right:12%;bottom:8px;height:34px;border-radius:50%;background:radial-gradient(ellipse at 50% 35%,#2b1a10 0%,#3d2716 55%,#5a3a22 100%)}
+.win{position:absolute;left:0;right:0;bottom:24px;top:-40px;overflow:hidden;pointer-events:none}
+.mole{position:absolute;left:50%;bottom:0;width:96px;margin-left:-48px;transform:translateY(135%);transition:transform .16s ease-out;pointer-events:auto;cursor:inherit}
+.mole.up{transform:translateY(0)}
+.mole svg{display:block;width:96px;height:auto}
+.sign{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);white-space:nowrap;background:#fff8c4;border:2.5px solid var(--navy);border-radius:10px;padding:2px 10px;font:900 clamp(.95rem,3.2vw,1.2rem) 'Fraunces',serif;box-shadow:2px 2px 0 var(--navy)}
+.mole.hit svg{animation:squash .25s forwards}
+.mole.hit.good .sign{background:#c9f0dc}
+.mole.hit.bad .sign{background:#ffd6df}
+.mole.hit.bad svg{animation:dizzy .5s}
+@keyframes squash{to{transform:scaleY(.72) translateY(14%)}}
+@keyframes dizzy{25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
+.lip{position:absolute;left:4%;right:4%;bottom:0;height:30px;border-radius:50% 50% 45% 45%/60% 60% 40% 40%;background:#8a5a34;box-shadow:inset 0 5px 0 #a8703f;pointer-events:none}
+.lip::after{content:"";position:absolute;left:18%;top:9px;width:6px;height:5px;border-radius:50%;background:#6b4426;box-shadow:30px 4px 0 #6b4426,60px 0 0 #6b4426}
+.pop{position:absolute;font:900 1.3rem 'Fraunces',serif;color:var(--navy);pointer-events:none;animation:pop .8s forwards;z-index:30;text-shadow:2px 2px 0 #fff}
+@keyframes pop{from{opacity:1;transform:translate(-50%,0) scale(.8)}to{opacity:0;transform:translate(-50%,-50px) scale(1.2)}}
+.swing{position:absolute;width:56px;height:56px;pointer-events:none;z-index:40;transform-origin:80% 80%;animation:swing .18s ease-in forwards}
+@keyframes swing{from{transform:translate(-30%,-80%) rotate(-50deg)}to{transform:translate(-30%,-80%) rotate(15deg)}}
+.stars{font-size:2.4rem;letter-spacing:4px;color:#e0b821;-webkit-text-stroke:1px var(--navy)}
+.review{text-align:left;margin:12px 0;padding:0;list-style:none}
+.review li{padding:7px 0;border-bottom:1px dashed #b9b2d6}
+.review b{color:var(--good)}
+.review i{color:#4f5683;font-size:.92em}
+.hidden{display:none}
+@media(max-width:560px){.hole{height:120px}.mole{width:74px;margin-left:-37px}.mole svg{width:74px}.sign{bottom:66px;padding:1px 7px}.win{top:-34px}.pit{height:26px}.lip{height:24px}}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="wrap">
+  <h1 class="logo fat">Whack-a-Mole</h1>
+  <p class="sub"><b>Phrasal verbs!</b> Read the sentence and hit the mole with the right word. Be careful: the wrong moles count as mistakes! 🔨</p>
+
+  <div id="menu" class="card">
+    <div class="row"><span class="lab">Level</span><span id="lv"></span></div>
+    <div class="row"><span class="lab">Game</span><span id="md"></span></div>
+    <div class="row"><span class="lab">Speed</span><span id="sp"></span></div>
+    <div class="row" data-qcount></div>
+    <p style="margin-top:16px"><button class="btn" id="play">Play ▶</button></p>
+  </div>
+
+  <div id="game" class="hidden">
+    <div class="hud"><span class="pill" id="hq"></span><span class="pill" id="hm"></span><span class="pill" id="hl"></span></div>
+    <div class="bar"><div id="sent"></div><div class="mean" id="mean"></div></div>
+    <div class="field" id="field">
+      <div class="cloud" style="left:8%"></div><div class="cloud" style="left:62%;top:22px"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+  <div id="end" class="card hidden" style="text-align:center"></div>
+</div>
+
+<script>
+const D={"BANK": {"A2": [["I'm always tired. I wake __ at 6 a.m. every day.", "up", "stop sleeping", [], "wake up"], ["It's cold outside. Put __ your jacket!", "on", "start wearing clothes", [], "put on"], ["It's hot in here. You can take __ your coat.", "off", "remove clothes", [], "take off"], ["It's dark in here. Can you turn __ the light?", "on", "make a machine or light start working", [], "turn on"], ["Please turn __ your phone during the movie.", "off", "make a machine stop working", [], "turn off"], ["Come in and sit __ on the couch.", "down", "go from standing to sitting", [], "sit down"], ["Hurry __! The bus is leaving.", "up", "go faster", [], "hurry up"], ["I can't find my keys. Can you help me look __ them?", "for", "try to find something", [], "look for"], ["My grandmother looks __ my little brother after school.", "after", "take care of someone", [], "look after"], ["Please fill __ this form with your name and address.", "out", "complete a form", ["in"], "fill out"], ["Let's go __ tonight. There's a new restaurant downtown.", "out", "leave home to have fun", [], "go out"], ["What time do you get __ on Sundays?", "up", "get out of bed", [], "get up"], ["Don't give __! You can do it.", "up", "stop trying", [], "give up"], ["These old shoes are broken. I'm going to throw them __.", "away", "put something in the trash", ["out"], "throw away"], ["The plane takes __ at 9:30. Don't be late!", "off", "leave the ground (a plane)", [], "take off"], ["Welcome home! When did you get __ from your trip?", "back", "return", [], "get back"], ["Pick __ your toys and put them in the box.", "up", "lift something from the floor", [], "pick up"], ["Write __ the new words in your notebook.", "down", "write something on paper", [], "write down"], ["I don't know this word. I'll look it __ in the dictionary.", "up", "find information in a book or online", [], "look up"], ["Slow __! You're driving too fast.", "down", "go less fast", [], "slow down"], ["Your room is a mess! Put __ your clothes, please.", "away", "put things in their place", [], "put away"], ["The door is open. Come __!", "in", "enter", [], "come in"], ["We're here! Get __ of the car, please.", "out", "leave a car", [], "get out of"], ["This is our stop. Let's get __ the bus.", "off", "leave a bus, train or plane", [], "get off"], ["The bus is here. Quick, get __!", "on", "enter a bus, train or plane", [], "get on"], ["My sister and I get __ really well. We're best friends.", "along", "have a good relationship", [], "get along"], ["Watch __! There's a car coming!", "out", "be careful", [], "watch out"], ["Hold __ a second. I need to find a pen.", "on", "wait", [], "hold on"], ["Can you turn __ the music? I can't hear it.", "up", "make louder", [], "turn up"], ["Please turn __ the music. The baby is sleeping.", "down", "make quieter", [], "turn down"], ["Look at your son! He's growing __ so fast!", "up", "become an adult", [], "grow up"], ["Go __, Maria. I'm listening.", "on", "continue", [], "go on"], ["I'm busy now. I'll call you __ later.", "back", "phone someone again", [], "call back"], ["Try __ these jeans before you buy them.", "on", "put on clothes to see if they fit", [], "try on"], ["Let's eat __ tonight. I don't want to cook.", "out", "eat at a restaurant", [], "eat out"], ["Dinner is over. Please clean __ the kitchen.", "up", "make a place clean and tidy", [], "clean up"], ["We have to check __ of the hotel at 11 a.m.", "out", "leave a hotel", [], "check out of"], ["We checked __ at the hotel and went up to our room.", "in", "arrive and register at a hotel", [], "check in"], ["Lie __ for a while. You look tired.", "down", "put your body flat to rest", [], "lie down"], ["Please shut __ the computer before you leave.", "down", "turn off a computer completely", [], "shut down"], ["Turn __! There's a spider on your back!", "around", "face the other direction", [], "turn around"], ["Stand __, please. The class is starting.", "up", "go from sitting to standing", [], "stand up"], ["I forgot my wallet. I need to go __ home.", "back", "return to a place", [], "go back"], ["Put __ your phone and eat your dinner.", "down", "stop holding something", ["away"], "put down"], ["Don't hang __! I'm still talking.", "up", "end a phone call", [], "hang up"], ["Type your password to log __.", "in", "enter your account on a website or app", ["on"], "log in"]], "B1": [["We ran __ of milk, so I went to the supermarket.", "out", "have no more of something", [], "run out of"], ["Only two more days! I'm looking __ to the weekend.", "forward", "feel happy about something in the future", [], "look forward to"], ["She found __ the truth about the surprise party.", "out", "discover information", [], "find out"], ["This noise is terrible. I can't put __ with it anymore!", "up", "accept something bad", [], "put up with"], ["It was raining, so they called __ the game.", "off", "cancel", [], "call off"], ["Don't put __ your homework until Sunday night!", "off", "do something later", [], "put off"], ["I came __ an old photo of my parents in a box.", "across", "find by chance", [], "come across"], ["My car broke __ on the highway.", "down", "stop working (a machine or car)", [], "break down"], ["It's a long trip. We need to set __ early.", "off", "start a trip", ["out"], "set off"], ["He takes __ his father. They have the same smile!", "after", "look or act like an older relative", [], "take after"], ["I'm trying to cut __ on sugar.", "down", "use or eat less", ["back"], "cut down on"], ["She brought __ three children on her own.", "up", "take care of a child until adult", [], "bring up"], ["Can you figure __ the answer to this question?", "out", "understand or solve", [], "figure out"], ["I ran __ my old teacher at the mall yesterday.", "into", "meet someone by chance", [], "run into"], ["It took me two weeks to get __ the flu.", "over", "recover from", [], "get over"], ["Our neighbors found a bigger house. They're moving __ next month.", "out", "leave your home to live somewhere else", ["away"], "move out"], ["I work __ at the gym three times a week.", "out", "do exercise", [], "work out"], ["I'm sorry I let you __. Next time I'll be there.", "down", "disappoint someone", [], "let down"], ["I like to hang __ with my friends on weekends.", "out", "spend free time with people", [], "hang out"], ["The salary was too low, so she turned __ the job offer.", "down", "say no to an offer", [], "turn down"], ["Can you pick me __ at the airport tomorrow?", "up", "go and get someone in a car", [], "pick up"], ["My boss told me to carry __ with the report.", "on", "continue doing something", [], "carry on"], ["I need to drop __ the kids at school first.", "off", "take someone somewhere and leave them there", [], "drop off"], ["Let's go __ the answers together before the test.", "over", "check or review", ["through"], "go over"], ["I'm saving __ for a new laptop.", "up", "keep money to buy something later", [], "save up"], ["We have to hand __ our essays on Friday.", "in", "give work to a teacher", [], "hand in"], ["Can you help me set __ the new printer?", "up", "prepare something to use", [], "set up"], ["The fire alarm went __ in the middle of the night.", "off", "start ringing (an alarm)", [], "go off"], ["He made __ a story about a dog eating his homework.", "up", "invent a story", [], "make up"], ["Coffee is so expensive now! The price went __ again.", "up", "increase", [], "go up"], ["Don't worry, I'll pay you __ next week.", "back", "return money", [], "pay back"], ["I'm going to sign __ for the English course.", "up", "register for something", [], "sign up for"], ["She dropped __ of college in her second year.", "out", "stop going to school before finishing", [], "drop out of"], ["Don't worry. Everything will work __ in the end.", "out", "have a good result", [], "work out"], ["The kids were showing __ their new bikes.", "off", "show something proudly", [], "show off"], ["Come __ to my place after work. We can watch a movie.", "over", "visit someone's home", [], "come over"], ["I missed the meeting. Can you fill me __?", "in", "give someone information", [], "fill in"], ["I'll think it __ and give you an answer tomorrow.", "over", "think carefully about something", ["through"], "think over"], ["They broke __ last year, but they're still friends.", "up", "end a relationship", [], "break up"], ["Calm __. Everything is going to be OK.", "down", "become less angry, nervous or excited", [], "calm down"], ["We have an hour. Let's look __ the old town.", "around", "visit and see what is in a place", ["over"], "look around"], ["The door was open and the dog ran __.", "away", "leave a place quickly to escape", ["off"], "run away"], ["The caterpillar turned __ a beautiful butterfly.", "into", "change and become something different", [], "turn into"], ["She invited 20 people, but only five showed __.", "up", "arrive or appear", [], "show up"], ["“Can I use your pen?” “Sure, go __.”", "ahead", "you can do it (giving permission)", ["on"], "go ahead"]], "B2": [["The plan fell __ at the last minute.", "through", "fail to happen", [], "fall through"], ["She came __ with a brilliant idea for the campaign.", "up", "think of an idea", [], "come up with"], ["We need to look __ the problem before we decide.", "into", "investigate", [], "look into"], ["The company laid __ 200 workers last year.", "off", "stop employing people", [], "lay off"], ["The new law will come __ effect in January.", "into", "start to be used (a law)", [], "come into"], ["He finally owned __ to breaking the window.", "up", "admit you did something wrong", [], "own up to"], ["Nobody believed it, but the rumors turned __ to be true.", "out", "be discovered to be", [], "turn out"], ["Can we put __ the meeting until next week?", "off", "postpone", ["back"], "put off"], ["My grandmother is so brave. I really look __ to her.", "up", "admire and respect", [], "look up to"], ["Her new song really caught __ with teenagers.", "on", "become popular", [], "catch on"], ["The situation was dangerous, so we called __ the police.", "in", "ask an expert or authority to help", [], "call in"], ["The city is going to phase __ plastic straws.", "out", "stop using something little by little", [], "phase out"], ["Please don't bring __ politics at dinner!", "up", "start talking about a topic", [], "bring up"], ["The music is too loud. I can't make __ what he's saying.", "out", "manage to hear, see or understand", [], "make out"], ["The fire spread quickly and burned __ the whole building.", "down", "destroy by fire", [], "burn down"], ["It's too early to decide. Let's not rule __ any options yet.", "out", "decide something is impossible", [], "rule out"], ["She stood __ for her friend when the others laughed at him.", "up", "defend someone", [], "stand up for"], ["He backed __ of the deal at the last minute.", "out", "decide not to do something you agreed to", [], "back out of"], ["Sales picked __ after the holiday season.", "up", "improve", [], "pick up"], ["I'm writing to follow __ on the email I sent last week.", "up", "continue or check on something", [], "follow up on"], ["His story doesn't add __. I think he's lying.", "up", "make sense", [], "add up"], ["The excitement wore __ after a few days.", "off", "slowly disappear", [], "wear off"], ["We have to cut __ on expenses this year.", "back", "spend less", ["down"], "cut back on"], ["The kids were acting __ because they were tired.", "up", "behave badly", [], "act up"], ["Could you point __ the mistakes in my essay?", "out", "show or tell someone something", [], "point out"], ["The storm finally died __ in the evening.", "down", "become less strong", [], "die down"], ["She's brushing __ on her Spanish before the trip.", "up", "practice to improve a skill you had", [], "brush up on"], ["Our team was knocked __ of the tournament.", "out", "eliminate from a competition", [], "knock out"], ["Will you back me __ in the meeting tomorrow?", "up", "support someone", [], "back up"], ["I zoned __ during the lecture and missed everything.", "out", "stop paying attention", [], "zone out"], ["The lawyers still need to iron __ the details.", "out", "solve small problems", [], "iron out"], ["He blew __ at me for no reason.", "up", "suddenly get very angry", [], "blow up"], ["After two weeks, the negotiations broke __.", "down", "fail (a discussion)", ["off"], "break down"], ["Prices went up in January, but they've leveled __ now.", "off", "stop rising or falling", ["out"], "level off"], ["You can't get __ with lying forever.", "away", "not be punished for something", [], "get away with"], ["Don't decide now. Sleep __ it and tell me tomorrow.", "on", "wait a night before deciding", [], "sleep on"], ["The salesman talked me __ buying a car I didn't need.", "into", "convince someone to do something", [], "talk into"], ["The teacher handed __ the worksheets to the class.", "out", "give something to each person in a group", [], "hand out"], ["It's getting late. Let's wrap __ the meeting.", "up", "finish", [], "wrap up"], ["I can't afford it, so I'll have to do __ a new phone.", "without", "manage without something", [], "do without"], ["A big company took __ the little café on my street.", "over", "take control of something", [], "take over"], ["His grandfather passed __ last year.", "away", "die (a polite way to say it)", ["on"], "pass away"], ["It's hard to get __ complex ideas in a second language.", "across", "make people understand an idea", ["over"], "get across"], ["The two brothers fell __ over money and stopped talking.", "out", "stop being friends after a fight", [], "fall out"], ["At the meeting, she put __ a new proposal.", "forward", "suggest an idea or plan", [], "put forward"]]}, "PARTICLES": ["up", "down", "in", "out", "on", "off", "away", "back", "over", "through", "after", "for", "into", "across", "along", "forward", "without", "ahead", "around"]};
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let ST={};try{ST=JSON.parse(localStorage.getItem('wdym-moles')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('wdym-moles',JSON.stringify(ST))}catch(e){}};
+let CFG={lv:'A2',md:'gap',sp:'normal'};try{Object.assign(CFG,JSON.parse(localStorage.getItem('wdym-moles-cfg')||'{}'))}catch(e){}
+const LVS={A2:'A2',B1:'B1',B2:'B2'},MDS={gap:'Complete the sentence',mean:'What does it mean?'},SPS={easy:'🐢 Easy',normal:'🐇 Normal',fast:'⚡ Fast'};
+const SPEED={easy:{stay:2300,gap:900},normal:{stay:1700,gap:700},fast:{stay:1200,gap:520}};
+function menu(){
+  const opts=(id,obj,key,stars)=>{$(id).innerHTML=Object.entries(obj).map(([k,n])=>{const s=stars?stars(k):0;return `<button class="opt ${CFG[key]===k?'on':''}" data-k="${k}">${n}${s?`<small>${'★'.repeat(s)}</small>`:''}</button>`}).join(' ');
+    $(id).querySelectorAll('.opt').forEach(b=>b.onclick=()=>{CFG[key]=b.dataset.k;try{localStorage.setItem('wdym-moles-cfg',JSON.stringify(CFG))}catch(e){}menu()})};
+  opts('#lv',LVS,'lv',k=>Math.max(ST[k+'-gap']||0,ST[k+'-mean']||0));opts('#md',MDS,'md',k=>ST[CFG.lv+'-'+k]||0);opts('#sp',SPS,'sp');
+  ['#menu'].forEach(s=>$(s).classList.remove('hidden'));$('#game').classList.add('hidden');$('#end').classList.add('hidden');
+}
+$('#play').onclick=start;
+
+/* ---------- sound ---------- */
+let AC=null;
+function muted(){try{return localStorage.getItem('wdym-mute')==='1'}catch(e){return false}}
+function tone(f1,f2,dur,type,vol){if(muted())return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();
+  const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type=type||'sine';o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  g.gain.setValueAtTime(vol||.3,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+dur)}catch(e){}}
+const sGood=()=>{tone(320,90,.14,'square',.18);setTimeout(()=>tone(660,990,.12,'triangle',.2),90)};
+const sBad=()=>{tone(200,120,.25,'sawtooth',.12);setTimeout(()=>tone(150,90,.25,'sawtooth',.1),120)};
+const sPop=()=>tone(500,700,.05,'sine',.05);
+
+/* ---------- mole ---------- */
+const MOLE=`<svg viewBox="0 0 100 104" aria-hidden="true">
+<path d="M14 104 C10 50 26 14 50 14 C74 14 90 50 86 104 Z" fill="#8a5a3b" stroke="#1f2a5c" stroke-width="3"/>
+<path d="M30 104 C28 74 38 62 50 62 C62 62 72 74 70 104 Z" fill="#c99872"/>
+<ellipse cx="36" cy="42" rx="5" ry="6" fill="#1f2a5c"/><ellipse cx="64" cy="42" rx="5" ry="6" fill="#1f2a5c"/>
+<circle cx="38" cy="40" r="1.8" fill="#fff"/><circle cx="66" cy="40" r="1.8" fill="#fff"/>
+<ellipse cx="50" cy="56" rx="15" ry="11" fill="#e8bf9a" stroke="#1f2a5c" stroke-width="2"/>
+<ellipse cx="50" cy="51" rx="7" ry="5" fill="#f08aa6" stroke="#1f2a5c" stroke-width="2"/>
+<rect x="45" y="61" width="5" height="7" rx="1" fill="#fff" stroke="#1f2a5c" stroke-width="1.5"/><rect x="50" y="61" width="5" height="7" rx="1" fill="#fff" stroke="#1f2a5c" stroke-width="1.5"/>
+<ellipse cx="27" cy="51" rx="5" ry="3" fill="#f2a7b8" opacity=".7"/><ellipse cx="73" cy="51" rx="5" ry="3" fill="#f2a7b8" opacity=".7"/>
+<path d="M18 92 q8 -10 18 -2" fill="#f2c5a8" stroke="#1f2a5c" stroke-width="2.5"/><path d="M82 92 q-8 -10 -18 -2" fill="#f2c5a8" stroke="#1f2a5c" stroke-width="2.5"/>
+</svg>`;
+const HAMMER=`<svg class="swing" viewBox="0 0 48 48"><rect x="21" y="16" width="6" height="30" rx="2" fill="#d9a066" stroke="#1f2a5c" stroke-width="2"/><rect x="8" y="4" width="32" height="15" rx="4" fill="#e2385a" stroke="#1f2a5c" stroke-width="2"/></svg>`;
+
+/* ---------- game ---------- */
+let G=null,HOLES=[];
+const QN=()=>window.WDYM_N?WDYM_N():10;
+function buildGrid(){$('#grid').innerHTML='';HOLES=[];
+  for(let i=0;i<9;i++){const h=document.createElement('div');h.className='hole';h.innerHTML=`<div class="pit"></div><div class="win"><div class="mole">${MOLE}<div class="sign"></div></div></div><div class="lip"></div>`;
+    $('#grid').appendChild(h);const m=h.querySelector('.mole');const H={el:h,m,up:false,label:'',t:0};
+    m.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();whack(H,e)});HOLES.push(H)}}
+function start(){
+  const pool=D.BANK[CFG.lv];
+  G={list:shuffle(pool).slice(0,QN()),i:0,miss:0,run:0,log:[]};
+  $('#menu').classList.add('hidden');$('#end').classList.add('hidden');$('#game').classList.remove('hidden');
+  buildGrid();next();$('#game').scrollIntoView({behavior:'smooth',block:'start'})}
+function hud(){$('#hq').textContent=`🔨 ${G.i+1} / ${G.list.length}`;$('#hm').textContent=`❌ ${G.miss} mistake${G.miss===1?'':'s'}`;$('#hl').textContent=`${CFG.lv} · ${SPS[CFG.sp]}`}
+function next(){
+  if(G.i>=G.list.length)return end();
+  const it=G.list[G.i];G.it=it;G.done=false;G.run++;const run=G.run;G.wrongLog=[];
+  const [s,ans,mean,exc,base]=it;
+  if(CFG.md==='gap'){
+    G.ans=ans;const bad=new Set([ans,...(exc||[])]);G.opts=[ans,...shuffle(D.PARTICLES.filter(p=>!bad.has(p))).slice(0,3)];
+    $('#sent').innerHTML=esc(s).replace('__','<span class="blank" id="blank">&nbsp;?&nbsp;</span>');$('#mean').innerHTML='';
+  }else{
+    G.ans=base;const others=shuffle(D.BANK[CFG.lv].filter(x=>x[4]!==base&&x[2]!==mean).map(x=>x[4]));const uniq=[...new Set(others)].slice(0,3);
+    G.opts=[base,...uniq];
+    $('#sent').innerHTML=`Which phrasal verb means <span class="blank" id="blank" style="min-width:0;border:0">“${esc(mean)}”</span>?`;$('#mean').innerHTML='';
+  }
+  hud();HOLES.forEach(down);G.sinceGood=0;
+  setTimeout(()=>{if(run===G.run)loop(run)},500)}
+function loop(run){if(!G||run!==G.run||G.done)return;
+  const sp=SPEED[CFG.sp];const free=HOLES.filter(h=>!h.up);const upN=HOLES.filter(h=>h.up).length;
+  if(free.length&&upN<3){const h=pick(free);
+    const goodUp=HOLES.some(x=>x.up&&x.label===G.ans);
+    let lab;if(!goodUp&&(G.sinceGood>=2||Math.random()<.42)){lab=G.ans;G.sinceGood=0}else{lab=pick(G.opts.filter(o=>o!==G.ans&&!HOLES.some(x=>x.up&&x.label===o)))||pick(G.opts.slice(1));G.sinceGood++}
+    up(h,lab,sp.stay,run)}
+  setTimeout(()=>loop(run),sp.gap*(.7+Math.random()*.6))}
+function up(h,lab,stay,run){h.up=true;h.label=lab;h.m.className='mole';h.m.querySelector('.sign').textContent=lab;void h.m.offsetWidth;h.m.classList.add('up');sPop();
+  const tok=++h.t;setTimeout(()=>{if(h.t===tok&&!h.hit)down(h)},stay)}
+function down(h){h.t++;h.up=false;h.hit=false;h.m.classList.remove('up')}
+function fxAt(e,txt){const f=$('#field'),r=f.getBoundingClientRect();const x=e.clientX-r.left,y=e.clientY-r.top;
+  const p=document.createElement('div');p.className='pop';p.textContent=txt;p.style.left=x+'px';p.style.top=(y-30)+'px';f.appendChild(p);setTimeout(()=>p.remove(),800);
+  const w=document.createElement('div');w.innerHTML=HAMMER;const s=w.firstChild;s.style.left=x+'px';s.style.top=y+'px';f.appendChild(s);setTimeout(()=>s.remove(),260)}
+function whack(h,e){if(!G||G.done||!h.up||h.hit)return;h.hit=true;h.t++;
+  if(h.label===G.ans){G.done=true;h.m.classList.add('hit','good');sGood();fxAt(e,pick(['BONK!','Yes!','Great!','POW!']));
+    const [s,ans,mean,,base]=G.it;const b=$('#blank');
+    if(CFG.md==='gap'){b.textContent=ans;b.classList.add('good');$('#mean').innerHTML=`💡 <b>${esc(base)}</b> = ${esc(mean)}`}
+    else{$('#sent').innerHTML=`<b style="color:var(--good)">${esc(base)}</b> = ${esc(mean)}`;$('#mean').innerHTML=esc(s).replace('__',`<b>${esc(ans)}</b>`)}
+    G.log.push({it:G.it,wrong:G.wrongLog.slice()});
+    setTimeout(()=>HOLES.forEach(x=>{if(x!==h)down(x)}),150);
+    setTimeout(()=>{down(h);G.i++;next()},2300)}
+  else{G.miss++;G.wrongLog.push(h.label);h.m.classList.add('hit','bad');sBad();fxAt(e,'Oops!');hud();
+    const b=$('#blank');b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');
+    setTimeout(()=>down(h),450)}}
+function end(){G.done=true;G.run++;HOLES.forEach(down);
+  const st=G.miss===0?3:G.miss<=2?2:1;const key=CFG.lv+'-'+CFG.md;if(st>(ST[key]||0)){ST[key]=st;save()}
+  $('#game').classList.add('hidden');const e=$('#end');e.classList.remove('hidden');
+  e.innerHTML=`<h2 class="fat" style="margin:0">Finished! 🎉</h2><p class="stars">${'★'.repeat(st)}${'☆'.repeat(3-st)}</p>
+  <p>${G.miss===0?'Perfect! No mistakes.':G.miss+' mistake'+(G.miss>1?'s':'')+'.'}</p>
+  <h3 style="margin:16px 0 4px;text-align:left">Review 📝</h3><ul class="review">${G.log.map(l=>{const [s,ans,mean,,base]=l.it;return `<li>${esc(s).replace('__',`<b>${esc(ans)}</b>`)}<br><i>${esc(base)} = ${esc(mean)}</i>${l.wrong.length?` <span style="color:var(--bad)">(you hit: ${l.wrong.map(esc).join(', ')})</span>`:''}</li>`}).join('')}</ul>
+  <p><button class="btn" id="again">Play again</button> <button class="btn alt" id="tomenu">Change level</button></p>`;
+  $('#again').onclick=start;$('#tomenu').onclick=menu;e.scrollIntoView({behavior:'smooth',block:'start'})}
+menu();
+</script>
+<!-- wdym daily tracker -->
+<script>
+(function(){
+  var K='wdym-daily',page=(location.pathname.split('/').pop()||'index.html').toLowerCase(),last=0,act=0;
+  function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+  function poke(){last=Date.now()}
+  ['pointerdown','keydown','touchstart','wheel'].forEach(function(e){addEventListener(e,poke,{passive:true,capture:true})});
+  setInterval(function(){
+    if(document.hidden||Date.now()-last>45000) return;
+    act+=5;
+    try{
+      var s=JSON.parse(localStorage.getItem(K)||'{}'),d=today();s.days=s.days||{};
+      var r=s.days[d]=s.days[d]||{};
+      r[page]=(r[page]||0)+5;
+      var ks=Object.keys(s.days).sort();while(ks.length>60){delete s.days[ks.shift()]}
+      localStorage.setItem(K,JSON.stringify(s));
+    }catch(e){}
+  },5000);
+})();
+</script>
+
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
+<!-- wdym mute -->
+<button id="wdymMute" aria-label="Sound on/off" title="Sound on/off" style="position:fixed;top:12px;right:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 12px;box-shadow:2px 2px 0 #1f2a5c;cursor:pointer">🔊 Sound on</button>
+<script>
+(function(){
+  var K='wdym-mute',m=false;try{m=localStorage.getItem(K)==='1'}catch(e){}
+  var allow=0,live=new Set(),btn=document.getElementById('wdymMute');
+  /* when muted, audio only plays if the student taps a 🔊 / listen button */
+  document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('button,[role=button],.show,.mcard');
+    if(b&&b.id!=='wdymMute'&&(/🔊/.test(b.textContent)||b.matches('.speak,.spk,.ml,.show,[data-listen]')))allow=Date.now();},true);
+  function ok(){return !m||Date.now()-allow<1500}
+  var P=HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play=function(){if(!ok())return Promise.resolve();live.add(this);return P.apply(this,arguments)};
+  if(window.speechSynthesis){var S=speechSynthesis.speak.bind(speechSynthesis);speechSynthesis.speak=function(u){if(ok())S(u)}}
+  function ui(){btn.textContent=m?'🔇 Sound off':'🔊 Sound on';btn.style.background=m?'#ffd6df':'#fffdf9'}
+  btn.onclick=function(){m=!m;try{localStorage.setItem(K,m?'1':'0')}catch(e){}
+    if(m){live.forEach(function(a){try{a.pause()}catch(e){}});try{speechSynthesis.cancel()}catch(e){}}ui()};
+  ui();
+})();
+</script>
+<!-- /wdym mute -->
+
+</body>
+</html>

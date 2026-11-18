@@ -57,6 +57,7 @@
   .stage{display:grid;grid-template-columns:1fr 130px;gap:14px;align-items:end}
   .scenebox{position:relative;border:3px solid var(--navy);border-radius:16px;overflow:hidden;background:#fdf0f7}
   .scenebox svg .obj{cursor:pointer}
+  .scenebox svg g[data-k="freezer"]:not(.obj){pointer-events:none}
   .tag{position:absolute;transform:translate(-50%,-100%);background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:2px 10px;font-weight:700;font-size:.9rem;white-space:nowrap;box-shadow:2px 2px 0 var(--navy);pointer-events:none;animation:tagin .2s ease-out}
   .tag.good{background:var(--mint)} .tag.bad{background:#ffd9e0}
   @keyframes tagin{from{opacity:0;transform:translate(-50%,-80%)}}
@@ -350,6 +351,7 @@ function showMap(){
    ========================================================= */
 const OBJS=[
   {k:'fridge',w:'fridge',tip:'Also: refrigerator.'},
+  {k:'freezer',w:'freezer',tip:'The freezer is the very cold part of the fridge. We keep ice cream in it!'},
   {k:'stove',w:'stove',tip:'In the UK: cooker.'},
   {k:'oven',w:'oven',tip:'The oven is under the stove.'},
   {k:'sink',w:'sink',tip:'We wash the dishes in the sink.'},
@@ -403,6 +405,7 @@ function kitchenSVG(){
   s+=g('toaster',R(114,32,3,3,'#d9a066')+R(119,32,3,3,'#d9a066')+B(112,34,14,9,'#c9d3df')+R(114,34,3,1,N)+R(119,34,3,1,N)+R(125,37,2,2,N));
   s+=g('cabinet',B(112,47,16,24,'#9ccfdc')+R(114,57,2,3,N));
   s+=R(128,71,28,1,'rgba(31,42,92,.12)');s+=g('fridge',B(128,12,27,59,'#fffdf9')+R(151,13,3,57,'#efeae0')+R(129.5,13,1,18,'#fff')+R(128,31,27,1,N)+R(131,20,1,8,N)+R(131,35,1,14,N)+R(140,17,7,8,'#fff8c4')+R(141,19,5,1,'#e58fb0')+R(141,21,4,1,'#e58fb0')+R(148,16,3,3,'#fbf06a')+R(141,39,3,3,'#ebb3e6')+R(148,45,3,3,'#9ccfdc'));
+  s+=g('freezer',R(128.5,12.5,26,18,'rgba(255,255,255,0)'));
   s+=g('trash',B(140,80,14,18,'#9aa3b2')+B(138,77,18,4,'#6b7280')+R(144,84,1,12,'#7a8394')+R(149,84,1,12,'#7a8394'));
   s+=g('chair',R(25,69,3,30,'#a8693a')+R(25,84,15,3,'#c98c4e')+R(37,87,2,12,'#a8693a'));
   s+=R(42,98,52,1.5,'rgba(31,42,92,.12)')+R(139,98,16,1.5,'rgba(31,42,92,.12)');s+=g('table',B(40,77,55,5,'#d9a066')+R(45,79,22,.4,'#c98c4e')+R(70,80,20,.4,'#c98c4e')+R(44,82,3,17,'#a8693a')+R(88,82,3,17,'#a8693a'));
@@ -524,6 +527,7 @@ function iconURL(name){
       P(rr(3,13,30,12,2),'#3d7be0');hi(rr(5,15,26,2,1),'rgba(255,255,255,.35)');P(rr(8,18,13,4,1),'#fbf06a',0.9);x.fillStyle='#8e9bb0';x.fillRect(23,19,7,2);},
     'plastic wrap'(){P(()=>{x.moveTo(5,13);x.lineTo(31,13);x.lineTo(29,6);x.lineTo(7,7);x.closePath();},'rgba(216,241,248,1)');x.fillStyle='#fff';[[10,8],[18,9],[25,8]].forEach(([a,b])=>x.fillRect(a,b,3,1));
       P(rr(3,13,30,12,2),'#ebb3e6');hi(rr(5,15,26,2,1),'rgba(255,255,255,.45)');P(rr(8,18,13,4,1),'#fffdf9',0.9);x.fillStyle='#e2385a';x.fillRect(23,19,7,2);},
+    'dish soap'(){P(rr(16,1,4,4,1),'#e2385a');P(rr(14,4,8,5,1),'#fffdf9');P(()=>{x.moveTo(11,9);x.lineTo(25,9);x.lineTo(27,14);x.lineTo(27,33);x.lineTo(9,33);x.lineTo(9,14);x.closePath();},'#6fcf97');hi(rr(11,14,2.5,16,1),'rgba(255,255,255,.45)');P(rr(13,18,11,10,1.5),'#fffdf9',0.9);x.fillStyle='#4f86a8';[[16,21],[20,24],[17,25.5]].forEach(([u,v])=>{x.beginPath();x.arc(u,v,1.5,0,7);x.fill()});},
     sponge(){P(rr(5,10,26,8,2),'#2e9e6a');hi(rr(7,11.5,22,1.5,1),'rgba(255,255,255,.35)');P(rr(5,17,26,11,2),'#fbf06a');
       x.fillStyle='#e0b821';[[9,20],[14,23],[19,20],[24,24],[11,25],[26,20]].forEach(([a,b])=>x.fillRect(a,b,2,1.6));
       [[27,6,2.6],[31,9,1.8],[23,5,1.6]].forEach(([a,b,r])=>{P(el(a,b,r,r),'#fffdf9',1);});},
@@ -569,13 +573,13 @@ function spriteSVG(name){const u=iconURL(name);return u?`<img class="pxicon" src
 const UNITS=[
   {id:'d1',name:'Top drawer',items:['fork','knife','spoon','chopsticks']},
   {id:'d2',name:'Middle drawer',items:['spatula','ladle','whisk','tongs','peeler','rolling pin','measuring cup','grater']},
-  {id:'d3',name:'Bottom drawer',items:['oven mitt','dish towel','aluminum foil','plastic wrap','sponge']},
+  {id:'d3',name:'Bottom drawer',items:['oven mitt','dish towel','aluminum foil','plastic wrap','sponge','dish soap']},
   {id:'cab',name:'Cabinet',items:['plate','bowl','mug','glass','pot','frying pan','cutting board','colander']}
 ];
 const USE={fork:'We use a fork to eat salad and pasta.',knife:'We use a knife to cut food.',spoon:'We use a spoon to eat soup and cereal.',chopsticks:'Some people use chopsticks to eat sushi and noodles.',
   spatula:'We use a spatula to flip pancakes and eggs.',ladle:'We use a ladle to serve soup.',whisk:'We use a whisk to beat eggs.',tongs:'We use tongs to pick up hot food.',peeler:'We use a peeler to peel potatoes and carrots.',
   'rolling pin':'We use a rolling pin to make dough flat.','measuring cup':'We use a measuring cup to measure milk or flour.',grater:'We use a grater to grate cheese.',
-  'oven mitt':'We use an oven mitt to hold hot pans.','dish towel':'We use a dish towel to dry the dishes.','aluminum foil':'We use aluminum foil to cover food in the oven.','plastic wrap':'We use plastic wrap to cover leftovers.',sponge:'We use a sponge to wash the dishes.',
+  'oven mitt':'We use an oven mitt to hold hot pans.','dish towel':'We use a dish towel to dry the dishes.','aluminum foil':'We use aluminum foil to cover food in the oven.','plastic wrap':'We use plastic wrap to cover leftovers.',sponge:'We use a sponge to wash the dishes.','dish soap':'We put dish soap on the sponge to wash the dishes.',
   plate:'We eat food on a plate.',bowl:'We eat soup and cereal in a bowl.',mug:'We drink coffee or tea from a mug.',glass:'We drink water or juice from a glass.',pot:'We use a pot to cook soup and pasta.','frying pan':'We use a frying pan to fry eggs.','cutting board':'We chop vegetables on a cutting board.',colander:'We use a colander to drain pasta.'};
 const unitOf=it=>UNITS.find(u=>u.items.includes(it));
 
@@ -721,6 +725,7 @@ function furnClick(k){
     const w=$('words').querySelector(`[data-k="${k}"]`);if(w)w.classList.add('seen');return;}
   if(S.locked)return;
   const t=S.qs[S.n];
+  if(k==='freezer'&&t.k==='fridge')k='fridge';
   if(k===t.k){S.locked=true;if(S.tries===0)S.score++;hud();mark(svg,k,'#2e9e6a');tagAt(box,svg,k,t.w,'good');setDoll('happy');bubble('Yes! That\'s the '+t.w+'.');speak(t.w);
     fb('good','Correct! ✓',t.tip,1900);}
   else{S.tries++;mark(svg,k,'#e2385a',true);tagAt(box,svg,k,o.w,'bad');setDoll('sad');speak(o.w);
@@ -849,6 +854,17 @@ speak=function(t){const c=CLIPS3[ckey(t)];if(!c){try{KV3&&KV3.pause()}catch(e){}
   if(KV3.broken)return tts(t);
   const go=()=>{try{KV3.pause();KV3.currentTime=c[0];KV3._end=c[1];const p=KV3.play();if(p)p.catch(()=>tts(t))}catch(e){tts(t)}};
   if(KV3.readyState>=1)go();else{KV3.addEventListener('loadedmetadata',go,{once:true});KV3.load()}
+};
+
+/* layer 4: new kitchen words */
+const CLIPS4={"freezer": [0.3, 1.12], "dish soap": [1.72, 2.67], "the freezer is the very cold part of the fridge we keep ice cream in it": [3.27, 8.84], "we put dish soap on the sponge to wash the dishes": [9.44, 12.48]};let KV4=null;const speak3=speak;
+setInterval(()=>{try{if(KV4&&!KV4.paused&&KV4._end!=null&&KV4.currentTime>=KV4._end){KV4.pause();KV4._end=null}}catch(e){}},15);
+speak=function(t){const c=CLIPS4[ckey(t)];if(!c){try{KV4&&KV4.pause()}catch(e){}return speak3(t)}
+  try{speechSynthesis.cancel();KV&&KV.pause();KV2&&KV2.pause();KV3&&KV3.pause()}catch(e){}
+  if(!KV4){KV4=new Audio('kitchen-4.mp3');KV4.preload='auto';KV4.addEventListener('error',()=>{KV4.broken=true})}
+  if(KV4.broken)return tts(t);
+  const go=()=>{try{KV4.pause();KV4.currentTime=c[0];KV4._end=c[1];const p=KV4.play();if(p)p.catch(()=>tts(t))}catch(e){tts(t)}};
+  if(KV4.readyState>=1)go();else{KV4.addEventListener('loadedmetadata',go,{once:true});KV4.load()}
 };
 const FOOD=[
  // [word, emoji, level, meaning]
