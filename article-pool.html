@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article Pool: a, an, the or no article ✦ wdym, teacher?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=Lora:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ebb3e6;--blue:#9ccfdc;--yellow:#fbf06a;--navy:#1f2a5c;--white:#fffdf7;--good:#2e9e6a;--bad:#e2385a}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Lora',Georgia,serif;color:var(--navy);background:var(--pink);min-height:100vh;background-image:radial-gradient(rgba(255,255,255,.35) 1px,transparent 1.5px);background-size:14px 14px}
+.fat{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900}
+.wrap{max-width:860px;margin:0 auto;padding:58px 14px 40px}
+.logo{font-size:clamp(1.7rem,6vw,2.7rem);color:var(--yellow);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:3px 3px 0 var(--navy);margin:0 0 4px;line-height:1.05}
+.sub{margin:4px 0 14px}
+.card{background:var(--white);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:20px}
+.btn{font-family:'Fraunces',serif;font-weight:800;font-size:1.05rem;border:2px solid var(--navy);border-radius:999px;padding:9px 22px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;background:var(--yellow);color:var(--navy)}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--navy)}
+.btn.alt{background:var(--blue)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.row .lab{font-weight:700;min-width:120px}
+.opt{font:700 .95rem 'Lora',serif;border:2px solid var(--navy);border-radius:999px;padding:5px 14px;background:#fff;color:var(--navy);cursor:pointer;box-shadow:2px 2px 0 var(--navy)}
+.opt.on{background:var(--yellow)}
+.opt small{color:#c08a00;margin-left:4px}
+.how{font-size:.95rem;color:#4f5683}
+.hud{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pill{background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:4px 12px;font-weight:700;box-shadow:2px 2px 0 var(--navy)}
+.bar{background:var(--white);border:3px solid var(--navy);border-radius:18px;box-shadow:4px 4px 0 var(--navy);padding:12px 16px;font-size:clamp(1.1rem,3.4vw,1.5rem);line-height:1.45;text-align:center;min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.blank{display:inline-block;min-width:2.6em;border-bottom:4px solid var(--navy);text-align:center;font-family:'Fraunces',serif;font-weight:900;margin:0 .1em}
+.blank.good{color:var(--good);border-color:var(--good)}
+.blank.zero{color:var(--good);border-color:var(--good);text-decoration:line-through}
+.blank.bad{animation:shake .35s;border-color:var(--bad)}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.rule{font-size:.82em;color:#4f5683;min-height:1.3em;margin-top:4px}
+.rule b{color:var(--good)}
+.tablewrap{margin-top:14px;position:relative}
+canvas{display:block;width:100%;touch-action:none;cursor:crosshair;border-radius:26px;box-shadow:6px 6px 0 var(--navy)}
+.tip{text-align:center;font-size:.9rem;color:#4f5683;margin:10px 0 0}
+.stars{font-size:2.4rem;letter-spacing:4px;color:#e0b821;-webkit-text-stroke:1px var(--navy)}
+.review{text-align:left;margin:12px 0;padding:0;list-style:none}
+.review li{padding:7px 0;border-bottom:1px dashed #b9b2d6}
+.review b{color:var(--good)}
+.review i{color:#4f5683;font-size:.92em}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.legend span{border:2px solid var(--navy);border-radius:10px;padding:2px 10px;font-weight:700}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="wrap">
+  <h1 class="logo fat">Article Pool 🎱</h1>
+  <p class="sub"><b>a, an, the or no article?</b> Read the sentence and shoot the ball into the right pocket!</p>
+
+  <div id="menu" class="card">
+    <div class="row"><span class="lab">Level</span><span id="lv"></span></div>
+    <div class="row" data-qcount></div>
+    <div class="legend"><span style="background:#ffb3c7">A</span><span style="background:#9ccfdc">AN</span><span style="background:#fbf06a">THE</span><span style="background:#b8e6b0">Ø = no article</span></div>
+    <p class="how">🎯 <b>How to play:</b> drag back from the ball (like a slingshot) and let go to shoot. Or just tap a pocket to roll the ball there.</p>
+    <p style="margin-top:14px"><button class="btn" id="play">Play ▶</button></p>
+  </div>
+
+  <div id="game" class="hidden">
+    <div class="hud"><span class="pill" id="hq"></span><span class="pill" id="hm"></span><span class="pill" id="hl"></span></div>
+    <div class="bar"><div id="sent"></div><div class="rule" id="rule"></div></div>
+    <div class="tablewrap"><canvas id="cv"></canvas></div>
+    <p class="tip">Drag back and let go to shoot 🎱 · or tap a pocket</p>
+  </div>
+
+  <div id="end" class="card hidden" style="text-align:center"></div>
+</div>
+
+<script>
+const D={"A2": [["I have __ dog and two cats.", "a", "One thing, first time we mention it → a."], ["She eats __ apple every day.", "an", "Vowel sound (a-pple) → an."], ["It's cold. Can you close __ window, please?", "the", "We both know which window → the."], ["I love __ chocolate.", "0", "Things in general (uncountable) → no article."], ["He's __ engineer.", "an", "Jobs take a/an. Vowel sound (en-gineer) → an."], ["My sister is __ nurse.", "a", "Jobs take a/an → a nurse."], ["I go to __ bed at 11.", "0", "Go to bed → no article."], ["Let's have __ lunch together.", "0", "Meals: have breakfast, lunch, dinner → no article."], ["__ sun is very hot today.", "the", "There is only one sun → the."], ["I live in __ Brazil.", "0", "Most countries → no article."], ["She plays __ soccer on weekends.", "0", "Sports → no article."], ["It takes __ hour to get there.", "an", "The h is silent (our) → an hour."], ["MIT is __ university in Boston.", "a", "University starts with a 'you' sound → a."], ["I bought __ umbrella because it was raining.", "an", "Vowel sound (um-) → an."], ["I bought a pen. __ pen is blue.", "the", "Second time we mention it → the."], ["__ dogs are great pets.", "0", "Plural, in general → no article."], ["Look at __ moon tonight! It's beautiful.", "the", "There is only one moon → the."], ["I watch __ TV every night.", "0", "Watch TV → no article."], ["Excuse me, is there __ bank near here?", "a", "Any bank, not a specific one → a."], ["Excuse me, where is __ bathroom?", "the", "The bathroom in this place → the."], ["She's __ honest person.", "an", "Silent h (on-est) → an."], ["I usually go to work by __ bus.", "0", "By bus, by car, by train → no article."], ["They have __ big house.", "a", "One thing, first mention → a."], ["My phone is broken. I need __ new phone.", "a", "Any new phone → a."], ["We had __ amazing time at the party.", "an", "Vowel sound (amazing) → an."], ["My favorite food is __ pizza.", "0", "Food in general → no article."], ["I play __ video games with my brother.", "0", "Plural, in general → no article."], ["Mount Everest is __ highest mountain in the world.", "the", "Superlatives: the highest, the best → the."], ["Look! There's __ elephant!", "an", "Vowel sound (el-) → an."], ["I always drink coffee in __ morning.", "the", "in the morning / in the afternoon → the."], ["Can I have __ glass of water, please?", "a", "One glass → a."], ["She studies __ math at school.", "0", "School subjects → no article."], ["He drinks __ coffee every morning.", "0", "Drinks in general → no article."], ["I have __ idea! Let's go to the beach.", "an", "Vowel sound (i-dea) → an."], ["It's __ beautiful day!", "a", "beautiful starts with a consonant sound → a."], ["Are you coming? What time is __ party?", "the", "We both know which party → the."], ["My cousin is __ actor in Hollywood.", "an", "Jobs take a/an. Vowel sound → an."], ["I'm reading __ good book right now.", "a", "One book, first mention → a."], ["Turn off __ light, please. I want to sleep.", "the", "We both know which light → the."], ["I like __ cats more than dogs.", "0", "Plural, in general → no article."]], "B1": [["__ Amazon is the largest rainforest in the world.", "the", "Rivers and rainforests → the Amazon."], ["I'd love to visit __ Japan someday.", "0", "Most countries → no article."], ["We went to __ United States last year.", "the", "Countries with 'States', 'Kingdom', 'Republic' → the."], ["__ Netherlands is famous for its flowers.", "the", "Some countries have 'the': the Netherlands, the Philippines."], ["She lives on __ Paulista Avenue.", "0", "Streets and avenues → no article."], ["__ life is too short to be unhappy.", "0", "Abstract ideas in general → no article."], ["He's __ European citizen.", "a", "European starts with a 'you' sound → a."], ["She got __ MBA from Stanford.", "an", "M is said 'em' (vowel sound) → an MBA."], ["She's __ best teacher I've ever had.", "the", "Superlatives → the best."], ["What __ beautiful view!", "a", "What + a + singular noun → What a view!"], ["I go to the gym three times __ week.", "a", "Frequency: once a day, twice a week → a."], ["My brother is in __ hospital. He broke his leg.", "the", "In American English: in the hospital."], ["I usually have __ breakfast at 7.", "0", "Meals → no article."], ["We had __ delicious breakfast at the hotel.", "a", "Adjective + meal → a delicious breakfast."], ["__ elderly often need more help at home.", "the", "the + adjective = a group of people (the elderly, the young)."], ["__ Atlantic Ocean is between Brazil and Africa.", "the", "Oceans and seas → the."], ["I climbed __ Mount Fuji last year.", "0", "Single mountains → no article."], ["She was __ first person to arrive.", "the", "Ordinals: the first, the second → the."], ["I saw a movie yesterday. __ movie was about a cat.", "the", "Second mention → the."], ["My dad works as __ taxi driver.", "a", "Jobs → a/an."], ["He speaks __ Spanish fluently.", "0", "Languages → no article."], ["Let's meet at __ station at 5.", "the", "We both know which station → the."], ["She goes to __ church every Sunday.", "0", "Church for its purpose (to pray) → no article."], ["Can you pass me __ salt, please?", "the", "The salt on this table → the."], ["We go to __ beach every summer.", "the", "go to the beach / the movies / the mall → the."], ["__ Earth goes around the Sun.", "the", "Only one Earth → the."], ["There was __ accident on the highway.", "an", "Vowel sound → an accident."], ["He's __ only person who knows the password.", "the", "the only → the."], ["__ water boils at 100°C.", "0", "Uncountable, in general → no article."], ["__ water in this bottle is cold.", "the", "Specific water (in this bottle) → the."], ["I'm going to __ bank to get some money.", "the", "the bank / the post office / the doctor → the."], ["She's looking for __ job in marketing.", "a", "Any job, not a specific one → a."], ["__ honesty is very important in a relationship.", "0", "Abstract ideas in general → no article."], ["My parents met in __ 1990s.", "the", "Decades → the 1990s."], ["She's __ vegetarian, so she doesn't eat meat.", "a", "Describing a person → a vegetarian."], ["It was __ one-time offer.", "a", "one starts with a 'w' sound → a."], ["I don't like __ horror movies.", "0", "Plural, in general → no article."], ["__ horror movie we watched last night was terrible.", "the", "Specific movie → the."], ["He's __ Brazilian living in New York.", "a", "Describing a person → a Brazilian."], ["She plays tennis twice __ month.", "a", "Frequency → a month."]], "B2": [["He was elected __ president of the club.", "0", "After elect/appoint + a unique role → no article."], ["The more you practice, __ better you get.", "the", "The more…, the better… → the."], ["It's __ honor to meet you.", "an", "Silent h (on-or) → an honor."], ["__ unemployment is a big problem in many countries.", "0", "Abstract ideas in general → no article."], ["__ unemployment rate went up last month.", "the", "A specific rate → the."], ["She has __ unique style.", "a", "unique starts with a 'you' sound → a."], ["They moved to __ Philippines last year.", "the", "Some countries have 'the': the Philippines."], ["I need __ advice about my career.", "0", "advice is uncountable → no a/an."], ["Can you give me __ piece of advice?", "a", "advice is uncountable → a piece of advice."], ["__ Times Square is always crowded.", "0", "Squares and parks → no article."], ["Have you ever been to __ Andes?", "the", "Mountain ranges → the Andes."], ["__ Lake Michigan is huge.", "0", "Lakes → no article."], ["Kids go to __ school from Monday to Friday.", "0", "School for its purpose (to study) → no article."], ["Her mom went to __ school to talk to the teacher.", "the", "Visiting the building, not to study → the school."], ["He spent two years in __ jail.", "0", "Jail/prison for its purpose → no article."], ["__ police are looking for the thief.", "the", "The police (the organization) → the."], ["It was such __ awful day.", "an", "such + a/an + singular → such an awful day."], ["Quite __ few people came to the party. It was fun!", "a", "a few = some (positive)."], ["__ few people understood the joke, so nobody laughed.", "0", "few = almost nobody (negative) → no article."], ["What __ nice weather!", "0", "weather is uncountable → What nice weather!"], ["__ dinner we had last night was amazing.", "the", "A specific dinner → the."], ["__ United Nations was founded in 1945.", "the", "Organizations with 'United', 'Union' → the."], ["I usually travel by __ car.", "0", "by car, by bus → no article."], ["We drove there in __ car my uncle lent us.", "the", "A specific car (the one my uncle lent us) → the."], ["She's __ eight-year-old girl.", "an", "eight starts with a vowel sound → an."], ["The taxi made __ U-turn in the middle of the street.", "a", "U is said 'you' → a U-turn."], ["Smoking is __ bad habit.", "a", "Describing → a bad habit."], ["__ nature is beautiful in the spring.", "0", "nature in general → no article."], ["__ Mona Lisa is in the Louvre.", "the", "Famous artworks → the Mona Lisa."], ["Mount Everest is in __ Himalayas.", "the", "Mountain ranges → the Himalayas."], ["He has __ hour-long commute every day.", "an", "Silent h → an hour-long commute."], ["She works for __ NGO that helps refugees.", "an", "N is said 'en' → an NGO."], ["__ Queen Elizabeth II was born in 1926.", "0", "Title + name → no article."], ["The city elected __ new mayor yesterday.", "a", "One new mayor, first mention → a."], ["I've never seen __ Grand Canyon.", "the", "Canyons and famous places → the Grand Canyon."], ["It was __ historic moment for the country.", "a", "In American English: a historic (the h is pronounced)."], ["__ breakfast is the most important meal of the day.", "0", "Meals in general → no article."], ["She plays in __ orchestra in Chicago.", "an", "Vowel sound → an orchestra."], ["__ young often spend hours on their phones.", "the", "the + adjective = a group of people (the young, the elderly)."], ["We waited for __ hour and a half.", "an", "Silent h → an hour."]]};
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let ST={};try{ST=JSON.parse(localStorage.getItem('wdym-pool')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('wdym-pool',JSON.stringify(ST))}catch(e){}};
+let CFG={lv:'A2'};try{Object.assign(CFG,JSON.parse(localStorage.getItem('wdym-pool-cfg')||'{}'))}catch(e){}
+const QN=()=>window.WDYM_N?WDYM_N():10;
+function menu(){$('#lv').innerHTML=['A2','B1','B2'].map(k=>`<button class="opt ${CFG.lv===k?'on':''}" data-k="${k}">${k}${ST[k]?`<small>${'★'.repeat(ST[k])}</small>`:''}</button>`).join(' ');
+  $('#lv').querySelectorAll('.opt').forEach(b=>b.onclick=()=>{CFG.lv=b.dataset.k;try{localStorage.setItem('wdym-pool-cfg',JSON.stringify(CFG))}catch(e){}menu()});
+  $('#menu').classList.remove('hidden');$('#game').classList.add('hidden');$('#end').classList.add('hidden');running=false}
+$('#play').onclick=start;
+
+/* ---------- sound ---------- */
+let AC=null;
+function muted(){try{return localStorage.getItem('wdym-mute')==='1'}catch(e){return false}}
+function ctx(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}
+function noise(dur,freq,vol){if(muted())return;try{const a=ctx(),n=Math.floor(a.sampleRate*dur),b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,4);
+  const s=a.createBufferSource();s.buffer=b;const f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;const g=a.createGain();g.gain.value=vol;s.connect(f);f.connect(g);g.connect(a.destination);s.start()}catch(e){}}
+function tone(f1,f2,dur,type,vol){if(muted())return;try{const a=ctx(),t=a.currentTime,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+dur)}catch(e){}}
+const sCue=()=>noise(.05,2500,.8),sWall=()=>noise(.04,900,.35),sPocket=()=>{noise(.12,300,.9);setTimeout(()=>tone(523,784,.2,'triangle',.18),120)},sBad=()=>{noise(.12,300,.9);setTimeout(()=>tone(220,110,.3,'sawtooth',.1),120)};
+
+/* ---------- table ---------- */
+const W=1000,H=560,RAIL=46,PR=40,BR=17; // virtual size, rail width, pocket radius, ball radius
+const POCKETS=[
+ {k:'a',  lab:'A',  x:RAIL,  y:RAIL,  c:'#ffb3c7'},
+ {k:'an', lab:'AN', x:W-RAIL,y:RAIL,  c:'#9ccfdc'},
+ {k:'the',lab:'THE',x:RAIL,  y:H-RAIL,c:'#fbf06a'},
+ {k:'0',  lab:'Ø',  x:W-RAIL,y:H-RAIL,c:'#b8e6b0'}];
+const cv=$('#cv'),g=cv.getContext('2d');let SC=1,LS=1,running=false;
+function resize(){const w=cv.clientWidth||800,dpr=window.devicePixelRatio||1;cv.width=w*dpr;cv.height=w*H/W*dpr;SC=cv.width/W;LS=Math.max(1,Math.min(1.9,640/w));cv.style.height=(w*H/W)+'px'}
+addEventListener('resize',resize);
+const ball={x:W/2,y:H/2,vx:0,vy:0,moving:false,sinking:null,scale:1};
+let aim=null,G=null,flash=null;
+function reset(){ball.x=W/2+60;ball.y=H/2;ball.vx=ball.vy=0;ball.moving=false;ball.sinking=null;ball.scale=1;ball.done=false}
+function draw(){
+  g.setTransform(SC,0,0,SC,0,0);g.clearRect(0,0,W,H);
+  // rails
+  g.fillStyle='#7a4a2b';rr(0,0,W,H,34);g.fill();g.fillStyle='#9a6038';rr(8,8,W-16,H-16,28);g.fill();
+  // diamonds
+  g.fillStyle='#f3e3c3';for(let i=1;i<8;i++){if(i===4)continue;dot(i*W/8,RAIL/2,4);dot(i*W/8,H-RAIL/2,4)}for(let i=1;i<4;i++){dot(RAIL/2,i*H/4,4);dot(W-RAIL/2,i*H/4,4)}
+  // felt
+  const gr=g.createRadialGradient(W/2,H/2,60,W/2,H/2,W*.6);gr.addColorStop(0,'#2fae7a');gr.addColorStop(1,'#1f8a5e');g.fillStyle=gr;g.fillRect(RAIL,RAIL,W-2*RAIL,H-2*RAIL);
+  g.strokeStyle='rgba(255,255,255,.12)';g.lineWidth=2;g.beginPath();g.moveTo(W*.25,RAIL);g.lineTo(W*.25,H-RAIL);g.stroke();
+  // pockets + labels
+  POCKETS.forEach(p=>{const hl=flash&&flash.k===p.k;
+    g.fillStyle='#111';g.beginPath();g.arc(p.x,p.y,PR,0,7);g.fill();
+    g.strokeStyle=hl?(flash.ok?'#7fe0a8':'#ff6b8a'):'#3b2414';g.lineWidth=hl?8:5;g.stroke();
+    const lx=p.x+(p.x<W/2?1:-1)*(40+22*LS+(p.lab.length-1)*10*LS),ly=p.y+(p.y<H/2?1:-1)*(36+24*LS),bh=48*LS;
+    g.font='900 '+Math.round(34*LS)+'px Fraunces, Georgia, serif';const tw=g.measureText(p.lab).width+30*LS;
+    g.fillStyle='rgba(31,42,92,.85)';rr(lx-tw/2+4,ly-bh/2+4,tw,bh,14);g.fill();
+    g.fillStyle=p.c;rr(lx-tw/2,ly-bh/2,tw,bh,14);g.fill();g.strokeStyle='#1f2a5c';g.lineWidth=3;g.stroke();
+    g.fillStyle='#1f2a5c';g.textAlign='center';g.textBaseline='middle';g.fillText(p.lab,lx,ly+2)});
+  // aim
+  if(aim&&!ball.moving){const dx=ball.x-aim.x,dy=ball.y-aim.y,d=Math.hypot(dx,dy);if(d>8){const ux=dx/d,uy=dy/d,pw=Math.min(d,240);
+    g.setLineDash([10,12]);g.strokeStyle='rgba(255,255,255,.75)';g.lineWidth=3;g.beginPath();g.moveTo(ball.x,ball.y);g.lineTo(ball.x+ux*(120+pw*2.2),ball.y+uy*(120+pw*2.2));g.stroke();g.setLineDash([]);
+    // cue stick
+    const s0=BR+10+pw*.35,s1=s0+330;g.lineCap='round';g.strokeStyle='#3b2414';g.lineWidth=13;g.beginPath();g.moveTo(ball.x-ux*s0,ball.y-uy*s0);g.lineTo(ball.x-ux*s1,ball.y-uy*s1);g.stroke();
+    g.strokeStyle='#e8c48a';g.lineWidth=9;g.beginPath();g.moveTo(ball.x-ux*s0,ball.y-uy*s0);g.lineTo(ball.x-ux*(s1-60),ball.y-uy*(s1-60));g.stroke();
+    g.strokeStyle='#9ccfdc';g.lineWidth=9;g.beginPath();g.moveTo(ball.x-ux*s0,ball.y-uy*s0);g.lineTo(ball.x-ux*(s0+10),ball.y-uy*(s0+10));g.stroke();g.lineCap='butt';
+    // power bar
+    g.fillStyle='rgba(0,0,0,.35)';rr(W/2-110,H-RAIL-30,220,16,8);g.fill();g.fillStyle=pw>180?'#e2385a':pw>100?'#fbf06a':'#7fe0a8';rr(W/2-110,H-RAIL-30,220*pw/240,16,8);g.fill()}}
+  // ball
+  const r=BR*ball.scale;g.fillStyle='rgba(0,0,0,.25)';g.beginPath();g.ellipse(ball.x+4,ball.y+6,r,r*.8,0,0,7);g.fill();
+  const bg=g.createRadialGradient(ball.x-r*.35,ball.y-r*.4,2,ball.x,ball.y,r);bg.addColorStop(0,'#fff');bg.addColorStop(1,'#e9e4d6');g.fillStyle=bg;g.beginPath();g.arc(ball.x,ball.y,r,0,7);g.fill();g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=1.5;g.stroke()}
+function rr(x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+function dot(x,y,r){g.beginPath();g.arc(x,y,r,0,7);g.fill()}
+let last=0;
+function loop(t){if(!running)return;const dt=Math.min(32,t-(last||t))/16.67;last=t;step(dt);draw();requestAnimationFrame(loop)}
+function step(dt){
+  if(ball.sinking){const p=ball.sinking;ball.x+=(p.x-ball.x)*.25;ball.y+=(p.y-ball.y)*.25;ball.scale=Math.max(0,ball.scale-.08*dt);if(ball.scale<=0&&!ball.done){ball.done=true;result(p)}return}
+  if(!ball.moving)return;
+  const n=Math.ceil(Math.hypot(ball.vx,ball.vy)/6)||1;
+  for(let i=0;i<n;i++){ball.x+=ball.vx*dt/n;ball.y+=ball.vy*dt/n;
+    for(const p of POCKETS){if(Math.hypot(ball.x-p.x,ball.y-p.y)<PR-2){ball.sinking=p;ball.moving=false;return}}
+    const lo=RAIL+BR,hx=W-RAIL-BR,hy=H-RAIL-BR;
+    if(ball.x<lo){ball.x=lo;ball.vx=-ball.vx*.8;sWall()}if(ball.x>hx){ball.x=hx;ball.vx=-ball.vx*.8;sWall()}
+    if(ball.y<lo){ball.y=lo;ball.vy=-ball.vy*.8;sWall()}if(ball.y>hy){ball.y=hy;ball.vy=-ball.vy*.8;sWall()}}
+  const f=Math.pow(.985,dt);ball.vx*=f;ball.vy*=f;
+  if(Math.hypot(ball.vx,ball.vy)<.12){ball.moving=false;ball.vx=ball.vy=0;missed()}}
+function toV(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*W,y:(e.clientY-r.top)/r.height*H}}
+cv.addEventListener('pointerdown',e=>{if(!G||G.lock||ball.moving||ball.sinking)return;e.preventDefault();const p=toV(e);aim={x:p.x,y:p.y,sx:p.x,sy:p.y};try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+cv.addEventListener('pointermove',e=>{if(!aim)return;const p=toV(e);aim.x=p.x;aim.y=p.y});
+cv.addEventListener('pointerup',e=>{if(!aim)return;const a=aim;aim=null;
+  const moved=Math.hypot(a.x-a.sx,a.y-a.sy);
+  if(moved<10){/* tap: roll to the tapped pocket (or its label) */const p=POCKETS.find(q=>Math.hypot(a.x-q.x,a.y-q.y)<120);if(p)shootTo(p);return}
+  const dx=ball.x-a.x,dy=ball.y-a.y,d=Math.hypot(dx,dy);if(d<14)return;const pw=Math.min(d,240)/240;shoot(dx/d*(6+pw*30),dy/d*(6+pw*30))});
+cv.addEventListener('pointercancel',()=>{aim=null});
+function shoot(vx,vy){ball.vx=vx;ball.vy=vy;ball.moving=true;sCue();G.shots++}
+function shootTo(p){const dx=p.x-ball.x,dy=p.y-ball.y,d=Math.hypot(dx,dy);shoot(dx/d*24,dy/d*24)}
+
+/* ---------- game ---------- */
+function start(){G={list:shuffle(D[CFG.lv]).slice(0,QN()),i:0,miss:0,log:[],shots:0};
+  $('#menu').classList.add('hidden');$('#end').classList.add('hidden');$('#game').classList.remove('hidden');
+  resize();running=true;last=0;requestAnimationFrame(loop);next();$('#game').scrollIntoView({behavior:'smooth',block:'start'})}
+function hud(){$('#hq').textContent=`🎱 ${G.i+1} / ${G.list.length}`;$('#hm').textContent=`❌ ${G.miss} mistake${G.miss===1?'':'s'}`;$('#hl').textContent=CFG.lv}
+function next(){if(G.i>=G.list.length)return end();G.it=G.list[G.i];G.tries=0;G.lock=false;G.wrong=[];reset();flash=null;
+  $('#sent').innerHTML=esc(G.it[0]).replace('__','<span class="blank" id="blank">&nbsp;?&nbsp;</span>');$('#rule').innerHTML='';hud()}
+function filled(s,ans){const i=s.indexOf('__'),start=s.slice(0,i).trim()==='';let rest=esc(s.slice(i+2));
+  if(ans==='0'){if(start)rest=rest.replace(/^\s*(\S)/,(m,c)=>' '+c.toUpperCase());return esc(s.slice(0,i))+'<span class="blank zero">Ø</span>'+rest}
+  const w=start?ans[0].toUpperCase()+ans.slice(1):ans;return esc(s.slice(0,i))+`<span class="blank good">${w}</span>`+rest}
+function result(p){const [s,ans,rule]=G.it;
+  if(p.k===ans){sPocket();flash={k:p.k,ok:true};G.lock=true;$('#sent').innerHTML=filled(s,ans);$('#rule').innerHTML='💡 '+esc(rule).replace(/→ (.+)$/,'→ <b>$1</b>');
+    G.log.push({it:G.it,wrong:G.wrong.slice()});setTimeout(()=>{G.i++;next()},2600)}
+  else{sBad();flash={k:p.k,ok:false};G.miss++;G.tries++;G.wrong.push(p.lab);hud();const b=$('#blank');b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');
+    $('#rule').innerHTML=G.tries>=2?'💡 Hint: '+esc(rule.replace(/→.*$/,'').trim()):'Oops! Not <b style="color:var(--bad)">'+p.lab+'</b>. Try again!';
+    setTimeout(()=>{reset();flash=null},700)}}
+function missed(){$('#rule').innerHTML='No pocket! Try again. 🎱';setTimeout(()=>{if(!ball.moving&&!ball.sinking)reset()},500)}
+function end(){running=false;const st=G.miss===0?3:G.miss<=2?2:1;if(st>(ST[CFG.lv]||0)){ST[CFG.lv]=st;save()}
+  $('#game').classList.add('hidden');const e=$('#end');e.classList.remove('hidden');
+  e.innerHTML=`<h2 class="fat" style="margin:0">Finished! 🎉</h2><p class="stars">${'★'.repeat(st)}${'☆'.repeat(3-st)}</p><p>${G.miss===0?'Perfect! No mistakes.':G.miss+' mistake'+(G.miss>1?'s':'')+'.'}</p>
+  <h3 style="margin:16px 0 4px;text-align:left">Review 📝</h3><ul class="review">${G.log.map(l=>`<li>${filled(l.it[0],l.it[1])}<br><i>${esc(l.it[2])}</i>${l.wrong.length?` <span style="color:var(--bad)">(you tried: ${l.wrong.join(', ')})</span>`:''}</li>`).join('')}</ul>
+  <p><button class="btn" id="again">Play again</button> <button class="btn alt" id="tomenu">Change level</button></p>`;
+  $('#again').onclick=start;$('#tomenu').onclick=menu;e.scrollIntoView({behavior:'smooth',block:'start'})}
+menu();
+</script>
+<!-- wdym daily tracker -->
+<script>
+(function(){
+  var K='wdym-daily',page=(location.pathname.split('/').pop()||'index.html').toLowerCase(),last=0,act=0;
+  function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+  function poke(){last=Date.now()}
+  ['pointerdown','keydown','touchstart','wheel'].forEach(function(e){addEventListener(e,poke,{passive:true,capture:true})});
+  setInterval(function(){
+    if(document.hidden||Date.now()-last>45000) return;
+    act+=5;
+    try{
+      var s=JSON.parse(localStorage.getItem(K)||'{}'),d=today();s.days=s.days||{};
+      var r=s.days[d]=s.days[d]||{};
+      r[page]=(r[page]||0)+5;
+      var ks=Object.keys(s.days).sort();while(ks.length>60){delete s.days[ks.shift()]}
+      localStorage.setItem(K,JSON.stringify(s));
+    }catch(e){}
+  },5000);
+})();
+</script>
+
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
+<!-- wdym mute -->
+<button id="wdymMute" aria-label="Sound on/off" title="Sound on/off" style="position:fixed;top:12px;right:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 12px;box-shadow:2px 2px 0 #1f2a5c;cursor:pointer">🔊 Sound on</button>
+<script>
+(function(){
+  var K='wdym-mute',m=false;try{m=localStorage.getItem(K)==='1'}catch(e){}
+  var allow=0,live=new Set(),btn=document.getElementById('wdymMute');
+  /* when muted, audio only plays if the student taps a 🔊 / listen button */
+  document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('button,[role=button],.show,.mcard');
+    if(b&&b.id!=='wdymMute'&&(/🔊/.test(b.textContent)||b.matches('.speak,.spk,.ml,.show,[data-listen]')))allow=Date.now();},true);
+  function ok(){return !m||Date.now()-allow<1500}
+  var P=HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play=function(){if(!ok())return Promise.resolve();live.add(this);return P.apply(this,arguments)};
+  if(window.speechSynthesis){var S=speechSynthesis.speak.bind(speechSynthesis);speechSynthesis.speak=function(u){if(ok())S(u)}}
+  function ui(){btn.textContent=m?'🔇 Sound off':'🔊 Sound on';btn.style.background=m?'#ffd6df':'#fffdf9'}
+  btn.onclick=function(){m=!m;try{localStorage.setItem(K,m?'1':'0')}catch(e){}
+    if(m){live.forEach(function(a){try{a.pause()}catch(e){}});try{speechSynthesis.cancel()}catch(e){}}ui()};
+  ui();
+})();
+</script>
+<!-- /wdym mute -->
+
+</body>
+</html>

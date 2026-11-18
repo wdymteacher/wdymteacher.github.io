@@ -637,6 +637,7 @@ const GAMES=[
   {k:'krecipe',n:7,title:'Cook the recipe',desc:'Pancakes, brigadeiro, spaghetti… Choose the right verb for each step: chop, peel, boil, stir…',learn:null},
   {k:'kgap',n:8,title:'Gap fill',desc:'Read the text and fill in the gaps with the right words.',learn:null,levels:{A2:'food & meals',B1:'cooking & eating habits'}},
   {k:'kmist',n:10,title:'Fix the mistakes',desc:'"I had a lunch", "I lunched yesterday"… Find the mistakes students make all the time!',learn:null,levels:{A2:'meals & food',B1:'food & cooking'}},
+  {k:'kmag',n:11,title:'Fridge Magnets 🧲',desc:'Synonyms and antonyms! Drag the magnets on the fridge and stick them next to the word with the same or the opposite meaning.',learn:null,href:'fridge-magnets.html'},
   {k:'kspeak',n:9,title:'Speak! 🎤',desc:'Use the microphone. Say what I\'m doing… or what happened! (Oh no, I burned the cake!)',learn:null,levels:{now:"What's she doing? (present continuous)",past:'What happened? (past simple)'}}
 ];
 function showRoom(){
@@ -645,7 +646,7 @@ function showRoom(){
   resetOverlays($('roomScene').querySelector('svg'));
   $('games').innerHTML=GAMES.slice().sort((a,b)=>a.n-b.n).map(gm=>`<div class="game"><div class="gtop"><span class="num">Game ${gm.n}</span><span class="stars">${starHTML(BEST[gm.k]||0)}</span></div>
     <h3 class="fat">${gm.title}</h3><p>${gm.desc}</p>
-    <div class="row">${gm.levels?Object.entries(gm.levels).map(([l,d])=>`<button class="btn" data-play="${gm.k}" data-lv="${l}" title="${d}">${l.length===2?l:l==='now'?'Now':'Past'} ${(BEST[gm.k+'-'+l]?starHTML(BEST[gm.k+'-'+l]):'')}</button>`).join(''):`${gm.learn?`<button class="btn alt" data-learn="${gm.k}">Learn</button>`:''}<button class="btn" data-play="${gm.k}">${gm.learn?'Play →':gm.k==='kdo'?'Start the challenge →':'Play →'}</button>`}</div>${gm.levels?`<p class="lvdesc">${Object.entries(gm.levels).map(([l,d])=>`<b>${l.length===2?l:l==='now'?'Now':'Past'}:</b> ${d}`).join(' · ')}</p>`:''}</div>`).join('');
+    <div class="row">${gm.href?`<a class="btn" href="${gm.href}" style="text-decoration:none">Play →</a>`:gm.levels?Object.entries(gm.levels).map(([l,d])=>`<button class="btn" data-play="${gm.k}" data-lv="${l}" title="${d}">${l.length===2?l:l==='now'?'Now':'Past'} ${(BEST[gm.k+'-'+l]?starHTML(BEST[gm.k+'-'+l]):'')}</button>`).join(''):`${gm.learn?`<button class="btn alt" data-learn="${gm.k}">Learn</button>`:''}<button class="btn" data-play="${gm.k}">${gm.learn?'Play →':gm.k==='kdo'?'Start the challenge →':'Play →'}</button>`}</div>${gm.levels?`<p class="lvdesc">${Object.entries(gm.levels).map(([l,d])=>`<b>${l.length===2?l:l==='now'?'Now':'Past'}:</b> ${d}`).join(' · ')}</p>`:''}</div>`).join('');
   $('games').querySelectorAll('[data-learn]').forEach(b=>b.onclick=()=>start(b.dataset.learn,true));
   $('games').querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>start(b.dataset.play,false,b.dataset.lv));
   show('room');
