@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fridge Magnets: Synonyms &amp; Antonyms ✦ wdym, teacher?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,600..900,100&family=Lora:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ebb3e6;--blue:#9ccfdc;--yellow:#fbf06a;--navy:#1f2a5c;--white:#fffdf7;--good:#2e9e6a;--bad:#e2385a}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Lora',Georgia,serif;color:var(--navy);background:var(--pink);min-height:100vh;
+  background-image:radial-gradient(rgba(255,255,255,.35) 1px,transparent 1.5px);background-size:14px 14px}
+.fat{font-family:'Fraunces',serif;font-variation-settings:"SOFT" 100,"WONK" 1;font-weight:900}
+.wrap{max-width:760px;margin:0 auto;padding:58px 14px 40px}
+.logo{font-size:clamp(1.7rem,6vw,2.7rem);color:var(--yellow);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:3px 3px 0 var(--navy);margin:0 0 4px;line-height:1.05}
+.sub{margin:4px 0 14px}
+.card{background:var(--white);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:20px}
+.btn{font-family:'Fraunces',serif;font-weight:800;font-size:1.05rem;border:2px solid var(--navy);border-radius:999px;padding:9px 22px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;background:var(--yellow);color:var(--navy)}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--navy)}
+.btn.alt{background:var(--blue)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.row .lab{font-weight:700;min-width:120px}
+.opt{font:700 .95rem 'Lora',serif;border:2px solid var(--navy);border-radius:999px;padding:5px 14px;background:#fff;color:var(--navy);cursor:pointer;box-shadow:2px 2px 0 var(--navy)}
+.opt.on{background:var(--yellow)}
+.opt small{color:#c08a00;margin-left:4px}
+.hud{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.pill{background:var(--white);border:2px solid var(--navy);border-radius:999px;padding:4px 12px;font-weight:700;box-shadow:2px 2px 0 var(--navy)}
+.task{background:var(--white);border:3px solid var(--navy);border-radius:16px;box-shadow:4px 4px 0 var(--navy);padding:10px 14px;margin-bottom:12px;font-size:1.05rem;text-align:center}
+.task .eq{display:inline-block;background:#c9f0dc;border:2px solid var(--navy);border-radius:8px;padding:0 8px;font-weight:900}
+.task .op{display:inline-block;background:#ffd6df;border:2px solid var(--navy);border-radius:8px;padding:0 8px;font-weight:900}
+
+/* FRIDGE */
+.fridge{position:relative;border:3px solid var(--navy);border-radius:30px 30px 20px 20px;background:linear-gradient(90deg,#bfe9dc 0%,#d5f3ea 18%,#c7eee2 60%,#aee0d1 100%);box-shadow:6px 6px 0 var(--navy);padding:14px 14px 10px;user-select:none;-webkit-user-select:none;touch-action:none}
+.door{position:relative;border:3px solid var(--navy);border-radius:18px;background:linear-gradient(90deg,rgba(255,255,255,.35),rgba(255,255,255,0) 30%,rgba(255,255,255,.12) 70%,rgba(0,0,0,.04));}
+.door.top{padding:16px 46px 16px 12px;min-height:300px}
+.door.bot{margin-top:10px;height:270px}
+.handle{position:absolute;right:12px;width:14px;border:3px solid var(--navy);border-radius:10px;background:#f4f4f0;box-shadow:inset -3px 0 0 #cfcfc8}
+.door.top .handle{top:30px;height:110px}.door.bot .handle{top:24px;height:90px}
+.feet{display:flex;justify-content:space-between;padding:0 30px}.feet i{width:34px;height:10px;background:var(--navy);border-radius:0 0 8px 8px}
+.pairrow{display:grid;grid-template-columns:1fr 34px 1fr;align-items:center;gap:6px;margin:0 0 10px}
+.anchor{justify-self:end;font:900 clamp(1rem,3.6vw,1.25rem) 'Fraunces',serif;padding:8px 14px;border:2.5px solid var(--navy);border-radius:12px;box-shadow:3px 4px 0 rgba(31,42,92,.85);white-space:nowrap}
+.sym{text-align:center;font:900 1.2rem 'Fraunces',serif}
+.slot{position:relative;height:46px;border:2.5px dashed rgba(31,42,92,.45);border-radius:12px;background:rgba(255,255,255,.35)}
+.slot.hot{background:rgba(251,240,106,.6);border-color:var(--navy)}
+.slot.ok{border-style:solid;border-color:var(--good);background:rgba(201,240,220,.6)}
+.mag{position:absolute;z-index:5;font:700 clamp(.98rem,3.4vw,1.15rem) 'Lora',serif;background:#fffef8;border:2px solid #2b2b2b;padding:6px 12px;box-shadow:2px 3px 0 rgba(0,0,0,.35),inset 0 -3px 0 rgba(0,0,0,.06);cursor:grab;white-space:nowrap;touch-action:none;transition:transform .12s}
+.mag.drag{cursor:grabbing;z-index:50;box-shadow:6px 10px 12px rgba(0,0,0,.3);transition:none}
+.mag.sel{outline:3px solid var(--yellow);outline-offset:2px}
+.mag.back{transition:left .35s cubic-bezier(.3,1.4,.6,1),top .35s cubic-bezier(.3,1.4,.6,1),transform .35s}
+.mag.stuck{cursor:default;background:#e9fff3;border-color:var(--good);animation:clack .3s}
+.mag.bad{animation:wob .4s}
+@keyframes clack{0%{transform:scale(1.12)}60%{transform:scale(.96)}100%{transform:scale(1)}}
+@keyframes wob{20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-5deg)}80%{transform:rotate(4deg)}}
+.deco{position:absolute;font-size:28px;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.25));pointer-events:none}
+.note{position:absolute;background:#fff8c4;border:1px solid #d8c96a;padding:6px 8px;font:500 .78rem 'Lora',serif;transform:rotate(-4deg);box-shadow:2px 3px 0 rgba(0,0,0,.15);pointer-events:none;line-height:1.25}
+.fb{min-height:1.5em;text-align:center;font-weight:700;margin:10px 0 0}
+.stars{font-size:2.4rem;letter-spacing:4px;color:#e0b821;-webkit-text-stroke:1px var(--navy)}
+.review{text-align:left;margin:12px 0;padding:0;list-style:none}
+.review li{padding:6px 0;border-bottom:1px dashed #b9b2d6}
+.hidden{display:none}
+@media(max-width:560px){.door.top{padding:12px 34px 12px 8px}.handle{right:8px;width:11px}.anchor{padding:7px 9px}.pairrow{grid-template-columns:1fr 24px 1fr;gap:4px}.mag{padding:5px 8px}.door.bot{height:300px}}
+</style>
+</head>
+<body>
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 14px;text-decoration:none;box-shadow:2px 2px 0 #1f2a5c">← wdym, teacher?</a>
+<div class="wrap">
+  <h1 class="logo fat">Fridge Magnets</h1>
+  <p class="sub"><b>Synonyms and antonyms!</b> Drag the magnets from the bottom of the fridge and stick them next to the right word. 🧲</p>
+
+  <div id="menu" class="card">
+    <div class="row"><span class="lab">Level</span><span id="lv"></span></div>
+    <div class="row"><span class="lab">Game</span><span id="md"></span></div>
+    <div class="row" data-qcount></div>
+    <p class="how" style="font-size:.92rem;color:#4f5683"><b>Synonyms</b> = words with the same meaning (big = large). <b>Antonyms</b> = opposites (hot ↔ cold).</p>
+    <p style="margin-top:14px"><button class="btn" id="play">Play ▶</button></p>
+  </div>
+
+  <div id="game" class="hidden">
+    <div class="hud"><span class="pill" id="hq"></span><span class="pill" id="hm"></span><span class="pill" id="hl"></span></div>
+    <div class="task" id="task"></div>
+    <div class="fridge" id="fridge">
+      <div class="door top" id="top"><div class="handle"></div></div>
+      <div class="door bot" id="bot"><div class="handle"></div></div>
+      <div class="feet"><i></i><i></i></div>
+    </div>
+    <p class="fb" id="fb"></p>
+  </div>
+
+  <div id="end" class="card hidden" style="text-align:center"></div>
+</div>
+
+<script>
+const D={"syn": {"A2": [["big", "large", "size"], ["small", "little", "small"], ["happy", "glad", "happy"], ["sad", "unhappy", "sad"], ["begin", "start", "start"], ["finish", "end", "end"], ["quick", "fast", "fast"], ["pretty", "beautiful", "pretty"], ["angry", "mad", "angry"], ["easy", "simple", "easy"], ["correct", "right", "right"], ["shut", "close", "close"], ["sick", "ill", "sick"], ["choose", "pick", "choose"], ["talk", "speak", "talk"], ["store", "shop", "store"], ["buy", "purchase", "buy"], ["kid", "child", "kid"], ["gift", "present", "gift"], ["test", "exam", "test"], ["scared", "afraid", "scared"], ["rich", "wealthy", "rich"], ["near", "close by", "near"], ["help", "assist", "help"], ["fix", "repair", "fix"], ["tired", "sleepy", "tired"], ["funny", "hilarious", "funny"], ["smart", "clever", "smart"], ["ill", "unwell", "sick2"], ["cold", "chilly", "cold"]], "B1": [["huge", "enormous", "huge"], ["tiny", "minute", "tiny"], ["delicious", "tasty", "tasty"], ["intelligent", "bright", "smart"], ["frightened", "terrified", "scared"], ["exhausted", "worn out", "tired"], ["wonderful", "amazing", "great"], ["awful", "terrible", "bad"], ["brave", "courageous", "brave"], ["calm", "relaxed", "calm"], ["strange", "weird", "strange"], ["rude", "impolite", "rude"], ["anxious", "worried", "worried"], ["furious", "livid", "angry"], ["silent", "quiet", "quiet"], ["ancient", "very old", "old"], ["reply", "answer", "answer"], ["grab", "seize", "grab"], ["understand", "get", "understand"], ["discover", "find out", "find"], ["maybe", "perhaps", "maybe"], ["often", "frequently", "often"], ["mistake", "error", "error"], ["job", "occupation", "job"], ["trip", "journey", "trip"], ["rule", "regulation", "rule"], ["boring", "dull", "boring"], ["polite", "courteous", "polite"], ["purpose", "aim", "aim"], ["enough", "sufficient", "enough"]], "B2": [["essential", "vital", "vital"], ["obvious", "evident", "obvious"], ["accurate", "precise", "accurate"], ["reluctant", "unwilling", "reluctant"], ["eager", "keen", "eager"], ["thrilled", "delighted", "happy"], ["deceive", "mislead", "deceive"], ["enhance", "improve", "improve"], ["diminish", "decrease", "decrease"], ["obtain", "acquire", "get"], ["abandon", "desert", "leave"], ["tedious", "monotonous", "boring"], ["candid", "frank", "honest"], ["generous", "giving", "generous"], ["stubborn", "obstinate", "stubborn"], ["fragile", "delicate", "fragile"], ["swift", "rapid", "fast"], ["vague", "unclear", "vague"], ["hazardous", "dangerous", "danger"], ["clarify", "explain", "explain"], ["predict", "forecast", "predict"], ["drawback", "disadvantage", "drawback"], ["outcome", "result", "result"], ["notion", "idea", "idea"], ["genuine", "authentic", "real"], ["vast", "immense", "huge"], ["persuade", "convince", "convince"], ["postpone", "delay", "delay"], ["flaw", "defect", "flaw"], ["thrifty", "frugal", "thrifty"]]}, "ant": {"A2": [["hot", "cold", "temp"], ["big", "small", "size"], ["happy", "sad", "mood"], ["open", "closed", "open"], ["early", "late", "time"], ["fast", "slow", "speed"], ["old", "new", "age1"], ["young", "old", "age2"], ["cheap", "expensive", "price"], ["full", "empty", "full"], ["clean", "dirty", "clean"], ["long", "short", "length"], ["easy", "difficult", "easy"], ["heavy", "light", "weight"], ["tall", "short", "height"], ["day", "night", "day"], ["buy", "sell", "buy"], ["push", "pull", "push"], ["win", "lose", "win"], ["remember", "forget", "memory"], ["arrive", "leave", "arrive"], ["always", "never", "freq"], ["up", "down", "updown"], ["left", "right", "side"], ["first", "last", "order"], ["rich", "poor", "money"], ["strong", "weak", "strong"], ["wet", "dry", "wet"], ["loud", "quiet", "sound"], ["inside", "outside", "place"]], "B1": [["accept", "refuse", "accept"], ["borrow", "lend", "borrow"], ["increase", "decrease", "incr"], ["polite", "rude", "polite"], ["generous", "selfish", "generous"], ["safe", "dangerous", "safe"], ["success", "failure", "success"], ["brave", "cowardly", "brave"], ["ancient", "modern", "age"], ["tight", "loose", "tight"], ["shallow", "deep", "deep"], ["smooth", "rough", "smooth"], ["guilty", "innocent", "guilty"], ["temporary", "permanent", "temp"], ["rare", "common", "rare"], ["honest", "dishonest", "honest"], ["patient", "impatient", "patient"], ["arrival", "departure", "arrive"], ["include", "exclude", "include"], ["victory", "defeat", "win"], ["lazy", "hardworking", "lazy"], ["mild", "severe", "mild"], ["noisy", "peaceful", "noise"], ["asleep", "awake", "sleep"], ["crowded", "empty", "crowd"], ["optimistic", "pessimistic", "opt"], ["sharp", "blunt", "sharp"], ["reward", "punishment", "reward"], ["tidy", "messy", "tidy"], ["minimum", "maximum", "max"]], "B2": [["expand", "shrink", "expand"], ["abundant", "scarce", "abundant"], ["voluntary", "compulsory", "vol"], ["praise", "criticize", "praise"], ["genuine", "fake", "real"], ["humble", "arrogant", "humble"], ["reveal", "conceal", "reveal"], ["attract", "repel", "attract"], ["profit", "loss", "profit"], ["optimism", "pessimism", "opt"], ["transparent", "opaque", "clear"], ["flexible", "rigid", "flex"], ["superior", "inferior", "sup"], ["deliberate", "accidental", "delib"], ["reluctant", "willing", "rel"], ["ascend", "descend", "asc"], ["vague", "specific", "vague"], ["frequent", "occasional", "freq"], ["approve", "reject", "approve"], ["simplify", "complicate", "simple"], ["guilty", "blameless", "guilt"], ["thrifty", "wasteful", "thrift"], ["sincere", "insincere", "sincere"], ["minor", "major", "minor"], ["artificial", "natural", "nat"], ["hostile", "friendly", "hostile"], ["prohibit", "permit", "allow"], ["external", "internal", "ext"], ["temporary", "everlasting", "temp"], ["strengthen", "weaken", "strong"]]}};
+const $=s=>document.querySelector(s);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let ST={};try{ST=JSON.parse(localStorage.getItem('wdym-magnets')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('wdym-magnets',JSON.stringify(ST))}catch(e){}};
+let CFG={lv:'A2',md:'syn'};try{Object.assign(CFG,JSON.parse(localStorage.getItem('wdym-magnets-cfg')||'{}'))}catch(e){}
+const LVS={A2:'A2',B1:'B1',B2:'B2'},MDS={syn:'= Synonyms',ant:'↔ Antonyms',mix:'🔀 Both'};
+const COLORS=['#ffb3c7','#9ccfdc','#fbf06a','#b8e6b0','#d9c2f0','#ffc98f'];
+const QN=()=>window.WDYM_N?WDYM_N():10;
+
+function menu(){
+  const opts=(id,obj,key,stars)=>{$(id).innerHTML=Object.entries(obj).map(([k,n])=>{const s=stars?stars(k):0;return `<button class="opt ${CFG[key]===k?'on':''}" data-k="${k}">${n}${s?`<small>${'★'.repeat(s)}</small>`:''}</button>`}).join(' ');
+    $(id).querySelectorAll('.opt').forEach(b=>b.onclick=()=>{CFG[key]=b.dataset.k;try{localStorage.setItem('wdym-magnets-cfg',JSON.stringify(CFG))}catch(e){}menu()})};
+  opts('#lv',LVS,'lv',k=>Math.max(...Object.keys(MDS).map(m=>ST[k+'-'+m]||0)));opts('#md',MDS,'md',k=>ST[CFG.lv+'-'+k]||0);
+  $('#menu').classList.remove('hidden');$('#game').classList.add('hidden');$('#end').classList.add('hidden')}
+$('#play').onclick=start;
+
+/* sound: magnet clack */
+let AC=null;
+function muted(){try{return localStorage.getItem('wdym-mute')==='1'}catch(e){return false}}
+function ctx(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}
+function clack(){if(muted())return;try{const a=ctx(),t=a.currentTime,n=a.sampleRate*.05,b=a.createBuffer(1,n,a.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,6);const s=a.createBufferSource();s.buffer=b;const f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=1800;
+  const g=a.createGain();g.gain.value=.9;s.connect(f);f.connect(g);g.connect(a.destination);s.start(t);
+  const o=a.createOscillator(),og=a.createGain();o.frequency.setValueAtTime(880,t+.04);o.frequency.setValueAtTime(1320,t+.11);og.gain.setValueAtTime(.12,t+.04);og.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(og);og.connect(a.destination);o.start(t+.04);o.stop(t+.3)}catch(e){}}
+function boing(){if(muted())return;try{const a=ctx(),t=a.currentTime,o=a.createOscillator(),g=a.createGain();o.type='triangle';o.frequency.setValueAtTime(260,t);o.frequency.exponentialRampToValueAtTime(110,t+.3);g.gain.setValueAtTime(.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.32);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.33)}catch(e){}}
+function tick(){if(muted())return;try{const a=ctx(),t=a.currentTime,o=a.createOscillator(),g=a.createGain();o.frequency.value=600;g.gain.setValueAtTime(.05,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.06)}catch(e){}}
+
+/* ---------- boards ---------- */
+const toks=p=>p.slice(0,2).join(' ').toLowerCase().split(/\s+/);
+function makeBoards(n){
+  const pool=[];
+  const kinds=CFG.md==='mix'?['syn','ant']:[CFG.md];
+  kinds.forEach(k=>D[k][CFG.lv].forEach(p=>pool.push({k,a:p[0],b:p[1],g:k+p[2],t:toks(p)})));
+  const all=shuffle(pool),chosen=[];
+  const boards=[];let cur=[];
+  for(const p of all){if(chosen.length>=n)break;
+    if(cur.some(q=>q.g===p.g||q.t.some(x=>p.t.includes(x))))continue;
+    cur.push(p);chosen.push(p);if(cur.length===5){boards.push(cur);cur=[]}}
+  if(cur.length)boards.push(cur);
+  if(CFG.md==='mix')boards.forEach(b=>{if(b.every(p=>p.k===b[0].k)&&b.length>1){/* make sure both kinds appear */const other=all.find(p=>p.k!==b[0].k&&!chosen.includes(p)&&!b.some(q=>q.g===p.g||q.t.some(x=>p.t.includes(x))));if(other){chosen.splice(chosen.indexOf(b[b.length-1]),1,other);b[b.length-1]=other}}});
+  return boards}
+let G=null;
+function start(){G={boards:makeBoards(QN()),bi:0,miss:0,done:0,log:[]};G.total=G.boards.reduce((s,b)=>s+b.length,0);
+  $('#menu').classList.add('hidden');$('#end').classList.add('hidden');$('#game').classList.remove('hidden');board();$('#game').scrollIntoView({behavior:'smooth',block:'start'})}
+function hud(){$('#hq').textContent=`🧲 ${G.done} / ${G.total}`;$('#hm').textContent=`❌ ${G.miss} mistake${G.miss===1?'':'s'}`;$('#hl').textContent=`${CFG.lv} · ${MDS[CFG.md]}`}
+function board(){
+  const B=G.boards[G.bi];G.left=B.length;hud();$('#fb').textContent='';
+  $('#task').innerHTML=CFG.md==='syn'?`Stick each magnet next to its <span class="eq">= synonym</span> (same meaning).`:CFG.md==='ant'?`Stick each magnet next to its <span class="op">↔ antonym</span> (the opposite).`:`Look at the sign: <span class="eq">=</span> same meaning, <span class="op">↔</span> opposite.`;
+  const top=$('#top'),bot=$('#bot');top.querySelectorAll('.pairrow').forEach(x=>x.remove());bot.querySelectorAll('.mag,.deco,.note').forEach(x=>x.remove());
+  top.querySelectorAll('.mag').forEach(x=>x.remove());
+  // decorations
+  [['🍓','6%','78%'],['🌼','88%','82%']].forEach(([e,l,t])=>{const d=document.createElement('div');d.className='deco';d.textContent=e;d.style.left=l;d.style.top=t;bot.appendChild(d)});
+  const colors=shuffle(COLORS);
+  G.rows=B.map((p,i)=>{const flip=Math.random()<.5;const anchor=flip?p.b:p.a,loose=flip?p.a:p.b;
+    const r=document.createElement('div');r.className='pairrow';
+    r.innerHTML=`<span class="anchor" style="background:${colors[i]};transform:rotate(${(Math.random()*4-2).toFixed(1)}deg)">${esc(anchor)}</span><span class="sym" title="${p.k==='syn'?'same meaning':'opposite'}">${p.k==='syn'?'=':'↔'}</span><div class="slot"></div>`;
+    top.insertBefore(r,top.querySelector('.handle'));return {p,anchor,loose,slot:r.querySelector('.slot'),done:false}});
+  // loose magnets scattered on the bottom door
+  const W=bot.clientWidth-50,H=bot.clientHeight;const placed=[];
+  shuffle(G.rows).forEach(row=>{const m=document.createElement('div');m.className='mag';m.textContent=row.loose;m.style.transform=`rotate(${(Math.random()*10-5).toFixed(1)}deg)`;bot.appendChild(m);
+    const w=m.offsetWidth,h=m.offsetHeight;let x,y,tries=0;
+    do{x=10+Math.random()*Math.max(10,W-w-20);y=12+Math.random()*Math.max(10,H-h-24);tries++}while(tries<200&&placed.some(q=>x<q.x+q.w+8&&x+w+8>q.x&&y<q.y+q.h+8&&y+h+8>q.y));
+    placed.push({x,y,w,h});m.style.left=x+'px';m.style.top=y+'px';m._home={x,y,parent:bot};m._row=null;m._word=row.loose;bindMag(m)});
+  SEL=null}
+
+/* ---------- drag & drop ---------- */
+let SEL=null;
+function slotAt(cx,cy){return G.rows.find(r=>{if(r.done)return false;const b=r.slot.getBoundingClientRect();return cx>=b.left-14&&cx<=b.right+14&&cy>=b.top-14&&cy<=b.bottom+14})}
+function bindMag(m){
+  m.addEventListener('pointerdown',e=>{if(m.classList.contains('stuck'))return;e.preventDefault();
+    const fr=$('#fridge').getBoundingClientRect(),mb=m.getBoundingClientRect();
+    // move magnet into fridge coordinates so it can travel between doors
+    const fx=mb.left-fr.left,fy=mb.top-fr.top;$('#fridge').appendChild(m);m.style.left=fx+'px';m.style.top=fy+'px';
+    m.classList.remove('back');m.classList.add('drag');tick();
+    const ox=e.clientX-mb.left,oy=e.clientY-mb.top,sx=e.clientX,sy=e.clientY;let moved=false;
+    try{m.setPointerCapture(e.pointerId)}catch(_){}
+    const mv=ev=>{if(Math.abs(ev.clientX-sx)+Math.abs(ev.clientY-sy)>6)moved=true;
+      m.style.left=(ev.clientX-fr.left-ox)+'px';m.style.top=(ev.clientY-fr.top-oy)+'px';
+      const r=slotAt(ev.clientX,ev.clientY);G.rows.forEach(x=>x.slot.classList.toggle('hot',x===r))};
+    const up=ev=>{m.removeEventListener('pointermove',mv);m.removeEventListener('pointerup',up);m.removeEventListener('pointercancel',up);m.classList.remove('drag');G.rows.forEach(x=>x.slot.classList.remove('hot'));
+      if(!moved){goHome(m,true);if(SEL===m){m.classList.remove('sel');SEL=null}else{SEL&&SEL.classList.remove('sel');SEL=m;m.classList.add('sel');$('#fb').textContent='Now tap the empty space next to the right word.'}return}
+      const r=slotAt(ev.clientX,ev.clientY);if(r)drop(m,r);else goHome(m)};
+    m.addEventListener('pointermove',mv);m.addEventListener('pointerup',up);m.addEventListener('pointercancel',up)})}
+document.addEventListener('pointerdown',e=>{if(!SEL||!G)return;const s=e.target.closest&&e.target.closest('.slot');if(!s)return;const r=G.rows.find(x=>x.slot===s);if(r&&!r.done){const m=SEL;SEL=null;m.classList.remove('sel');
+  const fr=$('#fridge').getBoundingClientRect(),mb=m.getBoundingClientRect();$('#fridge').appendChild(m);m.style.left=(mb.left-fr.left)+'px';m.style.top=(mb.top-fr.top)+'px';drop(m,r)}});
+function goHome(m,instant){const h=m._home,fr=$('#fridge').getBoundingClientRect(),pb=h.parent.getBoundingClientRect();
+  if(instant){h.parent.appendChild(m);m.style.left=h.x+'px';m.style.top=h.y+'px';return}
+  m.classList.add('back');m.style.left=(pb.left-fr.left+h.x)+'px';m.style.top=(pb.top-fr.top+h.y)+'px';
+  setTimeout(()=>{m.classList.remove('back');h.parent.appendChild(m);m.style.left=h.x+'px';m.style.top=h.y+'px'},360)}
+function drop(m,r){
+  if(r.loose===m._word||r.p.a===m._word&&r.anchor===r.p.b||r.p.b===m._word&&r.anchor===r.p.a){
+    r.done=true;r.slot.classList.add('ok');r.slot.appendChild(m);m.classList.add('stuck');m.style.transform='none';m.style.left='6px';m.style.top=Math.max(0,(r.slot.clientHeight-m.offsetHeight)/2)+'px';clack();
+    G.done++;G.left--;G.log.push({p:r.p,anchor:r.anchor,loose:m._word,miss:r.miss||0});hud();
+    $('#fb').innerHTML=`✅ <b>${esc(r.anchor)}</b> ${r.p.k==='syn'?'=':'↔'} <b>${esc(m._word)}</b>`;
+    if(!G.left)setTimeout(()=>{G.bi++;if(G.bi>=G.boards.length)end();else{$('#fb').textContent='Next fridge! 🧲';setTimeout(board,500)}},1100)}
+  else{G.miss++;r.miss=(r.miss||0)+1;hud();boing();m.classList.add('bad');
+    const tgt=G.rows.find(x=>x.loose===m._word);
+    $('#fb').innerHTML=`❌ <b>${esc(m._word)}</b> doesn't go with <b>${esc(r.anchor)}</b>. Try again!`;
+    setTimeout(()=>{m.classList.remove('bad');goHome(m)},380)}}
+function end(){
+  const st=G.miss===0?3:G.miss<=2?2:1;const key=CFG.lv+'-'+CFG.md;if(st>(ST[key]||0)){ST[key]=st;save()}
+  $('#game').classList.add('hidden');const e=$('#end');e.classList.remove('hidden');
+  e.innerHTML=`<h2 class="fat" style="margin:0">Finished! 🎉</h2><p class="stars">${'★'.repeat(st)}${'☆'.repeat(3-st)}</p>
+  <p>${G.miss===0?'Perfect! No mistakes.':G.miss+' mistake'+(G.miss>1?'s':'')+'.'}</p>
+  <h3 style="margin:16px 0 4px;text-align:left">Review 📝</h3><ul class="review">${G.log.map(l=>`<li><b>${esc(l.p.a)}</b> ${l.p.k==='syn'?'= ':'↔ '}<b>${esc(l.p.b)}</b> <i style="color:#4f5683">(${l.p.k==='syn'?'synonyms':'antonyms'})</i></li>`).join('')}</ul>
+  <p><button class="btn" id="again">Play again</button> <button class="btn alt" id="tomenu">Change level</button></p>`;
+  $('#again').onclick=start;$('#tomenu').onclick=menu;e.scrollIntoView({behavior:'smooth',block:'start'})}
+menu();
+</script>
+<!-- wdym daily tracker -->
+<script>
+(function(){
+  var K='wdym-daily',page=(location.pathname.split('/').pop()||'index.html').toLowerCase(),last=0,act=0;
+  function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+  function poke(){last=Date.now()}
+  ['pointerdown','keydown','touchstart','wheel'].forEach(function(e){addEventListener(e,poke,{passive:true,capture:true})});
+  setInterval(function(){
+    if(document.hidden||Date.now()-last>45000) return;
+    act+=5;
+    try{
+      var s=JSON.parse(localStorage.getItem(K)||'{}'),d=today();s.days=s.days||{};
+      var r=s.days[d]=s.days[d]||{};
+      r[page]=(r[page]||0)+5;
+      var ks=Object.keys(s.days).sort();while(ks.length>60){delete s.days[ks.shift()]}
+      localStorage.setItem(K,JSON.stringify(s));
+    }catch(e){}
+  },5000);
+})();
+</script>
+
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
+<!-- wdym mute -->
+<button id="wdymMute" aria-label="Sound on/off" title="Sound on/off" style="position:fixed;top:12px;right:12px;z-index:9999;font:700 14px 'DM Sans',system-ui,sans-serif;color:#1f2a5c;background:#fffdf9;border:2px solid #1f2a5c;border-radius:999px;padding:5px 12px;box-shadow:2px 2px 0 #1f2a5c;cursor:pointer">🔊 Sound on</button>
+<script>
+(function(){
+  var K='wdym-mute',m=false;try{m=localStorage.getItem(K)==='1'}catch(e){}
+  var allow=0,live=new Set(),btn=document.getElementById('wdymMute');
+  /* when muted, audio only plays if the student taps a 🔊 / listen button */
+  document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('button,[role=button],.show,.mcard');
+    if(b&&b.id!=='wdymMute'&&(/🔊/.test(b.textContent)||b.matches('.speak,.spk,.ml,.show,[data-listen]')))allow=Date.now();},true);
+  function ok(){return !m||Date.now()-allow<1500}
+  var P=HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play=function(){if(!ok())return Promise.resolve();live.add(this);return P.apply(this,arguments)};
+  if(window.speechSynthesis){var S=speechSynthesis.speak.bind(speechSynthesis);speechSynthesis.speak=function(u){if(ok())S(u)}}
+  function ui(){btn.textContent=m?'🔇 Sound off':'🔊 Sound on';btn.style.background=m?'#ffd6df':'#fffdf9'}
+  btn.onclick=function(){m=!m;try{localStorage.setItem(K,m?'1':'0')}catch(e){}
+    if(m){live.forEach(function(a){try{a.pause()}catch(e){}});try{speechSynthesis.cancel()}catch(e){}}ui()};
+  ui();
+})();
+</script>
+<!-- /wdym mute -->
+
+</body>
+</html>
