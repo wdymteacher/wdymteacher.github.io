@@ -320,6 +320,7 @@ footer .legal{background:#fff;border:2px solid var(--ink)}
     <button class="mode" role="tab" data-mode="complete">🧩 Complete <small>sentences</small></button>
     <button class="mode" role="tab" data-mode="match">🃏 Match <small>pairs</small></button>
   </nav>
+  <div data-qcount style="text-align:center"></div>
 
   <!-- STUDY -->
   <div id="view-study" class="view">
@@ -655,7 +656,7 @@ const askForm = () => formSetting || pick([1,2]);
 function takeN(arr, n){ let out = []; while(out.length < n && arr.length){ out = out.concat(shuffle(arr)); } return out.slice(0, n); }
 
 /* ================= GAME SHELL ================= */
-const ROUND = 10;
+const RN = () => (window.WDYM_N ? WDYM_N() : 10);
 const game = $("#game");
 let mode = "study", G = null;
 
@@ -704,8 +705,8 @@ function options(v, fi, answer){
 function buildChoose(fixed){
   const items = [];
   if(fixed) return fixed;
-  const sents = shuffle(sentPool()), verbs = takeN(verbPool(), ROUND);
-  for(let k=0;k<ROUND;k++){
+  const sents = shuffle(sentPool()), verbs = takeN(verbPool(), RN());
+  for(let k=0;k<Math.min(RN(),verbs.length);k++){
     if(k % 2 === 0 && sents.length) { const s = sents.pop(); items.push({ type:"sent", s, v:byBase[s[1]], fi:s[2]-1 }); }
     else items.push({ type:"form", v:verbs[k], fi:askForm() });
   }
@@ -738,7 +739,7 @@ function renderChoose(){
 
 /* ---------- WRITE ---------- */
 let listenMode = false;
-function buildWrite(fixed){ return fixed || takeN(verbPool(), ROUND).map(v => ({ v, fi: formSetting })); }
+function buildWrite(fixed){ return fixed || takeN(verbPool(), RN()).map(v => ({ v, fi: formSetting })); }
 function renderWrite(){
   const it = G.items[G.i], v = it.v;
   const which = it.fi ? [it.fi] : [1,2];
@@ -776,7 +777,7 @@ function renderWrite(){
 }
 
 /* ---------- COMPLETE ---------- */
-function buildComplete(fixed){ return fixed || takeN(sentPool(), ROUND).map(s => ({ s, v:byBase[s[1]], fi:s[2]-1 })); }
+function buildComplete(fixed){ return fixed || takeN(sentPool(), RN()).map(s => ({ s, v:byBase[s[1]], fi:s[2]-1 })); }
 function renderComplete(){
   const it = G.items[G.i], v = it.v, answer = it.s[3] || v.forms[it.fi];
   game.innerHTML = topBar() + `<div class="q"><span class="badge ${badgeCls(G.i)}">${G.i+1}</span><div style="flex:1;min-width:0">
@@ -906,4 +907,30 @@ setMode(hMode, true);
   },5000);
 })();
 </script>
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
 </body></html>

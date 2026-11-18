@@ -136,11 +136,12 @@
       <div class="rule on"><h3 class="fat">ON</h3><small>⏰ <b>days &amp; dates</b> – on Monday, on May 5th, on my birthday<br>📍 <b>a surface / street / the bus</b> – on the table, on Paulista Avenue, on the bus</small></div>
     </div></div>
     <p style="font-weight:700;margin:0 0 6px">▶ Choose a mode to start:</p>
+    <div data-qcount style="text-align:center"></div>
     <div class="modes">
-      <button class="btn mode" data-mode="easy"><b>⏰ Time</b>at 7 p.m. · on Monday · in July — 20 cards</button>
-      <button class="btn mode alt" data-mode="place"><b>📍 Place</b>at home · on the table · in Brazil — 20 cards</button>
-      <button class="btn mode" data-mode="mixed" style="background:#f5d6f2"><b>🔀 Mixed</b>time + place together — 20 cards</button>
-      <button class="btn mode alt" data-mode="hard" style="background:#d8f3e4"><b>★ Time Challenge</b>+ “no preposition” (tomorrow, next week…) — 24 cards</button>
+      <button class="btn mode" data-mode="easy"><b>⏰ Time</b>at 7 p.m. · on Monday · in July</button>
+      <button class="btn mode alt" data-mode="place"><b>📍 Place</b>at home · on the table · in Brazil</button>
+      <button class="btn mode" data-mode="mixed" style="background:#f5d6f2"><b>🔀 Mixed</b>time + place together</button>
+      <button class="btn mode alt" data-mode="hard" style="background:#d8f3e4"><b>★ Time Challenge</b>+ “no preposition” (tomorrow, next week…)</button>
     </div>
   </section>
 
@@ -213,7 +214,33 @@ const Q=[
  {x:"this morning",a:"none",c:"no preposition",s:"I went to the gym this morning.",w:"With THIS, no preposition (not “in this morning”)."},
  {x:"every Sunday",a:"none",c:"no preposition",s:"She calls her mom every Sunday.",w:"With EVERY, no preposition."},
  {x:"last night",a:"none",c:"no preposition",s:"I watched a great movie last night.",w:"No preposition with last: last night, last Monday."},
- {x:"yesterday",a:"none",c:"no preposition",s:"I called you yesterday.",w:"No preposition with yesterday."}
+ {x:"yesterday",a:"none",c:"no preposition",s:"I called you yesterday.",w:"No preposition with yesterday."},
+ {x:"8:15",a:"at",c:"clock time",s:"I get up at 8:15.",w:"Clock times take AT."},
+ {x:"sunset",a:"at",c:"specific moment",s:"The beach is beautiful at sunset.",w:"Sunrise and sunset are moments → AT."},
+ {x:"the moment",a:"at",c:"expression",s:"She's busy at the moment.",w:"Fixed expression: at the moment = now."},
+ {x:"Christmas",a:"at",c:"holiday period",s:"We visit my grandma at Christmas.",w:"Holiday periods (not the exact day): at Christmas, at Easter."},
+ {x:"the end of the movie",a:"at",c:"specific moment",s:"At the end of the movie, everyone cried.",w:"AT the end of / AT the beginning of + event."},
+ {x:"the same time",a:"at",c:"expression",s:"They both talked at the same time.",w:"Fixed expression: at the same time."},
+ {x:"Friday",a:"on",c:"day",s:"The store is closed on Friday.",w:"Days take ON."},
+ {x:"my birthday",a:"on",c:"special day",s:"I had a party on my birthday.",w:"Special days take ON: on my birthday."},
+ {x:"Christmas Day",a:"on",c:"special day",s:"We open presents on Christmas Day.",w:"A specific day: ON Christmas Day (but AT Christmas)."},
+ {x:"May 3rd",a:"on",c:"date",s:"My exam is on May 3rd.",w:"Dates take ON."},
+ {x:"Monday morning",a:"on",c:"day + part of day",s:"I have a meeting on Monday morning.",w:"Day + part of the day → ON (on Monday morning)."},
+ {x:"the weekend",a:"on",c:"weekend (US)",s:"What are you doing on the weekend?",w:"American English: on the weekend (British: at the weekend)."},
+ {x:"New Year's Eve",a:"on",c:"special day",s:"We watch fireworks on New Year's Eve.",w:"A specific day → ON."},
+ {x:"the afternoon",a:"in",c:"part of the day",s:"I study in the afternoon.",w:"IN the morning / afternoon / evening."},
+ {x:"July",a:"in",c:"month",s:"It's very hot in July.",w:"Months take IN."},
+ {x:"2030",a:"in",c:"year",s:"I want to travel to Japan in 2030.",w:"Years take IN."},
+ {x:"the winter",a:"in",c:"season",s:"It snows in the winter.",w:"Seasons take IN (also: in winter)."},
+ {x:"the 1990s",a:"in",c:"decade",s:"My parents met in the 1990s.",w:"Decades take IN."},
+ {x:"the 21st century",a:"in",c:"century",s:"We live in the 21st century.",w:"Centuries take IN."},
+ {x:"ten minutes",a:"in",c:"time from now",s:"The bus will arrive in ten minutes.",w:"IN + period = after that time from now."},
+ {x:"the past",a:"in",c:"expression",s:"In the past, people didn't have phones.",w:"Fixed expression: in the past / in the future."},
+ {x:"next Friday",a:"none",c:"no preposition",s:"I'll see you next Friday.",w:"No preposition before NEXT, LAST, THIS, EVERY."},
+ {x:"yesterday",a:"none",c:"no preposition",s:"I went shopping yesterday.",w:"No preposition with yesterday, today, tomorrow."},
+ {x:"every summer",a:"none",c:"no preposition",s:"We go to the beach every summer.",w:"No preposition before EVERY."},
+ {x:"last night",a:"none",c:"no preposition",s:"I slept late last night.",w:"No preposition before LAST."},
+ {x:"this evening",a:"none",c:"no preposition",s:"Are you free this evening?",w:"No preposition before THIS."}
 ];
 Q.forEach(x=>x.t='time');
 const PLACE=[
@@ -281,6 +308,7 @@ function start(m){
   else if(mode==='hard') q=shuffle([...pick(g('at'),6),...pick(g('on'),6),...pick(g('in'),6),...g('none')]);
   else if(mode==='place') q=shuffle([...pick(p('at'),7),...pick(p('on'),7),...pick(p('in'),6)]);
   else q=shuffle([...pick(g('at'),4),...pick(g('on'),3),...pick(g('in'),3),...pick(p('at'),3),...pick(p('on'),4),...pick(p('in'),3)]);
+  if(window.WDYM_N) q=q.slice(0,WDYM_N());
   i=0;score=0;streak=0;best=0;correct=0;mistakes=[];
   const opts = mode==='hard'?['at','in','on','none']:['at','in','on'];
   $('board').className='board'+(opts.length===4?' four':'');
@@ -388,5 +416,31 @@ document.addEventListener('keydown',e=>{
   },5000);
 })();
 </script>
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
 </body>
 </html>

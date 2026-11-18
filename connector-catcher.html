@@ -102,6 +102,7 @@
       <span class="k-result">result · so, therefore, as a result</span>
       <span class="k-addition">addition · moreover, also, in addition</span>
     </div>
+    <div data-qcount></div>
     <p style="font-weight:700;margin:0 0 6px">▶ Choose your speed:</p>
     <div class="speed">
       <button class="btn" data-speed="chill">▶ Chill <small>(slow)</small></button>
@@ -164,7 +165,37 @@ const Q=[
  {s:"My phone is old. ___, it still works perfectly.",a:"Nevertheless",k:"contrast",d:["Because","Moreover"],w:"NEVERTHELESS = however (more formal). Old phone, but it works!"},
  {s:"___ she was tired, she finished her homework.",a:"Even though",k:"contrast",d:["Therefore","In addition"],w:"EVEN THOUGH is a stronger ALTHOUGH: surprising contrast."},
  {s:"I couldn't sleep ___ the noise from the party.",a:"because of",k:"cause",d:["so","however"],w:"BECAUSE OF + noun (the noise). BECAUSE + clause (because the party was loud)."},
- {s:"We missed the bus, ___ we were late for class.",a:"so",k:"result",d:["although","because"],w:"SO shows the result: missed the bus → late for class."}
+ {s:"We missed the bus, ___ we were late for class.",a:"so",k:"result",d:["although","because"],w:"SO shows the result: missed the bus → late for class."},
+ {s:"I love this city. ___, it's very expensive.",a:"However",k:"contrast",d:["Because","So"],w:"HOWEVER starts a new sentence and shows a contrast: I love it, but it's expensive."},
+ {s:"___ the rain, the game didn't stop.",a:"Despite",k:"contrast",d:["Because","Therefore"],w:"DESPITE + noun (the rain) shows contrast. ALTHOUGH would need a clause: although it was raining."},
+ {s:"___ being tired, she went to the party.",a:"In spite of",k:"contrast",d:["Because of","As a result"],w:"IN SPITE OF + noun or -ing: in spite of being tired."},
+ {s:"My brother likes cats, ___ my sister prefers dogs.",a:"while",k:"contrast",d:["so","because"],w:"WHILE can show a contrast between two people or things."},
+ {s:"The movie was long, ___ it was really good.",a:"but",k:"contrast",d:["so","because"],w:"BUT joins two contrasting ideas: long (negative) / good (positive)."},
+ {s:"I wanted to go out. ___, I had to finish my homework.",a:"However",k:"contrast",d:["So","Because"],w:"HOWEVER + comma: I wanted to go out, but I had homework."},
+ {s:"___ he's rich, he isn't happy.",a:"Although",k:"contrast",d:["Because","So"],w:"ALTHOUGH + clause: rich, but not happy."},
+ {s:"It's a small apartment. ___, it has a beautiful view.",a:"On the other hand",k:"contrast",d:["As a result","Because of"],w:"ON THE OTHER HAND shows the other side: small (bad) / beautiful view (good)."},
+ {s:"We stayed inside ___ it was too cold.",a:"because",k:"cause",d:["so","although"],w:"BECAUSE + clause gives the reason."},
+ {s:"The road was closed ___ an accident.",a:"because of",k:"cause",d:["so","although"],w:"BECAUSE OF + noun (an accident)."},
+ {s:"___ it's your birthday, I'll pay for dinner.",a:"Since",k:"cause",d:["Although","However"],w:"SINCE = because, at the beginning of the sentence."},
+ {s:"The train was late ___ a problem with the signals.",a:"due to",k:"cause",d:["so","but"],w:"DUE TO + noun (a problem) gives the cause."},
+ {s:"I'm going to bed early ___ I have an exam tomorrow.",a:"because",k:"cause",d:["so","but"],w:"BECAUSE: why early? I have an exam."},
+ {s:"___ you don't like spicy food, I didn't use chili.",a:"As",k:"cause",d:["However","So"],w:"AS can mean BECAUSE: As you don't like spicy food…"},
+ {s:"She was hungry, ___ she made a sandwich.",a:"so",k:"result",d:["because","although"],w:"SO + result: hungry → she made a sandwich."},
+ {s:"There was a lot of traffic. ___, we arrived late.",a:"As a result",k:"result",d:["Although","Because"],w:"AS A RESULT + comma shows the consequence."},
+ {s:"Prices went up. ___, people bought less.",a:"Therefore",k:"result",d:["However","Because"],w:"THEREFORE (formal) introduces the result."},
+ {s:"I forgot my keys, ___ I couldn't get in.",a:"so",k:"result",d:["because","although"],w:"SO: forgot the keys → couldn't get in."},
+ {s:"The shop was closed, ___ we went to the supermarket.",a:"so",k:"result",d:["because","but"],w:"SO shows what we did as a result."},
+ {s:"He trained every day. ___, he won the race.",a:"As a result",k:"result",d:["However","Although"],w:"AS A RESULT: training → winning."},
+ {s:"The tickets sold out quickly, ___ we didn't go.",a:"so",k:"result",d:["because","although"],w:"SO: no tickets → we didn't go."},
+ {s:"The course is cheap. ___, the teachers are excellent.",a:"Also",k:"addition",d:["However","So"],w:"ALSO adds another good point."},
+ {s:"I need eggs, milk ___ bread.",a:"and",k:"addition",d:["but","so"],w:"AND adds the last item to a list."},
+ {s:"___ English, she speaks French and German.",a:"Besides",k:"addition",d:["Because of","Although"],w:"BESIDES = in addition to: Besides English, she speaks…"},
+ {s:"The job pays well. ___, it's near my house.",a:"In addition",k:"addition",d:["However","As a result"],w:"IN ADDITION adds one more point."},
+ {s:"He plays the guitar and ___ sings.",a:"also",k:"addition",d:["so","but"],w:"ALSO goes before the main verb: he also sings."},
+ {s:"The hotel was dirty. ___, the staff were rude.",a:"What's more",k:"addition",d:["However","Because"],w:"WHAT'S MORE adds another (here negative) point. Informal."},
+ {s:"I don't like coffee, and I don't like tea ___.",a:"either",k:"addition",d:["too","so"],w:"In negative sentences, use EITHER (not too): I don't like tea either."},
+ {s:"She's smart, and she's funny ___.",a:"too",k:"addition",d:["either","so"],w:"TOO adds information at the end of a positive sentence."},
+ {s:"The museum is free. ___, it's open on Sundays.",a:"Moreover",k:"addition",d:["However","Because"],w:"MOREOVER (formal) adds another positive point."}
 ];
 const $=id=>document.getElementById(id);
 const shuffle=a=>{for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
@@ -173,7 +204,7 @@ const ROUNDS=12;
 
 function startGame(sp){
   if(sp) speed=sp;
-  q=shuffle(Q.slice()).slice(0,ROUNDS); i=0; lives=3; score=0; mistakes=[]; correct=0;
+  q=shuffle(Q.slice()).slice(0,(window.WDYM_N?WDYM_N():ROUNDS)); i=0; lives=3; score=0; mistakes=[]; correct=0;
   $('start').classList.add('hidden'); $('end').classList.add('hidden'); $('game').classList.remove('hidden'); $('hud').classList.remove('hidden');
   setLane(1); round();
 }
@@ -286,5 +317,31 @@ document.addEventListener('keydown',e=>{
   },5000);
 })();
 </script>
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
 </body>
 </html>

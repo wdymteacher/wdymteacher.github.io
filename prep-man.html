@@ -74,6 +74,7 @@
       <div><b>2. Move</b><br>Arrow keys, swipe, or the buttons on your phone.</div>
       <div><b>3. Go in!</b><br>Walk into the room with <b>for</b>. Wrong room or a ghost = −1 ♥</div>
     </div>
+    <div data-qcount></div>
     <button class="btn" id="startBtn">▶ Play</button>
   </section>
 
@@ -121,7 +122,37 @@ const VERBS=[
  {v:"arrive",a:"at",o:"the airport",ex:"We arrived at the airport at 6.",w:"arrive AT a place (a building, an airport). With cities: arrive in São Paulo."},
  {v:"agree",a:"with",o:"you",ex:"I agree with you.",w:"agree WITH someone."},
  {v:"worry",a:"about",o:"the test",ex:"Don't worry about the test!",w:"worry ABOUT something."},
- {v:"laugh",a:"at",o:"the joke",ex:"Everybody laughed at the joke.",w:"laugh AT something funny."}
+ {v:"laugh",a:"at",o:"the joke",ex:"Everybody laughed at the joke.",w:"laugh AT something funny."},
+ {v:"ask",a:"for",o:"help",ex:"Can I ask for help?",w:"ask FOR something you want."},
+ {v:"pay",a:"for",o:"the coffee",ex:"I'll pay for the coffee.",w:"pay FOR something you buy."},
+ {v:"look",a:"for",o:"my keys",ex:"I'm looking for my keys.",w:"look FOR = try to find."},
+ {v:"apply",a:"for",o:"a job",ex:"She applied for a job at the bank.",w:"apply FOR a job, a visa…"},
+ {v:"belong",a:"to",o:"me",ex:"This bag belongs to me.",w:"belong TO someone."},
+ {v:"talk",a:"to",o:"the teacher",ex:"Talk to the teacher after class.",w:"talk TO someone."},
+ {v:"explain",a:"to",o:"her",ex:"Can you explain it to her?",w:"explain something TO someone."},
+ {v:"reply",a:"to",o:"the email",ex:"I replied to the email.",w:"reply TO a message."},
+ {v:"arrive",a:"at",o:"the airport",ex:"We arrived at the airport at six.",w:"arrive AT a place (building, airport) / arrive IN a city."},
+ {v:"laugh",a:"at",o:"the joke",ex:"Everyone laughed at the joke.",w:"laugh AT something funny."},
+ {v:"be good",a:"at",o:"math",ex:"She's good at math.",w:"good AT something."},
+ {v:"think",a:"about",o:"the future",ex:"I often think about the future.",w:"think ABOUT something."},
+ {v:"worry",a:"about",o:"the test",ex:"Don't worry about the test.",w:"worry ABOUT something."},
+ {v:"complain",a:"about",o:"the noise",ex:"He complained about the noise.",w:"complain ABOUT a problem."},
+ {v:"dream",a:"about",o:"a trip",ex:"I dreamed about a trip to Japan.",w:"dream ABOUT/OF something."},
+ {v:"depend",a:"on",o:"the weather",ex:"It depends on the weather.",w:"depend ON something."},
+ {v:"concentrate",a:"on",o:"the task",ex:"Concentrate on the task.",w:"concentrate ON something."},
+ {v:"spend money",a:"on",o:"clothes",ex:"She spends a lot of money on clothes.",w:"spend money ON something."},
+ {v:"agree",a:"with",o:"you",ex:"I agree with you.",w:"agree WITH someone."},
+ {v:"help",a:"with",o:"my homework",ex:"Can you help me with my homework?",w:"help someone WITH something."},
+ {v:"fill the glass",a:"with",o:"water",ex:"Fill the glass with water.",w:"fill something WITH something."},
+ {v:"believe",a:"in",o:"ghosts",ex:"Do you believe in ghosts?",w:"believe IN something."},
+ {v:"be interested",a:"in",o:"art",ex:"I'm interested in art.",w:"interested IN something."},
+ {v:"take part",a:"in",o:"the game",ex:"Everyone took part in the game.",w:"take part IN an activity."},
+ {v:"be afraid",a:"of",o:"spiders",ex:"She's afraid of spiders.",w:"afraid OF something."},
+ {v:"be proud",a:"of",o:"you",ex:"I'm so proud of you!",w:"proud OF someone."},
+ {v:"be tired",a:"of",o:"waiting",ex:"I'm tired of waiting.",w:"tired OF = bored with."},
+ {v:"consist",a:"of",o:"three parts",ex:"The test consists of three parts.",w:"consist OF parts."},
+ {v:"be full",a:"of",o:"people",ex:"The bus was full of people.",w:"full OF something."},
+ {v:"smile",a:"at",o:"the baby",ex:"She smiled at the baby.",w:"smile AT someone."}
 ];
 const PREPS=["for","to","at","about","on","with","in","of"];
 const MAZE=[
@@ -164,7 +195,7 @@ function resetPositions(){
   G=[Object.assign(ent(1,1,1.4,true),{col:'#7ff0ff'}),Object.assign(ent(17,11,1.2,true),{col:'#fff36a'})];
 }
 function start(){
-  q=shuffle(VERBS.slice()); i=0; lives=3; score=0; mistakes=[]; correct=0;
+  q=shuffle(VERBS.slice()).slice(0,(window.WDYM_N?WDYM_N():VERBS.length)); i=0; lives=3; score=0; mistakes=[]; correct=0;
   $('start').classList.add('hidden'); $('end').classList.add('hidden'); $('game').classList.remove('hidden'); $('hud').classList.remove('hidden');
   resize(); resetPositions(); safe=1.5; round();
 }
@@ -332,5 +363,31 @@ $('home').onclick=()=>{ state='idle'; cancelAnimationFrame(raf); clearTimeout(ti
   },5000);
 })();
 </script>
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
 </body>
 </html>

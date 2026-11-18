@@ -142,6 +142,7 @@
       <h2 class="fat" id="ruleTitle"></h2>
       <div class="rules" id="ruleBoxes"></div>
       <p class="tip" id="ruleTip"></p>
+      <div data-qcount></div>
       <div class="row" style="margin-top:16px">
         <button class="btn" id="startBtn">Start shopping →</button>
         <button class="btn alt" id="ruleBack">All stages</button>
@@ -344,6 +345,53 @@ const STAGES=[
   ],
   tip:'Read the whole sentence first. Is it positive, negative or a question? Countable or uncountable?'},
 ];
+
+/* ---------- extra vocabulary (Oxford 3000 + Cambridge Preliminary food & shopping words) ---------- */
+const NOUNS_C=[['apple','🍎'],['banana','🍌'],['orange','🍊'],['lemon','🍋'],['strawberry','🍓','strawberries'],['peach','🍑','peaches'],['pear','🍐'],['pineapple','🍍'],['melon','🍈'],['watermelon','🍉'],['cherry','🍒','cherries'],['coconut','🥥'],['avocado','🥑'],['tomato','🍅','tomatoes'],['potato','🥔','potatoes'],['carrot','🥕'],['onion','🧅'],['mushroom','🍄'],['cucumber','🥒'],['egg','🥚'],['cookie','🍪'],['cupcake','🧁'],['sandwich','🥪','sandwiches'],['burger','🍔'],['hot dog','🌭'],['taco','🌮'],['donut','🍩'],['croissant','🥐'],['bagel','🥯'],['pie','🥧'],['can of beans','🥫','cans of beans'],['bottle','🍾'],['bag','🛍️'],['basket','🧺'],['candle','🕯️'],['battery','🔋','batteries'],['sponge','🧽'],['toothbrush','🪥','toothbrushes'],['plate','🍽️'],['spoon','🥄'],['fork','🍴'],['cup','☕'],['glass','🥛','glasses'],['onion','🧅'],['chili pepper','🌶️'],['receipt','🧾'],['coin','🪙'],['cart','🛒'],['customer','🧑'],['box','📦','boxes']];
+const NOUNS_U=[['milk','🥛'],['water','💧'],['rice','🍚'],['bread','🍞'],['cheese','🧀'],['salt','🧂'],['butter','🧈'],['honey','🍯'],['coffee','☕'],['tea','🍵'],['juice','🧃'],['soup','🍲'],['pasta','🍝'],['meat','🥩'],['chicken','🍗'],['fish','🐟'],['flour','🌾'],['olive oil','🫒'],['ice','🧊'],['ice cream','🍨'],['chocolate','🍫'],['popcorn','🍿'],['lettuce','🥬'],['corn','🌽'],['garlic','🧄'],['money','💵'],['cereal','🥣'],['soda','🥤'],['broccoli','🥦'],['sugar','🥄'],['food','🍽️'],['shopping','🛍️'],['furniture','🛋️'],['information','ℹ️'],['advice','💬'],['homework','📚'],['music','🎵'],['luggage','🧳']];
+const AN=w=>/^[aeiou]/.test(w)&&!/^(eu|uni|use)/.test(w)?'an':'a';
+const PL=n=>n[2]||n[0]+'s';
+function uniq(arr,key){const seen=new Set(arr.map(key));return x=>{const k=key(x);if(seen.has(k))return false;seen.add(k);return true}}
+(function addMore(){
+  const byKey=k=>STAGES.find(s=>s.key===k);
+  const pushAll=(st,list,key)=>{if(!st)return;const ok=uniq(st.qs,key);list.filter(ok).forEach(q=>st.qs.push(q))};
+  const C=NOUNS_C.filter((n,i,a)=>a.findIndex(m=>m[0]===n[0])===i), U=NOUNS_U;
+  // 1) countable or uncountable?
+  pushAll(byKey('count'),[...C.filter(n=>!/ of |customer|receipt/.test(n[0])).map(n=>({w:n[0],e:n[1],a:'COUNT',why:`You can say <b>one ${n[0]}, two ${PL(n)}</b>.`})),
+    ...U.map(n=>({w:n[0],e:n[1],a:'NON-COUNT',why:`You can't say "two ${n[0]}s". Say <b>some ${n[0]}</b>.`}))],q=>q.w);
+  // 2) a / an / some / any
+  const S=[];
+  C.forEach(n=>{S.push({s:`We need ___ ${PL(n)}.`,e:n[1],a:'some',why:'Positive sentence + plural: <b>some</b>.'});
+    S.push({s:`Are there ___ ${PL(n)} in the cart?`,e:n[1],a:'any',why:'Question: <b>any</b>.'});
+    S.push({s:`I'd like ___ ${n[0]}, please.`,e:n[1],a:AN(n[0]),why:`One thing: <b>${AN(n[0])}</b> ${n[0]}${AN(n[0])==='an'?' (vowel sound)':''}.`})});
+  U.forEach(n=>{S.push({s:`There isn't ___ ${n[0]} at home.`,e:n[1],a:'any',why:'Negative sentence: <b>any</b>.'});
+    S.push({s:`Let's buy ___ ${n[0]}.`,e:n[1],a:'some',why:`Positive sentence + uncountable: <b>some</b>.`});
+    S.push({s:`Do we have ___ ${n[0]}?`,e:n[1],a:'any',why:'Question: <b>any</b>.'})});
+  pushAll(byKey('some'),S,q=>q.s);
+  // 3) much / many / a lot of
+  const M=[];
+  C.forEach(n=>{M.push({s:`How ___ ${PL(n)} do we need?`,e:n[1],a:'many',opts:['much','many'],why:`<b>${PL(n)}</b> are countable: How <b>many</b>?`});
+    M.push({s:`There aren't ___ ${PL(n)} left.`,e:n[1],a:'many',opts:['much','many'],why:'Negative + countable: <b>many</b>.'});
+    M.push({s:`We bought ___ ${PL(n)}.`,e:n[1],a:'a lot of',why:'Positive sentence: <b>a lot of</b> sounds natural.'})});
+  U.forEach(n=>{M.push({s:`How ___ ${n[0]} do we have?`,e:n[1],a:'much',opts:['much','many'],why:`<b>${n[0]}</b> is uncountable: How <b>much</b>?`});
+    M.push({s:`There isn't ___ ${n[0]} left.`,e:n[1],a:'much',opts:['much','many'],why:'Negative + uncountable: <b>much</b>.'});
+    M.push({s:`My family eats ___ ${n[0]}.`.replace('eats ___ money','has ___ money').replace('eats ___ homework','has ___ homework').replace('eats ___ music','listens to ___ music').replace('eats ___ advice','gives ___ advice').replace('eats ___ information','needs ___ information').replace('eats ___ furniture','has ___ furniture').replace('eats ___ luggage','takes ___ luggage').replace('eats ___ shopping','does ___ shopping').replace('eats ___ water','drinks ___ water').replace('eats ___ milk','drinks ___ milk').replace('eats ___ coffee','drinks ___ coffee').replace('eats ___ tea','drinks ___ tea').replace('eats ___ juice','drinks ___ juice').replace('eats ___ soda','drinks ___ soda').replace('eats ___ olive oil','uses ___ olive oil').replace('eats ___ ice','uses ___ ice').replace('eats ___ salt','uses ___ salt').replace('eats ___ flour','uses ___ flour').replace('eats ___ garlic','uses ___ garlic'),e:n[1],a:'a lot of',why:'Positive sentence: <b>a lot of</b>.'})});
+  pushAll(byKey('much'),M,q=>q.s);
+  // 4) a few / a little
+  const F=[];
+  C.forEach(n=>F.push({s:`I need ___ ${PL(n)}.`,e:n[1],a:'a few',why:`<b>${PL(n)}</b> are countable: <b>a few</b>.`}));
+  U.forEach(n=>F.push({s:`Can I have ___ ${n[0]}?`,e:n[1],a:'a little',why:`<b>${n[0]}</b> is uncountable: <b>a little</b>.`}));
+  pushAll(byKey('few'),F.filter(q=>!/homework|furniture|luggage|shopping|information/.test(q.s)),q=>q.s);
+  // 5) too much / too many / not enough
+  const T=[];
+  C.filter(n=>!/ of |receipt|customer|cart/.test(n[0])).forEach(n=>{const k=2+Math.floor(Math.random()*3);
+    T.push({s:`There are ___ ${PL(n)} for the recipe.`,scene:[{note:`Recipe: ${k} ${PL(n)}`},[n[1],k+6]],e:n[1],a:'too many',why:`You need ${k} and have ${k+6}: <b>too many</b> (${PL(n)} are countable).`});
+    T.push({s:`We have ___ ${PL(n)} for the recipe.`,scene:[{note:`Recipe: ${k+3} ${PL(n)}`},[n[1],1]],e:n[1],a:'not enough',why:`You need ${k+3} and have 1: <b>not enough</b>.`})});
+  U.filter(n=>!/money|advice|information|homework|music|luggage|shopping|furniture|food/.test(n[0])).forEach(n=>{
+    T.push({s:`There's ___ ${n[0]} in this recipe!`,scene:[{note:'Recipe: a little'},[n[1],9]],e:n[1],a:'too much',why:`More than you need + <b>${n[0]}</b> is uncountable: <b>too much</b>.`});
+    T.push({s:`There's ___ ${n[0]} for everyone.`,scene:[[n[1],1],'for',['🧑',6]],e:n[1],a:'not enough',why:`One for six people: <b>not enough</b> ${n[0]}.`})});
+  pushAll(byKey('too'),T,q=>q.s);
+})();
 // build mixed pool
 STAGES[5].qs=[];
 STAGES.slice(0,5).forEach(st=>st.qs.forEach(q=>STAGES[5].qs.push(Object.assign({},q,{_opts:q.opts||st.opts,_kind:st.key,_hint:st.optHint}))));
@@ -386,7 +434,7 @@ function openRule(i){
 let game=null, autoT=null, tickT=null;
 function startStage(i){
   const st=STAGES[i];
-  game={si:i,st,qs:shuffle(st.qs).slice(0,PER),n:0,score:0,wrong:[],over:false,locked:false};
+  game={si:i,st,qs:shuffle(st.qs).slice(0,(window.WDYM_N?WDYM_N():PER)),n:0,score:0,wrong:[],over:false,locked:false};
   $('cart').innerHTML='';
   $('timer').classList.toggle('hidden',!st.timed);$('hudRule').classList.toggle('hidden',!!st.timed);
   show('game');ask();
@@ -497,5 +545,31 @@ renderMenu();
   },5000);
 })();
 </script>
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
 </body>
 </html>

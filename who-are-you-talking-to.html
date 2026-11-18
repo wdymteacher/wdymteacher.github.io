@@ -160,7 +160,8 @@
     <p>Pick a scene. Read each sentence and decide who you would say it to:</p>
     <p class="opts"><b>♡ the person on the left</b><b>♛ the person on the right</b><b>✦ both</b></p>
     <p>Too formal or too casual with someone? You lose points with them!</p>
-    <div class="levels" id="levels"></div>
+    <div data-qcount style="margin:4px 0 8px"></div>
+<div class="levels" id="levels"></div>
   </section>
 
   <!-- GAME -->
@@ -894,7 +895,7 @@ function showMenu(){
 function start(k){
   if(typeof k==='number') S=SCENES[k];
   clearTimeout(timer); timer=null;
-  q=shuffle(S.items.slice()); i=0; correct=0; mistakes=[];
+  q=shuffle(S.items.slice()).slice(0,(window.WDYM_N?WDYM_N():999)); i=0; correct=0; mistakes=[];
   document.querySelectorAll('.delta').forEach(d=>d.remove());
   score={L:S.L.start,R:S.R.start};
   document.documentElement.style.setProperty('--cL',S.L.color);
@@ -1015,5 +1016,31 @@ buildMenu();
   },5000);
 })();
 </script>
+<style>
+.wq{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font:600 .9rem/1.2 'DM Sans',system-ui,sans-serif;color:#1f2a5c;margin:8px 0}
+.wq b{font-weight:700}
+.wq button{font:800 .92rem 'DM Sans',system-ui,sans-serif;min-width:40px;border:2px solid #1f2a5c;border-radius:999px;padding:3px 10px;background:#fffdf9;color:#1f2a5c;cursor:pointer;box-shadow:2px 2px 0 #1f2a5c}
+.wq button.on{background:#fbf06a}
+.wq button:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #1f2a5c}
+</style>
+<script>
+/* wdym: let students choose how many questions (5 / 10 / 15). Add <span data-qcount></span> anywhere; read WDYM_N(). */
+(function(){
+  var KEY='wdym-qcount';
+  function get(){var v=10;try{v=parseInt(localStorage.getItem(KEY),10)||10}catch(e){}return [5,10,15].indexOf(v)<0?10:v}
+  window.WDYM_N=get;
+  window.WDYM_TAKE=function(arr){var n=get();return arr.slice(0,Math.min(n,arr.length))};
+  function render(el){
+    var n=get();
+    el.innerHTML='<span class="wq"><b>How many questions?</b> '+[5,10,15].map(function(k){return '<button type="button" data-n="'+k+'" class="'+(k===n?'on':'')+'" aria-pressed="'+(k===n)+'">'+k+'</button>'}).join('')+'</span>';
+    el.querySelectorAll('button').forEach(function(b){b.onclick=function(e){e.stopPropagation();try{localStorage.setItem(KEY,b.dataset.n)}catch(_){}document.querySelectorAll('[data-qcount]').forEach(render);}});
+    el.dataset.qdone='1';
+  }
+  function scan(){document.querySelectorAll('[data-qcount]:not([data-qdone])').forEach(render)}
+  if(document.readyState!=='loading')scan();else document.addEventListener('DOMContentLoaded',scan);
+  try{new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}
+})();
+</script>
+
 </body>
 </html>
