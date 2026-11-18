@@ -188,6 +188,12 @@
   .gbtns{display:flex;gap:8px;flex-wrap:wrap}
   .gbtn{font:inherit;font-weight:700;font-size:.92rem;background:var(--yellow);border:2px solid var(--navy);border-radius:999px;padding:6px 16px;box-shadow:3px 3px 0 var(--navy);cursor:pointer;color:var(--navy)}
   .gbtn.ghost{background:var(--white)}
+  .gmini{display:none;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;font-size:1.05rem}
+  .gmini .lv{font-family:'Fraunces',serif;font-weight:900;font-size:1.4rem}
+  .guide.mini{padding:16px 22px}
+  .guide.mini .lead,.guide.mini .steps,.guide.mini .result{display:none}
+  .guide.mini .gmini{display:flex}
+  .guide.mini h2{font-size:clamp(1.2rem,3.4vw,1.5rem)}
   .card.pick{outline:4px solid var(--yellow);outline-offset:3px}
   .card .startsticker{position:absolute;left:10px;top:10px;background:var(--yellow);border:2px solid var(--navy);border-radius:999px;font-weight:700;font-size:.72rem;padding:2px 10px;color:var(--navy);font-family:'DM Sans',sans-serif}
   .hidden{display:none!important}
@@ -256,6 +262,7 @@
     <div class="result" id="gresult">
       <p>Tap the sentences that are true for you. Your starting point will appear here. 👆</p>
     </div>
+    <div class="gmini" id="gmini"></div>
   </section>
 
   <div class="sectionhead">
@@ -503,16 +510,18 @@ document.querySelectorAll('.wo').forEach(b=>b.addEventListener('click',()=>{
     res.innerHTML='<p>'+note+'Your level is around <span class="lv">'+lv+'</span></p>'+
       '<p>'+TIP[lv]+' Start here:</p><ol>'+picks.map(h=>'<li><a href="'+h+'">'+title(h)+'</a></li>').join('')+'</ol>'+
       '<p style="font-size:.85rem;color:var(--muted)">Too easy? Try the next level. Too hard? Go back one. 😉</p>'+
-      '<div class="gbtns"><button class="gbtn" id="gshow">Show my games</button><button class="gbtn ghost" id="greset">Start again</button></div>';
+      '<div class="gbtns"><button class="gbtn" id="gok">Got it! ✓</button><button class="gbtn" id="gshow">Show my games</button><button class="gbtn ghost" id="greset">Start again</button></div>';
+    document.getElementById('gok').onclick=()=>collapse(true,lv);
     document.getElementById('gshow').onclick=()=>{
       const f=document.querySelector('.filter[data-l="'+lv+'"]'); if(f) f.click();
       clearPicks();
       picks.forEach(h=>{const c=document.querySelector('.card[href="'+h+'"]'); if(!c) return; c.classList.add('pick');
         const a=c.querySelector('.art'); if(a){const s=document.createElement('span');s.className='startsticker';s.textContent='★ start here';a.appendChild(s)}});
+      collapse(false,lv);
       document.getElementById('study').scrollIntoView({behavior:'smooth',block:'start'});
     };
     document.getElementById('greset').onclick=()=>{
-      saved={}; try{localStorage.removeItem('wdym-level')}catch(e){}
+      saved={}; try{localStorage.removeItem('wdym-level');localStorage.removeItem('wdym-level-ok')}catch(e){}
       wrap.querySelectorAll('.can').forEach(b=>b.setAttribute('aria-pressed','false'));
       clearPicks(); const f=document.querySelector('.filter[data-l="all"]'); if(f) f.click(); render();
     };
@@ -523,7 +532,16 @@ document.querySelectorAll('.wo').forEach(b=>b.addEventListener('click',()=>{
     saved[b.dataset.k]=on; try{localStorage.setItem('wdym-level',JSON.stringify(saved))}catch(e){}
     render();
   });
+  /* after the student confirms, the guide folds into one small line */
+  const guide=document.getElementById('guide'),mini=document.getElementById('gmini');
+  function collapse(scroll,lv){try{localStorage.setItem('wdym-level-ok','1')}catch(e){}
+    mini.innerHTML='<span>Your level: <span class="lv">'+lv+'</span></span><button class="gbtn" id="mshow">Show my games</button><button class="gbtn ghost" id="mchange">Change my level</button>';
+    guide.classList.add('mini');
+    document.getElementById('mshow').onclick=()=>{render();document.getElementById('gshow').click()};
+    document.getElementById('mchange').onclick=()=>{try{localStorage.removeItem('wdym-level-ok')}catch(e){}guide.classList.remove('mini');render();guide.scrollIntoView({behavior:'smooth',block:'start'})};
+    if(scroll)guide.scrollIntoView({behavior:'smooth',block:'start'})}
   render();
+  try{if(localStorage.getItem('wdym-level-ok')==='1'&&Object.values(saved).some(Boolean))collapse(false,level()||'A1')}catch(e){}
 })();
 
 /* TODAY'S MISSIONS + GAME OF THE DAY */
