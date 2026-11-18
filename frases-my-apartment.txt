@@ -1,0 +1,202 @@
+MY APARTMENT — KITCHEN
+Frases faladas nos jogos, prontas pra colar no ElevenLabs.
+Cole cada bloco de uma vez (só as frases, sem o título). Uma frase por linha.
+
+
+===== ÁUDIO 1 — Palavras soltas (todos os jogos da cozinha) (51 frases) =====
+
+Fridge.
+Stove.
+Oven.
+Sink.
+Faucet.
+Dishwasher.
+Microwave.
+Toaster.
+Kettle.
+Cabinet.
+Drawer.
+Counter.
+Table.
+Chair.
+Window.
+Trash can.
+Floor.
+Clock.
+Fork.
+Knife.
+Spoon.
+Chopsticks.
+Spatula.
+Ladle.
+Whisk.
+Tongs.
+Peeler.
+Rolling pin.
+Measuring cup.
+Grater.
+Oven mitt.
+Dish towel.
+Aluminum foil.
+Plastic wrap.
+Sponge.
+Plate.
+Bowl.
+Mug.
+Glass.
+Pot.
+Frying pan.
+Cutting board.
+Colander.
+Milk.
+Eggs.
+Cheese.
+Juice.
+Butter.
+Tomato.
+Broom.
+Mop.
+
+
+===== ÁUDIO 2 — Jogo 1: Kitchen furniture (perguntas) (18 frases) =====
+
+Where's the fridge?
+Where's the stove?
+Where's the oven?
+Where's the sink?
+Where's the faucet?
+Where's the dishwasher?
+Where's the microwave?
+Where's the toaster?
+Where's the kettle?
+Find a cabinet.
+Find a drawer.
+Where's the counter?
+Where's the table?
+Find a chair.
+Where's the window?
+Where's the trash can?
+Where's the floor?
+Where's the clock?
+
+
+===== ÁUDIO 3 — Jogo 2: In the drawers (pedidos) (75 frases) =====
+
+Can you pass me the fork, please?
+I need the fork. Where is it?
+Can you get me the fork, please?
+Can you pass me the knife, please?
+I need the knife. Where is it?
+Can you get me the knife, please?
+Can you pass me the spoon, please?
+I need the spoon. Where is it?
+Can you get me the spoon, please?
+Can you pass me the chopsticks, please?
+I need the chopsticks. Where is it?
+Can you get me the chopsticks, please?
+Can you pass me the spatula, please?
+I need the spatula. Where is it?
+Can you get me the spatula, please?
+Can you pass me the ladle, please?
+I need the ladle. Where is it?
+Can you get me the ladle, please?
+Can you pass me the whisk, please?
+I need the whisk. Where is it?
+Can you get me the whisk, please?
+Can you pass me the tongs, please?
+I need the tongs. Where is it?
+Can you get me the tongs, please?
+Can you pass me the peeler, please?
+I need the peeler. Where is it?
+Can you get me the peeler, please?
+Can you pass me the rolling pin, please?
+I need the rolling pin. Where is it?
+Can you get me the rolling pin, please?
+Can you pass me the measuring cup, please?
+I need the measuring cup. Where is it?
+Can you get me the measuring cup, please?
+Can you pass me the grater, please?
+I need the grater. Where is it?
+Can you get me the grater, please?
+Can you pass me the oven mitt, please?
+I need the oven mitt. Where is it?
+Can you get me the oven mitt, please?
+Can you pass me the dish towel, please?
+I need the dish towel. Where is it?
+Can you get me the dish towel, please?
+Can you pass me the aluminum foil, please?
+I need the aluminum foil. Where is it?
+Can you get me the aluminum foil, please?
+Can you pass me the plastic wrap, please?
+I need the plastic wrap. Where is it?
+Can you get me the plastic wrap, please?
+Can you pass me the sponge, please?
+I need the sponge. Where is it?
+Can you get me the sponge, please?
+Can you pass me the plate, please?
+I need the plate. Where is it?
+Can you get me the plate, please?
+Can you pass me the bowl, please?
+I need the bowl. Where is it?
+Can you get me the bowl, please?
+Can you pass me the mug, please?
+I need the mug. Where is it?
+Can you get me the mug, please?
+Can you pass me the glass, please?
+I need the glass. Where is it?
+Can you get me the glass, please?
+Can you pass me the pot, please?
+I need the pot. Where is it?
+Can you get me the pot, please?
+Can you pass me the frying pan, please?
+I need the frying pan. Where is it?
+Can you get me the frying pan, please?
+Can you pass me the cutting board, please?
+I need the cutting board. Where is it?
+Can you get me the cutting board, please?
+Can you pass me the colander, please?
+I need the colander. Where is it?
+Can you get me the colander, please?
+
+
+===== ÁUDIO 4 — Jogo 3: Kitchen chores (ações e situações) (18 frases) =====
+
+Sweep the floor.
+Mop the floor.
+Wipe the counter.
+Do the dishes.
+Load the dishwasher.
+Take out the trash.
+Set the table.
+Clear the table.
+Put away the groceries.
+There are crumbs all over the floor.
+Someone spilled juice on the floor. It's sticky!
+There's coffee all over the counter.
+The sink is full of dirty dishes, and the dishwasher is broken!
+There are dirty plates on the counter. The dishwasher is open and empty.
+The trash can is full, and it smells!
+Dinner is ready, but the table is empty.
+Dinner is over. There are dirty plates on the table.
+You just got back from the supermarket. The bags are on the counter.
+
+
+===== ÁUDIO 5 — Jogo 4: Follow the instructions (16 frases) =====
+
+Open the fridge and take out the milk.
+Open the first drawer and get a spoon.
+Open the second drawer and get the whisk.
+Open the third drawer and get the oven mitt. Then open the oven.
+Mop the floor.
+Sweep the floor.
+Wipe the counter.
+Open the cabinet, take out a plate and put it on the table.
+Turn on the faucet. Then turn it off.
+Take out the trash.
+Get a glass from the cabinet and the juice from the fridge.
+Take the eggs out of the fridge. Then get the frying pan from the cabinet.
+Open the first drawer and get a knife. Then take out the cheese.
+Great job!
+On.
+Off.
+

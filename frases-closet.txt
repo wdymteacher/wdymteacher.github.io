@@ -1,0 +1,463 @@
+THE CLOSET — frases faladas
+Cole cada bloco de uma vez no ElevenLabs (só as frases, sem o título). Uma frase por linha.
+
+
+===== ÁUDIO 1 — Nomes das roupas (94 frases) =====
+
+Light blue straight jeans.
+Black cropped flare jeans.
+Gray polka dot jeans.
+Black ripped denim shorts.
+White ripped denim shorts.
+Blue gingham pajama pants.
+Black mini slip dress.
+Black one-shoulder midi dress.
+Cream bomber jacket.
+Blue cardigan.
+Pink zip-up jacket.
+Black leather jacket.
+Black windbreaker.
+Navy faux fur jacket.
+Blue gingham pajama shirt.
+Red bow slides.
+Black clogs with charms.
+Lilac clogs with wings.
+Navy slippers with red bows.
+Black platform boots.
+Black sneakers.
+Cream sneakers.
+Black heeled sandals with bows.
+Purple cap.
+Olive green cap.
+Cream "i love girls" knit top.
+Black polka dot knit top.
+Black ribbed halter top.
+Black lace top.
+Peach satin top with lace.
+Plain white T-shirt.
+Black rainbow T-shirt.
+Cream T-shirt with bow and wings.
+Black "I'm gayer than I look" crop top.
+Black "I love me" rhinestone top.
+White "a little bit dramatic" top.
+White "I love me" top.
+Leopard print top.
+Black long-sleeve crop top.
+Navy knit vest.
+Black lace bodysuit.
+White cowl neck top.
+Black ruched cami.
+Brown linen top with ties.
+Pink striped T-shirt.
+White ruched top.
+Long black T-shirt.
+Black ruched cardigan.
+Brown skort with pink polka dots.
+Brown bubble shorts.
+Cream ruffle skort.
+Denim mini skirt with rhinestones.
+Black satin slip dress with lace.
+Black lace long-sleeve dress.
+Cream polka dot halter top.
+Gold metallic mini skirt.
+Silver sequin midi skirt.
+Blue plaid midi skirt.
+Black jersey midi skirt.
+Black wrap mini skirt.
+Black pleated mini skirt.
+White skort with pockets.
+White tennis skirt.
+Lilac mini skirt.
+Leopard sequin shorts.
+Black ribbed shorts.
+Black flare leggings.
+Pink striped pajama shorts.
+Pink striped pajama shirt.
+Black bra top.
+White tube top.
+Black ribbed bodysuit.
+Lilac cami with ties.
+Cream mini dress with tie straps.
+Navy nightgown with lace.
+Mustard socks with stripes.
+Fuzzy leopard gloves.
+Small black leather bag.
+Leopard shoulder bag.
+Silver tote with patches.
+Cream canvas tote with clear pockets.
+Cream canvas tote bag.
+Fluffy sleep mask.
+White ruffle socks.
+Pink striped socks.
+Rainbow knee socks.
+Red heart socks.
+Silver glitter socks.
+Gold glitter socks.
+Black polka dot sheer socks.
+Leopard socks.
+Green argyle socks.
+Lilac fluffy socks.
+Black chelsea boots.
+
+===== ÁUDIO 2 — Pedidos (I'd like to wear…) (90 frases) =====
+
+I'd like to wear the light blue straight jeans.
+I'd like to wear the black cropped flare jeans.
+I'd like to wear the gray polka dot jeans.
+I'd like to wear the black ripped denim shorts.
+I'd like to wear the white ripped denim shorts.
+I'd like to wear the blue gingham pajama pants.
+I'd like to wear the black mini slip dress.
+I'd like to wear the black one-shoulder midi dress.
+I'd like to wear the cream bomber jacket.
+I'd like to wear the blue cardigan.
+I'd like to wear the pink zip-up jacket.
+I'd like to wear the black leather jacket.
+I'd like to wear the black windbreaker.
+I'd like to wear the navy faux fur jacket.
+I'd like to wear the blue gingham pajama shirt.
+I'd like to wear the red bow slides.
+I'd like to wear the black clogs with charms.
+I'd like to wear the lilac clogs with wings.
+I'd like to wear the navy slippers with red bows.
+I'd like to wear the black platform boots.
+I'd like to wear the black sneakers.
+I'd like to wear the cream sneakers.
+I'd like to wear the black heeled sandals with bows.
+I'd like to wear the cream "i love girls" knit top.
+I'd like to wear the black polka dot knit top.
+I'd like to wear the black ribbed halter top.
+I'd like to wear the black lace top.
+I'd like to wear the peach satin top with lace.
+I'd like to wear the plain white T-shirt.
+I'd like to wear the black rainbow T-shirt.
+I'd like to wear the cream T-shirt with bow and wings.
+I'd like to wear the black "I'm gayer than I look" crop top.
+I'd like to wear the black "I love me" rhinestone top.
+I'd like to wear the white "a little bit dramatic" top.
+I'd like to wear the white "I love me" top.
+I'd like to wear the leopard print top.
+I'd like to wear the black long-sleeve crop top.
+I'd like to wear the navy knit vest.
+I'd like to wear the black lace bodysuit.
+I'd like to wear the white cowl neck top.
+I'd like to wear the black ruched cami.
+I'd like to wear the brown linen top with ties.
+I'd like to wear the pink striped T-shirt.
+I'd like to wear the white ruched top.
+I'd like to wear the long black T-shirt.
+I'd like to wear the black ruched cardigan.
+I'd like to wear the brown skort with pink polka dots.
+I'd like to wear the brown bubble shorts.
+I'd like to wear the cream ruffle skort.
+I'd like to wear the denim mini skirt with rhinestones.
+I'd like to wear the black satin slip dress with lace.
+I'd like to wear the black lace long-sleeve dress.
+I'd like to wear the cream polka dot halter top.
+I'd like to wear the gold metallic mini skirt.
+I'd like to wear the silver sequin midi skirt.
+I'd like to wear the blue plaid midi skirt.
+I'd like to wear the black jersey midi skirt.
+I'd like to wear the black wrap mini skirt.
+I'd like to wear the black pleated mini skirt.
+I'd like to wear the white skort with pockets.
+I'd like to wear the white tennis skirt.
+I'd like to wear the lilac mini skirt.
+I'd like to wear the leopard sequin shorts.
+I'd like to wear the black ribbed shorts.
+I'd like to wear the black flare leggings.
+I'd like to wear the pink striped pajama shorts.
+I'd like to wear the pink striped pajama shirt.
+I'd like to wear the black bra top.
+I'd like to wear the white tube top.
+I'd like to wear the black ribbed bodysuit.
+I'd like to wear the lilac cami with ties.
+I'd like to wear the cream mini dress with tie straps.
+I'd like to wear the navy nightgown with lace.
+I'd like to wear the mustard socks with stripes.
+I'd like to take the small black leather bag.
+I'd like to take the leopard shoulder bag.
+I'd like to take the silver tote with patches.
+I'd like to take the cream canvas tote with clear pockets.
+I'd like to take the cream canvas tote bag.
+I'd like to wear the white ruffle socks.
+I'd like to wear the pink striped socks.
+I'd like to wear the rainbow knee socks.
+I'd like to wear the red heart socks.
+I'd like to wear the silver glitter socks.
+I'd like to wear the gold glitter socks.
+I'd like to wear the black polka dot sheer socks.
+I'd like to wear the leopard socks.
+I'd like to wear the green argyle socks.
+I'd like to wear the lilac fluffy socks.
+I'd like to wear the black chelsea boots.
+
+===== ÁUDIO 3 — Quase acertou (Not this one…) (90 frases) =====
+
+Not this one… the light blue straight jeans!
+Not this one… the black cropped flare jeans!
+Not this one… the gray polka dot jeans!
+Not this one… the black ripped denim shorts!
+Not this one… the white ripped denim shorts!
+Not this one… the blue gingham pajama pants!
+Not this one… the black mini slip dress!
+Not this one… the black one-shoulder midi dress!
+Not this one… the cream bomber jacket!
+Not this one… the blue cardigan!
+Not this one… the pink zip-up jacket!
+Not this one… the black leather jacket!
+Not this one… the black windbreaker!
+Not this one… the navy faux fur jacket!
+Not this one… the blue gingham pajama shirt!
+Not this one… the red bow slides!
+Not this one… the black clogs with charms!
+Not this one… the lilac clogs with wings!
+Not this one… the navy slippers with red bows!
+Not this one… the black platform boots!
+Not this one… the black sneakers!
+Not this one… the cream sneakers!
+Not this one… the black heeled sandals with bows!
+Not this one… the cream "i love girls" knit top!
+Not this one… the black polka dot knit top!
+Not this one… the black ribbed halter top!
+Not this one… the black lace top!
+Not this one… the peach satin top with lace!
+Not this one… the plain white T-shirt!
+Not this one… the black rainbow T-shirt!
+Not this one… the cream T-shirt with bow and wings!
+Not this one… the black "I'm gayer than I look" crop top!
+Not this one… the black "I love me" rhinestone top!
+Not this one… the white "a little bit dramatic" top!
+Not this one… the white "I love me" top!
+Not this one… the leopard print top!
+Not this one… the black long-sleeve crop top!
+Not this one… the navy knit vest!
+Not this one… the black lace bodysuit!
+Not this one… the white cowl neck top!
+Not this one… the black ruched cami!
+Not this one… the brown linen top with ties!
+Not this one… the pink striped T-shirt!
+Not this one… the white ruched top!
+Not this one… the long black T-shirt!
+Not this one… the black ruched cardigan!
+Not this one… the brown skort with pink polka dots!
+Not this one… the brown bubble shorts!
+Not this one… the cream ruffle skort!
+Not this one… the denim mini skirt with rhinestones!
+Not this one… the black satin slip dress with lace!
+Not this one… the black lace long-sleeve dress!
+Not this one… the cream polka dot halter top!
+Not this one… the gold metallic mini skirt!
+Not this one… the silver sequin midi skirt!
+Not this one… the blue plaid midi skirt!
+Not this one… the black jersey midi skirt!
+Not this one… the black wrap mini skirt!
+Not this one… the black pleated mini skirt!
+Not this one… the white skort with pockets!
+Not this one… the white tennis skirt!
+Not this one… the lilac mini skirt!
+Not this one… the leopard sequin shorts!
+Not this one… the black ribbed shorts!
+Not this one… the black flare leggings!
+Not this one… the pink striped pajama shorts!
+Not this one… the pink striped pajama shirt!
+Not this one… the black bra top!
+Not this one… the white tube top!
+Not this one… the black ribbed bodysuit!
+Not this one… the lilac cami with ties!
+Not this one… the cream mini dress with tie straps!
+Not this one… the navy nightgown with lace!
+Not this one… the mustard socks with stripes!
+Not this one… the small black leather bag!
+Not this one… the leopard shoulder bag!
+Not this one… the silver tote with patches!
+Not this one… the cream canvas tote with clear pockets!
+Not this one… the cream canvas tote bag!
+Not this one… the white ruffle socks!
+Not this one… the pink striped socks!
+Not this one… the rainbow knee socks!
+Not this one… the red heart socks!
+Not this one… the silver glitter socks!
+Not this one… the gold glitter socks!
+Not this one… the black polka dot sheer socks!
+Not this one… the leopard socks!
+Not this one… the green argyle socks!
+Not this one… the lilac fluffy socks!
+Not this one… the black chelsea boots!
+
+===== ÁUDIO 4 — Errou (No, no! I want…) (90 frases) =====
+
+No, no! I want the light blue straight jeans.
+No, no! I want the black cropped flare jeans.
+No, no! I want the gray polka dot jeans.
+No, no! I want the black ripped denim shorts.
+No, no! I want the white ripped denim shorts.
+No, no! I want the blue gingham pajama pants.
+No, no! I want the black mini slip dress.
+No, no! I want the black one-shoulder midi dress.
+No, no! I want the cream bomber jacket.
+No, no! I want the blue cardigan.
+No, no! I want the pink zip-up jacket.
+No, no! I want the black leather jacket.
+No, no! I want the black windbreaker.
+No, no! I want the navy faux fur jacket.
+No, no! I want the blue gingham pajama shirt.
+No, no! I want the red bow slides.
+No, no! I want the black clogs with charms.
+No, no! I want the lilac clogs with wings.
+No, no! I want the navy slippers with red bows.
+No, no! I want the black platform boots.
+No, no! I want the black sneakers.
+No, no! I want the cream sneakers.
+No, no! I want the black heeled sandals with bows.
+No, no! I want the cream "i love girls" knit top.
+No, no! I want the black polka dot knit top.
+No, no! I want the black ribbed halter top.
+No, no! I want the black lace top.
+No, no! I want the peach satin top with lace.
+No, no! I want the plain white T-shirt.
+No, no! I want the black rainbow T-shirt.
+No, no! I want the cream T-shirt with bow and wings.
+No, no! I want the black "I'm gayer than I look" crop top.
+No, no! I want the black "I love me" rhinestone top.
+No, no! I want the white "a little bit dramatic" top.
+No, no! I want the white "I love me" top.
+No, no! I want the leopard print top.
+No, no! I want the black long-sleeve crop top.
+No, no! I want the navy knit vest.
+No, no! I want the black lace bodysuit.
+No, no! I want the white cowl neck top.
+No, no! I want the black ruched cami.
+No, no! I want the brown linen top with ties.
+No, no! I want the pink striped T-shirt.
+No, no! I want the white ruched top.
+No, no! I want the long black T-shirt.
+No, no! I want the black ruched cardigan.
+No, no! I want the brown skort with pink polka dots.
+No, no! I want the brown bubble shorts.
+No, no! I want the cream ruffle skort.
+No, no! I want the denim mini skirt with rhinestones.
+No, no! I want the black satin slip dress with lace.
+No, no! I want the black lace long-sleeve dress.
+No, no! I want the cream polka dot halter top.
+No, no! I want the gold metallic mini skirt.
+No, no! I want the silver sequin midi skirt.
+No, no! I want the blue plaid midi skirt.
+No, no! I want the black jersey midi skirt.
+No, no! I want the black wrap mini skirt.
+No, no! I want the black pleated mini skirt.
+No, no! I want the white skort with pockets.
+No, no! I want the white tennis skirt.
+No, no! I want the lilac mini skirt.
+No, no! I want the leopard sequin shorts.
+No, no! I want the black ribbed shorts.
+No, no! I want the black flare leggings.
+No, no! I want the pink striped pajama shorts.
+No, no! I want the pink striped pajama shirt.
+No, no! I want the black bra top.
+No, no! I want the white tube top.
+No, no! I want the black ribbed bodysuit.
+No, no! I want the lilac cami with ties.
+No, no! I want the cream mini dress with tie straps.
+No, no! I want the navy nightgown with lace.
+No, no! I want the mustard socks with stripes.
+No, no! I want the small black leather bag.
+No, no! I want the leopard shoulder bag.
+No, no! I want the silver tote with patches.
+No, no! I want the cream canvas tote with clear pockets.
+No, no! I want the cream canvas tote bag.
+No, no! I want the white ruffle socks.
+No, no! I want the pink striped socks.
+No, no! I want the rainbow knee socks.
+No, no! I want the red heart socks.
+No, no! I want the silver glitter socks.
+No, no! I want the gold glitter socks.
+No, no! I want the black polka dot sheer socks.
+No, no! I want the leopard socks.
+No, no! I want the green argyle socks.
+No, no! I want the lilac fluffy socks.
+No, no! I want the black chelsea boots.
+
+===== ÁUDIO 5 — Ocasião e clima (8 frases) =====
+
+I'm going to a party tonight, and it's freezing outside!
+Party time! It's a hot summer night.
+I'm going to bed. It's a cold night.
+Time for bed! It's really hot tonight.
+I'm going for a walk in the park. It's warm and sunny.
+I'm going to class. It's cold and rainy.
+I'm going shopping, and it's freezing today!
+I'm meeting my friends for lunch. It's so hot!
+
+===== ÁUDIO 6 — Reações e frases fixas (22 frases) =====
+
+I love it!
+Perfect, thank you!
+Yes! That's the one!
+Nailed it!
+I love this outfit!
+Perfect for today!
+You nailed it!
+Perfect! I love it!
+Nice job! Thank you!
+Thanks… let's practice again!
+Let's learn some fabrics! Tap to listen.
+Shoes in bed? No way!
+I need some clothes!
+I need shoes!
+I'm not finished! I need a top and pants or a skirt, or a dress.
+I need something to sleep in, like pajamas or a nightgown.
+I don't need a jacket, a bag or a cap in bed!
+Pajamas at a party? Hmm…
+I can't go out in my pajamas!
+It's a party! I want something fancy: sparkly, satin, lace, leather…
+Brrr! I'm freezing! I need something warmer.
+Phew, I'm so hot! This is too warm.
+
+===== ÁUDIO 7 — Tecidos (20 frases) =====
+
+Denim.
+Knit.
+Lace.
+Cotton.
+Leather.
+Satin.
+Silk.
+Velvet.
+Wool.
+Linen.
+Find the denim.
+Find the knit.
+Find the lace.
+Find the cotton.
+Find the leather.
+Find the satin.
+Find the silk.
+Find the velvet.
+Find the wool.
+Find the linen.
+
+===== ÁUDIO 8 — Verbos (frases completas) (22 frases) =====
+
+She's wearing a black leather jacket today.
+It's cold! Put on your coat before you go out.
+It's so hot in here. I'm going to take off my sweater.
+Wait for me! I need ten minutes to get dressed.
+Every morning, she dresses her little brother and takes him to school.
+I spilled coffee on my shirt. I need to get changed.
+Can I try on these boots? I'm not sure they're my size.
+It's a costume party! Let's dress up as vampires.
+This skirt doesn't fit me. It's too big.
+That color really suits you! You look amazing.
+My bag matches my shoes. They're both leopard print!
+It's freezing! Zip up your jacket!
+I always dress in black. It's my style!
+She took off her shoes and walked on the beach.
+What are you wearing to the party tonight?
+He put on his pajamas and went to bed.
+These boots don't fit. They're too small.
+The jeans fit perfectly. Not too big, not too small!
+Red doesn't suit me. I look so pale!
+Short hair really suits her! She looks great.
+This jacket is too big. Can I try a smaller size? I want it to fit better.
+The size is right, but the color doesn't suit me.

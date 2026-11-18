@@ -1,0 +1,128 @@
+Fish.
+Meat.
+Pasta.
+Rice.
+Yogurt.
+Vegetables.
+Potatoes.
+Salad.
+Fruit.
+Bread.
+Sugar.
+A sandwich.
+Cereal.
+Chocolate.
+Coffee.
+Tea.
+Water.
+Orange juice.
+Breakfast.
+Lunch.
+Dinner.
+Have breakfast.
+Have lunch.
+Have dinner.
+Eat.
+Drink.
+Jam.
+Toast.
+Herbs.
+Chicken.
+Sausages.
+Steak.
+Olive oil.
+Seafood.
+Spices.
+Carrots.
+French fries.
+Lettuce.
+Mushrooms.
+Onions.
+Peas.
+Peppers.
+Tomatoes.
+Apples.
+Bananas.
+A pineapple.
+Strawberries.
+Cake.
+Fruit salad.
+Ice cream.
+Candy.
+Cookies.
+Nuts.
+Potato chips.
+Crab.
+Lobster.
+Mussels.
+Salmon.
+Shrimp.
+Squid.
+Tuna.
+Beef.
+Duck.
+Lamb.
+Pork.
+Avocado.
+Beet.
+Cabbage.
+Cherries.
+Cucumber.
+Eggplant.
+Grapes.
+Green beans.
+Lemon.
+Mango.
+Melon.
+Peach.
+Pear.
+Raspberries.
+Red pepper.
+Zucchini.
+Bake.
+Boil.
+Fry.
+Grill.
+Roast.
+Steam.
+Stir-fry.
+Scramble.
+Simmer.
+Microwave.
+Baked.
+Boiled.
+Fried.
+Grilled.
+Roasted.
+Steamed.
+Chop.
+Slice.
+Dice.
+Grate.
+Peel.
+Mash.
+Mix.
+Stir.
+Twirl.
+Whisk.
+Pour.
+Season.
+Marinate.
+Preheat.
+Drain.
+Salt.
+Black pepper.
+Garlic.
+Oregano.
+Basil.
+Cinnamon.
+Paprika.
+Cumin.
+Chili flakes.
+Vinegar.
+Eat out.
+Cut down on.
+Cut out.
+Make lunch.
+Unload the dishwasher.
+Clean the floor.
