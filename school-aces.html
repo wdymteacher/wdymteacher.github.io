@@ -317,6 +317,8 @@ const pct=t=>{const m=mast()[t];return m&&m[1]?Math.round(m[0]/m[1]*100):null};
 function matchTopics(txt){const n=' '+txt.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')+' ',out=[];
   for(const k in T){const ks=[T[k].n,...T[k].k].map(x=>x.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''));if(ks.some(x=>x.length>2&&n.includes(x)))out.push(k)}return out}
 /* ---------- home ---------- */
+const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+let INSTP=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();INSTP=e});
 let CFG=LS('cfg')||{year:6,topics:null,av:'julia',name:''};
 function home(msg){stopRoom();
   if(!CFG.topics)CFG.topics=topicsOf(CFG.year);
@@ -331,6 +333,10 @@ function home(msg){stopRoom();
   <div class="card"><h3>2. Seu personagem</h3><div class="avs" id="avs">${AVS.map(a=>`<button data-a="${a[0]}" class="${CFG.av===a[0]?'on':''}"></button>`).join('')}</div>
     <p style="font-weight:700;margin:10px 0 4px">Seu apelido</p><input class="inp" id="nm" maxlength="16" placeholder="ex.: Bia" value="${esc(CFG.name||'')}" autocomplete="off"></div>
   <div class="card"><h3>3. Como quer jogar?</h3><div class="row" style="margin-top:10px"><button class="btn" id="solo">🧍 Sozinho</button><button class="btn pink" id="friends">👥 Com amigos</button></div><p class="msg" id="hmsg" style="color:#c2187a">${msg?esc(msg):''}</p></div>
+  ${standalone()?'':`<div class="card" style="font-size:.9rem"><details ${LS('instSeen')?'':'open'} id="inst"><summary style="font-weight:800;cursor:pointer">📱 Coloque o School Aces na tela do seu celular (vira app!)</summary>
+    <div style="margin-top:8px;line-height:1.5"><b>iPhone (Safari):</b> toque em <b>Compartilhar</b> (o quadrado com a setinha ⬆️), depois em <b>Adicionar à Tela de Início</b> e em <b>Adicionar</b>.<br>
+    <b>Android (Chrome):</b> toque nos <b>3 pontinhos ⋮</b> lá em cima e depois em <b>Adicionar à tela inicial</b> (ou <b>Instalar app</b>).<br>
+    Pronto! Ele aparece junto com seus apps e funciona até sem internet no modo sozinho.${INSTP?'<br><button class="btn" id="instb" style="margin-top:8px">📲 Instalar agora</button>':''}</div></details></div>`}
   <div class="card" style="font-size:.9rem"><b>Como funciona:</b> cai uma carta na mesa com uma frase. Escolha na sua mão a carta que completa a frase. Acertou = pontos (quem acerta primeiro ganha bônus ⚡). Nas rodadas ✍️ você escreve a resposta, e vale o dobro! São 10 rodadas.</div>
   <p class="legal">© 2026 Maria Clara Roque · teacher Maria (@wdymteacher)</p></div>`;
   app.querySelectorAll('#avs button').forEach((b,i)=>{b.prepend(dollCv(AVS[i][0],'happy'));b.append(AVS[i][1]);b.onclick=()=>{CFG.av=b.dataset.a;LS('cfg',CFG);app.querySelectorAll('#avs button').forEach(x=>x.classList.toggle('on',x===b))}});
@@ -345,6 +351,7 @@ function home(msg){stopRoom();
     $('#sugg').innerHTML=(q?'':'<span class="hd">Assuntos disponíveis — toque para escolher:</span>')+(ks.length?ks.map(k=>`<button data-k="${k}">${esc(T[k].n)}<small>${T[k].y}º</small></button>`).join(''):'<span class="hd">🤔 Não achei esse assunto. Tente outra palavra (ex.: passado, futuro, can).</span>');
     $('#sugg').querySelectorAll('button').forEach(b=>b.onclick=()=>{CFG.mine.push(b.dataset.k);LS('cfg',CFG);$('#typed').value='';drawMine();drawSugg()})};
   $('#typed').oninput=drawSugg;drawMine();drawSugg();
+  if($('#inst'))$('#inst').ontoggle=()=>LS('instSeen',1);if($('#instb'))$('#instb').onclick=async()=>{INSTP.prompt();INSTP=null;$('#instb').remove()};
   const ready=()=>{const typed=CFG.mine.length?CFG.mine:matchTopics($('#typed').value);const tops=typed.length?typed:CFG.topics;if(!tops.length){$('#hmsg').textContent='Escolha pelo menos um assunto.';return null}
     const v=$('#nm').value.trim();if(!v){$('#hmsg').textContent='Escreva seu apelido.';return null}CFG.name=cleanName(v);LS('cfg',CFG);return tops};
   $('#solo').onclick=()=>{const t=ready();if(t)startSolo(t)};
