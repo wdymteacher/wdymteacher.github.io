@@ -366,7 +366,11 @@ function renderSpecials(){const el=$('#sp');if(!el)return;const R=G.deck[G.r];
   el.querySelectorAll('button').forEach(b=>b.onclick=()=>{const s=G.sp[+b.dataset.i];if(s.used)return;
     if(s.k==='dica'){s.used=1;const R=G.deck[G.r],wrong=[...app.querySelectorAll('.pc')].filter(c=>norm(c.textContent)!==norm(R.it.a));shufR(wrong,Math.random).slice(0,2).forEach(c=>c.classList.add('gone'));toast('👀 Tirei 2 cartas erradas!')}
     else{s.on=!s.on;toast(s.on?SPECIALS.find(x=>x[0]===s.k)[2]+'!':'Carta guardada')}renderSpecials()})}
-function judge(ans,R){return norm(ans)===norm(R.it.a)}
+/* accepts the answer even if the student also wrote words that are already in the sentence (e.g. "doesn't like" for "My dad ___ (not) like coffee.") */
+function judge(ans,R){const A=norm(ans),a=norm(R.it.a);if(A===a)return true;
+  const [b,f]=R.it.s.split('___'),bw=norm(b.replace(/\([^)]*\)/g,'')).split(' ').filter(Boolean),fw=norm((f||'').replace(/\([^)]*\)/g,'')).split(' ').filter(Boolean);
+  for(let k=0;k<=Math.min(3,bw.length);k++)for(let m=0;m<=Math.min(3,fw.length);m++){if(norm([...bw.slice(bw.length-k),a,...fw.slice(0,m)].join(' '))===A)return true}
+  return false}
 function play(ans){if(G.me.ans!=null)return;G.me.ans=ans;G.me.t=Date.now()-G.t0;
   app.querySelectorAll('.pc').forEach(b=>b.disabled=true);if($('#wa')){$('#wa').disabled=true;$('#wgo').disabled=true}
   G.onPlay&&G.onPlay(ans,G.me.t);renderPlayers();renderSpecials();G.check&&G.check()}
