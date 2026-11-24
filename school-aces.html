@@ -33,6 +33,11 @@ h1,h2,h3,.fat{font-family:'Fraunces',serif;font-weight:800;font-variation-settin
 .tops small{margin-left:auto;font-size:.72rem;opacity:.7;white-space:nowrap}
 .bar{height:7px;width:54px;border:1.5px solid var(--navy);border-radius:9px;overflow:hidden;background:#fff;flex:none}.bar i{display:block;height:100%;background:var(--green)}
 .inp{font:700 1.05rem 'DM Sans';padding:10px 12px;border:2.5px solid var(--navy);border-radius:12px;width:100%;color:var(--navy);background:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px}.chips:empty{display:none}
+.chip{font:800 .82rem 'DM Sans';border:2px solid var(--navy);border-radius:999px;padding:4px 10px;background:var(--pink);color:#fff;cursor:pointer}
+.sugg{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-height:210px;overflow:auto}
+.sugg button{font:700 .82rem 'DM Sans';border:2px solid #cfc4ee;border-radius:999px;padding:5px 10px;background:#f4f0ff;color:var(--navy);cursor:pointer}
+.sugg button small{opacity:.6;margin-left:3px}.sugg .hd{width:100%;font-size:.78rem;font-weight:800;opacity:.7}
 .found{font-size:.85rem;font-weight:700;margin:6px 2px;min-height:1.2em}
 .avs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .avs button{border:2.5px solid var(--navy);border-radius:14px;background:#efe8ff;padding:4px 6px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;font:700 .75rem 'DM Sans';color:var(--navy)}
@@ -319,8 +324,10 @@ function home(msg){stopRoom();
   <div class="card"><h3>1. O que vai cair na prova?</h3>
     <div class="years">${YEARS.map(y=>`<button data-y="${y}" class="${CFG.year===y?'on':''}">${y}º ano</button>`).join('')}</div>
     <div class="tops">${topicsOf(CFG.year).map(k=>{const p=pct(k);return `<label class="${CFG.topics.includes(k)?'on':''}"><input type="checkbox" data-t="${k}" ${CFG.topics.includes(k)?'checked':''}> ${esc(T[k].n)}<small>${p==null?'':`<span style="display:inline-flex;gap:4px;align-items:center">${p}% <span class="bar"><i style="width:${p}%"></i></span></span>`}</small></label>`}).join('')}</div>
-    <p style="font-weight:700;margin:12px 0 4px">…ou escreva os assuntos da sua prova:</p>
-    <input class="inp" id="typed" placeholder="ex.: passado, can, comparativo" autocomplete="off"><div class="found" id="found"></div></div>
+    <p style="font-weight:700;margin:14px 0 4px">…ou monte sua prova: <span style="font-weight:600;opacity:.75">choose your topics ✍️</span></p>
+    <div class="chips" id="mine"></div>
+    <input class="inp" id="typed" placeholder="Digite um assunto (ex.: passado, can…)" autocomplete="off">
+    <div class="sugg" id="sugg"></div></div>
   <div class="card"><h3>2. Seu personagem</h3><div class="avs" id="avs">${AVS.map(a=>`<button data-a="${a[0]}" class="${CFG.av===a[0]?'on':''}"></button>`).join('')}</div>
     <p style="font-weight:700;margin:10px 0 4px">Seu apelido</p><input class="inp" id="nm" maxlength="16" placeholder="ex.: Bia" value="${esc(CFG.name||'')}" autocomplete="off"></div>
   <div class="card"><h3>3. Como quer jogar?</h3><div class="row" style="margin-top:10px"><button class="btn" id="solo">🧍 Sozinho</button><button class="btn pink" id="friends">👥 Com amigos</button></div><p class="msg" id="hmsg" style="color:#c2187a">${msg?esc(msg):''}</p></div>
@@ -329,8 +336,16 @@ function home(msg){stopRoom();
   app.querySelectorAll('#avs button').forEach((b,i)=>{b.prepend(dollCv(AVS[i][0],'happy'));b.append(AVS[i][1]);b.onclick=()=>{CFG.av=b.dataset.a;LS('cfg',CFG);app.querySelectorAll('#avs button').forEach(x=>x.classList.toggle('on',x===b))}});
   app.querySelectorAll('.years button').forEach(b=>b.onclick=()=>{CFG.year=+b.dataset.y;CFG.topics=topicsOf(CFG.year);LS('cfg',CFG);home()});
   app.querySelectorAll('.tops input').forEach(c=>c.onchange=()=>{const t=c.dataset.t;CFG.topics=c.checked?[...new Set([...CFG.topics,t])]:CFG.topics.filter(x=>x!==t);c.parentElement.classList.toggle('on',c.checked);LS('cfg',CFG)});
-  $('#typed').oninput=()=>{const f=matchTopics($('#typed').value);$('#found').innerHTML=f.length?'✅ Achei: '+f.map(k=>`<b>${esc(T[k].n)}</b> (${T[k].y}º)`).join(', '):$('#typed').value.trim().length>2?'🤔 Não achei esse assunto. Tente outra palavra (ex.: passado, futuro, can).':''};
-  const ready=()=>{const typed=matchTopics($('#typed').value);const tops=typed.length?typed:CFG.topics;if(!tops.length){$('#hmsg').textContent='Escolha pelo menos um assunto.';return null}
+  /* choose your topics: type and pick from the list (all years) */
+  CFG.mine=CFG.mine||[];
+  const fold=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const drawMine=()=>{$('#mine').innerHTML=CFG.mine.length?CFG.mine.map(k=>`<button class="chip" data-k="${k}">${esc(T[k].n)} ✕</button>`).join('')+'<span style="width:100%;font-size:.78rem;font-weight:700;color:#c2187a">O jogo vai usar só estes assuntos.</span>':'';$('#mine').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{CFG.mine=CFG.mine.filter(x=>x!==c.dataset.k);LS('cfg',CFG);drawMine();drawSugg()})};
+  const drawSugg=()=>{const q=fold($('#typed').value.trim());let ks=Object.keys(T).filter(k=>!CFG.mine.includes(k));
+    if(q)ks=ks.filter(k=>[T[k].n,...T[k].k].some(x=>fold(x).includes(q)||q.split(/[ ,]+/).some(w=>w.length>2&&fold(x).includes(w))));
+    $('#sugg').innerHTML=(q?'':'<span class="hd">Assuntos disponíveis — toque para escolher:</span>')+(ks.length?ks.map(k=>`<button data-k="${k}">${esc(T[k].n)}<small>${T[k].y}º</small></button>`).join(''):'<span class="hd">🤔 Não achei esse assunto. Tente outra palavra (ex.: passado, futuro, can).</span>');
+    $('#sugg').querySelectorAll('button').forEach(b=>b.onclick=()=>{CFG.mine.push(b.dataset.k);LS('cfg',CFG);$('#typed').value='';drawMine();drawSugg()})};
+  $('#typed').oninput=drawSugg;drawMine();drawSugg();
+  const ready=()=>{const typed=CFG.mine.length?CFG.mine:matchTopics($('#typed').value);const tops=typed.length?typed:CFG.topics;if(!tops.length){$('#hmsg').textContent='Escolha pelo menos um assunto.';return null}
     const v=$('#nm').value.trim();if(!v){$('#hmsg').textContent='Escreva seu apelido.';return null}CFG.name=cleanName(v);LS('cfg',CFG);return tops};
   $('#solo').onclick=()=>{const t=ready();if(t)startSolo(t)};
   $('#friends').onclick=()=>{const t=ready();if(t)friends(t)}}
